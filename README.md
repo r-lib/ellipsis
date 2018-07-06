@@ -3,10 +3,15 @@
 
 # ellipsis
 
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
 Adding `...` to a function specification usually comes with a big
 downside: any mispelled or extraneous arguments will be silently
 ignored. This package explores an approach to making `...` safer, by
 inspecting its contents and warning if any elements were not evaluated.
+
+In the long run, this code is likely to live elsewhere. This repository
+tracks the current state of the experiment.
 
 ## Installation
 
