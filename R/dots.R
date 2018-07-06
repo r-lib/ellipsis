@@ -27,3 +27,24 @@ promise_forced <- function(x) {
 
   !identical(rlang:::promise_value(x), quote(R_UnboundValue))
 }
+
+dots_names <- function(...) {
+  dots <- env_get(environment(), "...")
+  if (missing(dots)) {
+    return(list())
+  }
+
+  n <- length(dots)
+
+  names <- character(n)
+  for (i in seq_len(n)) {
+    tag <- node_tag(dots)
+    if (!is.null(tag)) {
+      names[[i]] <- as.character(tag)
+    }
+
+    dots <- node_cdr(dots)
+  }
+
+  names
+}
