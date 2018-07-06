@@ -7,17 +7,18 @@
 check_dots_used(env = caller_env())
 }
 \arguments{
-\item{env}{Environment in which to look for \code{...}. This is a temporary
-API until we have a C API that can follow promises up multiple levels
-in the call stack.}
+\item{env}{Environment in which to look for \code{...} and to set up handler.}
 }
 \description{
-Typically used in \code{on.exit()}. Generates warning if any dots have not
-been forced (i.e. evaluated)
+Automatically sets exit handler to run when function terminates, checking
+that all elements of \code{...} have been evaluated. Because the highest
+level function can give the user the most informative error message,
+activating in one function, will suppress any warnings by from other
+functions.
 }
 \examples{
 f <- function(...) {
-  on.exit(check_dots_used())
+  check_dots_used()
   g(...)
 }
 

@@ -8,14 +8,14 @@
 #'   For `safe_median()`, additional arguments passed on to methods.
 #' @name safe
 #' @examples
-#' x <- safe_map(iris[1:4], median, na.mr = TRUE)
 #' x <- safe_map(iris[1:4], median, na.rm = TRUE)
+#' x <- safe_map(iris[1:4], median, na.mr = TRUE)
 NULL
 
 #' @rdname safe
 #' @export
 safe_map <- function(x, f, ...) {
-  on.exit(check_dots_used())
+  check_dots_used()
 
   out <- vector("list", length(x))
   for (i in seq_along(out)) {
@@ -28,7 +28,7 @@ safe_map <- function(x, f, ...) {
 #' @rdname safe
 #' @export
 safe_median <- function(x, ...) {
-  on.exit(check_dots_used())
+  check_dots_used()
   UseMethod("safe_median")
 }
 

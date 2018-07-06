@@ -22,6 +22,6 @@ For \code{safe_median()}, additional arguments passed on to methods.}
 These functions warn if some elements of \code{...} never get used.
 }
 \examples{
-x <- safe_map(iris[1:4], median, na.mr = TRUE)
 x <- safe_map(iris[1:4], median, na.rm = TRUE)
+x <- safe_map(iris[1:4], median, na.mr = TRUE)
 }

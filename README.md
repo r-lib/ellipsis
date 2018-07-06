@@ -44,20 +44,11 @@ x <- safe_median(1:10, na.mr = TRUE)
 #> Warning: Some components of ... were not used: na.mr
 ```
 
-## Limitations
-
-Currently combining a safe functional with a safe S3 generic is rather
-noisy
+The top-level function handles all evaluation failures so that this only
+generates a single warning (not one warning from `safe_map()` and four
+from `safe_median()`)
 
 ``` r
 x <- safe_map(iris[1:4], safe_median, na.mr = TRUE)
-#> Warning: Some components of ... were not used: na.mr
-
-#> Warning: Some components of ... were not used: na.mr
-
-#> Warning: Some components of ... were not used: na.mr
-
-#> Warning: Some components of ... were not used: na.mr
-
 #> Warning: Some components of ... were not used: na.mr
 ```
