@@ -1,7 +1,7 @@
 Package: ellipsis
 Version: 0.0.0.9000
-Title: Tools for working with ... (dot-dot-dot)
-Description: Exploratory tools for making dots a little safer
+Title: Tools for Working with ...
+Description: Exploratory tools for making dots a little safer.
 Authors@R: c(
       person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
       person("RStudio", role = "cph")
@@ -9,3 +9,9 @@ Authors@R: c(
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    rlang
+Remotes: 
+    r-lib/rlang
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.1.9000

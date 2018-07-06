@@ -1,0 +1,50 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# ellipsis
+
+Adding `...` to a function specification usually comes with a big downside: any mispelled or extraneous arguments will be silently ignored. This package explores an approach to making `...` safer, by inspecting its contents and warning if any elements were not evaluated.
+
+
+
+## Installation
+
+``` r
+devtools::install_gituhb("hadley/ellipsis")
+```
+
+## Example
+
+```{r example}
+library(ellipsis)
+
+x <- safe_map(iris[1:4], median, na.mr = TRUE)
+x <- safe_map(iris[1:4], median, na.rm = TRUE)
+x <- safe_map(iris[1:4], median, 2)
+x <- safe_map(iris[1:4], median, 2, 3)
+
+x <- safe_median(1:10)
+x <- safe_median(1:10, FALSE)
+x <- safe_median(1:10, na.rm = FALSE)
+x <- safe_median(1:10, na.mr = TRUE)
+```
+
+## Limitations
+
+Currently combining a safe functional with a safe S3 generic is rather noisy
+
+```{r}
+x <- safe_map(iris[1:4], safe_median, na.mr = TRUE)
+```
+
