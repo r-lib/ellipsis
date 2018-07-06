@@ -16,6 +16,11 @@ devtools::install_gituhb("hadley/ellipsis")
 
 ## Example
 
+ellipsis comes with two functions that illustrates how we can make
+functionals (which pass `...` to another argument) and S3 generics
+(which pass `...` on to their methods) safer. `safe_map()` and
+`safe_median()` warn if you supply arguments that are never evaluated.
+
 ``` r
 library(ellipsis)
 

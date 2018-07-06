@@ -16,8 +16,6 @@ knitr::opts_chunk$set(
 
 Adding `...` to a function specification usually comes with a big downside: any mispelled or extraneous arguments will be silently ignored. This package explores an approach to making `...` safer, by inspecting its contents and warning if any elements were not evaluated.
 
-
-
 ## Installation
 
 ``` r
@@ -25,6 +23,8 @@ devtools::install_gituhb("hadley/ellipsis")
 ```
 
 ## Example
+
+ellipsis comes with two functions that illustrates how we can make functionals (which pass `...` to another argument) and S3 generics (which pass `...` on to their methods) safer. `safe_map()` and `safe_median()` warn if you supply arguments that are never evaluated.
 
 ```{r example}
 library(ellipsis)
