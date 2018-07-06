@@ -19,6 +19,8 @@ Adding `...` to a function specification usually comes with a big downside: any 
 
 In the long run, this code is likely to live elsewhere (hopefully R-core might be interested so we could make it part of base R). This repository tracks the current state of the experiment.
 
+Thanks to [Jenny Bryan](http://github.com/jennybc) for the idea, and [Lionel Henry](http://github.com/lionel-) for the heart of the implementation.
+
 ## Installation
 
 ``` r
