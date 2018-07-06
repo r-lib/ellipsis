@@ -10,7 +10,8 @@ downside: any mispelled or extraneous arguments will be silently
 ignored. This package explores an approach to making `...` safer, by
 inspecting its contents and warning if any elements were not evaluated.
 
-In the long run, this code is likely to live elsewhere. This repository
+In the long run, this code is likely to live elsewhere (hopefully R-core
+might be interested so we could make it part of base R). This repository
 tracks the current state of the experiment.
 
 ## Installation
