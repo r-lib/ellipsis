@@ -15,3 +15,5 @@ Remotes:
     r-lib/rlang
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1.9000
+URL: https://github.com/hadley/ellipsis
+BugReports: https://github.com/hadley/ellipsis/issues
