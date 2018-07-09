@@ -24,7 +24,7 @@ Thanks to [Jenny Bryan](http://github.com/jennybc) for the idea, and [Lionel Hen
 ## Installation
 
 ``` r
-devtools::install_gituhb("hadley/ellipsis")
+devtools::install_github("hadley/ellipsis")
 ```
 
 ## Example
