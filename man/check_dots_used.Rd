@@ -11,10 +11,7 @@ check_dots_used(env = caller_env())
 }
 \description{
 Automatically sets exit handler to run when function terminates, checking
-that all elements of \code{...} have been evaluated. Because the highest
-level function can give the user the most informative error message,
-activating in one function, will suppress any warnings by from other
-functions.
+that all elements of \code{...} have been evaluated.
 }
 \examples{
 f <- function(...) {

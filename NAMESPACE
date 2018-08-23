@@ -2,6 +2,5 @@
 
 S3method(safe_median,numeric)
 export(check_dots_used)
-export(safe_map)
 export(safe_median)
 import(rlang)

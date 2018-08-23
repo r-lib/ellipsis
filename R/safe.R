@@ -1,32 +1,16 @@
-#' Safer version of risky functions
+#' Safe version of median
 #'
-#' These functions warn if some elements of `...` never get used.
+#' `safe_median()` works [base::median()] but warns if some elements of `...`
+#' are never used.
 #'
-#' @param x Vector input
+#' @param x Numeric vector
 #' @param f Function to apply to each element
-#' @param ... For `safe_map()`, additional arguments passed on to `f`.
-#'   For `safe_median()`, additional arguments passed on to methods.
-#' @name safe
+#' @param ... Additional arguments passed on to methods.
+#' @export
 #' @examples
-#' x <- safe_map(iris[1:4], median, na.rm = TRUE)
-#' x <- safe_map(iris[1:4], median, na.mr = TRUE)
-NULL
-
-#' @rdname safe
-#' @export
-safe_map <- function(x, f, ...) {
-  check_dots_used()
-
-  out <- vector("list", length(x))
-  for (i in seq_along(out)) {
-    out[[i]] <- f(x[[i]], ...)
-  }
-
-  out
-}
-
-#' @rdname safe
-#' @export
+#' x <- c(1:10, NA)
+#' median(x, na.mr = TRUE)
+#' safe_median(x, na.mr = TRUE)
 safe_median <- function(x, ...) {
   check_dots_used()
   UseMethod("safe_median")
@@ -34,5 +18,5 @@ safe_median <- function(x, ...) {
 
 #' @export
 safe_median.numeric <- function(x, ..., na.rm = TRUE) {
-  mean(x, na.rm = na.rm)
+  median(x, na.rm = na.rm)
 }
