@@ -9,8 +9,8 @@
 #' @export
 #' @examples
 #' x <- c(1:10, NA)
-#' median(x, na.mr = TRUE)
 #' safe_median(x, na.mr = TRUE)
+#' safe_median(x, na.rm = TRUE)
 safe_median <- function(x, ...) {
   check_dots_used()
   UseMethod("safe_median")

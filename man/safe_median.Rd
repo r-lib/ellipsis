@@ -22,6 +22,6 @@ are never used.
 }
 \examples{
 x <- c(1:10, NA)
-median(x, na.mr = TRUE)
 safe_median(x, na.mr = TRUE)
+safe_median(x, na.rm = TRUE)
 }
