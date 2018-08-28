@@ -1,8 +1,7 @@
-#' @import rlang
 NULL
 
 #' @useDynLib ellipsis, .registration = TRUE
-dots <- function(env = caller_env()) {
+dots <- function(env = parent.frame()) {
   .Call(ellipsis_dots, env)
 }
 

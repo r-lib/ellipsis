@@ -18,18 +18,18 @@
 #'
 #' f(x = 1, y = 2, z = 3)
 #' f(x = 1, y = 2, 3, 4, 5)
-check_dots_used <- function(env = caller_env()) {
-  exit_handler <- expr(
+check_dots_used <- function(env = parent.frame()) {
+  exit_handler <- bquote(
     on.exit({
-      (!!check_dots)(environment())
+      .(check_dots)(environment())
     }, add = TRUE)
   )
-  eval_bare(exit_handler, env)
+  eval(exit_handler, env)
 
   invisible()
 }
 
-check_dots <- function(env = caller_env()) {
+check_dots <- function(env = parent.frame()) {
   proms <- dots(env)
   used <- vapply(proms, promise_forced, logical(1))
 

@@ -9,10 +9,6 @@ Authors@R: c(
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: 
-    rlang
-Remotes: 
-    r-lib/rlang
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
 URL: https://github.com/hadley/ellipsis

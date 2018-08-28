@@ -3,5 +3,4 @@
 S3method(safe_median,numeric)
 export(check_dots_used)
 export(safe_median)
-import(rlang)
 useDynLib(ellipsis, .registration = TRUE)

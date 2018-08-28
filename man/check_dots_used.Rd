@@ -4,7 +4,7 @@
 \alias{check_dots_used}
 \title{Check that all dots in current environment have been used}
 \usage{
-check_dots_used(env = caller_env())
+check_dots_used(env = parent.frame())
 }
 \arguments{
 \item{env}{Environment in which to look for \code{...} and to set up handler.}
