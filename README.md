@@ -22,7 +22,7 @@ implementation.
 ## Installation
 
 ``` r
-devtools::install_gituhb("hadley/ellipsis")
+devtools::install_github("hadley/ellipsis")
 ```
 
 ## Example
