@@ -4,6 +4,10 @@
 # ellipsis
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build
+status](https://travis-ci.org/hadley/ellipsis.svg?branch=master)](https://travis-ci.org/hadley/ellipsis)
+[![Coverage
+status](https://codecov.io/gh/hadley/ellipsis/branch/master/graph/badge.svg)](https://codecov.io/github/hadley/ellipsis?branch=master)
 
 Adding `...` to an S3 generic allows methods to take additional
 arguments, but it comes with a big downside: any mispelled or extraneous
