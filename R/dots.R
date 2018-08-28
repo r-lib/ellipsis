@@ -20,10 +20,7 @@ env_dots_promises <- function(env = caller_env()) {
   list
 }
 
+#' @useDynLib ellipsis, .registration = TRUE
 promise_forced <- function(x) {
-  # Something we expect to be a promise not be, b/c of byte code compiler
-  if (typeof(x) != "promise")
-    return(TRUE)
-
-  !identical(rlang:::promise_value(x), quote(R_UnboundValue))
+  .Call(ellipsis_promise_forced, x)
 }
