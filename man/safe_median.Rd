@@ -2,19 +2,22 @@
 % Please edit documentation in R/safe.R
 \name{safe_median}
 \alias{safe_median}
+\alias{safe_median.numeric}
 \title{Safe version of median}
 \usage{
 safe_median(x, ...)
+
+\method{safe_median}{numeric}(x, ..., na.rm = TRUE)
 }
 \arguments{
 \item{x}{Numeric vector}
 
 \item{...}{Additional arguments passed on to methods.}
 
-\item{f}{Function to apply to each element}
+\item{na.rm}{For numeric method, should missing values be removed?}
 }
 \description{
-\code{safe_median()} works \code{\link[base:median]{base::median()}} but warns if some elements of \code{...}
+\code{safe_median()} works \code{\link[stats:median]{stats::median()}} but warns if some elements of \code{...}
 are never used.
 }
 \examples{

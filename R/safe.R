@@ -1,11 +1,11 @@
 #' Safe version of median
 #'
-#' `safe_median()` works [base::median()] but warns if some elements of `...`
+#' `safe_median()` works [stats::median()] but warns if some elements of `...`
 #' are never used.
 #'
 #' @param x Numeric vector
-#' @param f Function to apply to each element
 #' @param ... Additional arguments passed on to methods.
+#' @param na.rm For numeric method, should missing values be removed?
 #' @export
 #' @examples
 #' x <- c(1:10, NA)
@@ -17,6 +17,7 @@ safe_median <- function(x, ...) {
 }
 
 #' @export
+#' @rdname safe_median
 safe_median.numeric <- function(x, ..., na.rm = TRUE) {
-  median(x, na.rm = na.rm)
+  stats::median(x, na.rm = na.rm)
 }
