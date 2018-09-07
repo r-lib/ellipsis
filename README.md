@@ -10,7 +10,7 @@ status](https://travis-ci.org/hadley/ellipsis.svg?branch=master)](https://travis
 status](https://codecov.io/gh/hadley/ellipsis/branch/master/graph/badge.svg)](https://codecov.io/github/hadley/ellipsis?branch=master)
 
 Adding `...` to an S3 generic allows methods to take additional
-arguments, but it comes with a big downside: any mispelled or extraneous
+arguments, but it comes with a big downside: any misspelled or extraneous
 arguments will be silently ignored. This package explores an approach to
 making `...` safer, by supply a function that a generic can use to warn
 if any elements of `...` were not evaluated.
