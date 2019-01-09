@@ -8,13 +8,16 @@ SEXP ellipsis_dots(SEXP env) {
   if (TYPEOF(env) != ENVSXP)
     Rf_errorcall(R_NilValue, "`env` is a not an environment");
 
-  SEXP dots = Rf_findVarInFrame3(env, R_DotsSymbol, TRUE);
+  SEXP dots = PROTECT(Rf_findVarInFrame3(env, R_DotsSymbol, TRUE));
   if (dots == R_UnboundValue)
     Rf_errorcall(R_NilValue, "No ... found");
 
   // Empty dots
-  if (dots == R_MissingArg)
+  if (dots == R_MissingArg) {
+    UNPROTECT(1);
     return Rf_allocVector(VECSXP, 0);
+  }
+
 
   int n = 0;
   for(SEXP nxt = dots; nxt != R_NilValue; nxt = CDR(nxt)) {
@@ -40,7 +43,7 @@ SEXP ellipsis_dots(SEXP env) {
     dots = CDR(dots);
   }
 
-  UNPROTECT(2);
+  UNPROTECT(3);
 
   return out;
 
