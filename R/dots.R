@@ -1,8 +1,8 @@
 NULL
 
 #' @useDynLib ellipsis, .registration = TRUE
-dots <- function(env = parent.frame()) {
-  .Call(ellipsis_dots, env)
+dots <- function(env = parent.frame(), auto_name = TRUE) {
+  .Call(ellipsis_dots, env, auto_name)
 }
 
 promise_forced <- function(x) {

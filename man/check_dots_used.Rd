@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check_dots_used}
 \alias{check_dots_used}
-\title{Check that all dots in current environment have been used}
+\title{Check that all dots have been used}
 \usage{
 check_dots_used(env = parent.frame())
 }

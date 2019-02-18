@@ -4,9 +4,11 @@
 #include <Rinternals.h>
 #include <stdio.h>
 
-SEXP ellipsis_dots(SEXP env) {
+SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
   if (TYPEOF(env) != ENVSXP)
     Rf_errorcall(R_NilValue, "`env` is a not an environment");
+
+  int auto_name = Rf_asLogical(auto_name_);
 
   SEXP dots = PROTECT(Rf_findVarInFrame3(env, R_DotsSymbol, TRUE));
   if (dots == R_UnboundValue)
@@ -35,9 +37,13 @@ SEXP ellipsis_dots(SEXP env) {
     if (TYPEOF(name) == SYMSXP) {
       SET_STRING_ELT(names, i, PRINTNAME(name));
     } else {
-      char buffer[10];
-      snprintf(buffer, 10, "..%i", i + 1);
-      SET_STRING_ELT(names, i, Rf_mkChar(buffer));
+      if (auto_name) {
+        char buffer[10];
+        snprintf(buffer, 10, "..%i", i + 1);
+        SET_STRING_ELT(names, i, Rf_mkChar(buffer));
+      } else {
+        SET_STRING_ELT(names, i, NA_STRING);
+      }
     }
 
     dots = CDR(dots);

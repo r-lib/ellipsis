@@ -5,11 +5,11 @@
 
 /* .Call calls */
 extern SEXP ellipsis_promise_forced(SEXP);
-extern SEXP ellipsis_dots(SEXP);
+extern SEXP ellipsis_dots(SEXP, SEXP);
 extern SEXP ellipsis_eval_bare(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"ellipsis_dots", (DL_FUNC) &ellipsis_dots, 1},
+    {"ellipsis_dots", (DL_FUNC) &ellipsis_dots, 2},
     {"ellipsis_promise_forced", (DL_FUNC) &ellipsis_promise_forced, 1},
     {"ellipsis_eval_bare", (DL_FUNC) &ellipsis_eval_bare, 2},
     {NULL, NULL, 0}
