@@ -24,7 +24,7 @@ check_dots_used <- function(env = parent.frame()) {
       .(check_dots)(environment())
     }, add = TRUE)
   )
-  eval(exit_handler, env)
+  eval_bare(exit_handler, env)
 
   invisible()
 }

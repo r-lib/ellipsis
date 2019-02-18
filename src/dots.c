@@ -56,3 +56,7 @@ SEXP ellipsis_promise_forced(SEXP x) {
   SEXP value = PRVALUE(x);
   return Rf_ScalarLogical(value != R_UnboundValue);
 }
+
+SEXP ellipsis_eval_bare(SEXP expr, SEXP env) {
+  return Rf_eval(expr, env);
+}

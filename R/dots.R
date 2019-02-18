@@ -8,3 +8,7 @@ dots <- function(env = parent.frame()) {
 promise_forced <- function(x) {
   .Call(ellipsis_promise_forced, x)
 }
+
+eval_bare <- function(expr, env) {
+  .Call(ellipsis_eval_bare, expr, env)
+}
