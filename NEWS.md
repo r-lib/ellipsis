@@ -1,4 +1,4 @@
-# ellipsis (development version)
+# ellipsis 0.1.0
 
 * New `check_dots_unnamed()` that checks that all components of `...` are
   unnamed (#7).
