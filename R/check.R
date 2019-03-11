@@ -76,3 +76,33 @@ check_dots_unnamed <- function(env = parent.frame()) {
     immediate. = TRUE
   )
 }
+
+
+#' Check that dots are unused
+#'
+#' Sometimes you just want to use `...` to force your users to fully name
+#' the details arguments. This function warns if `...` is not empty.
+#'
+#' @param env Environment in which to look for ...
+#' @export
+#' @examples
+#' f <- function(x, ..., foofy = 8) {
+#'   check_dots_unused()
+#'   x + foofy
+#' }
+#'
+#' f(1, foof = 4)
+#' f(1, foofy = 4)
+check_dots_unused <- function(env = parent.frame()) {
+  proms <- dots(env, auto_name = FALSE)
+
+  if (length(proms) == 0) {
+    return(invisible())
+  }
+
+  warning(
+    "`...` is not empty",
+    call. = FALSE,
+    immediate. = TRUE
+  )
+}

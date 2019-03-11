@@ -1,5 +1,7 @@
 # ellipsis (development version)
 
+* New `check_dots_unnused()` that checks that `...` is empty (#11).
+
 # ellipsis 0.1.0
 
 * New `check_dots_unnamed()` that checks that all components of `...` are

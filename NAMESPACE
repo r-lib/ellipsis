@@ -2,6 +2,7 @@
 
 S3method(safe_median,numeric)
 export(check_dots_unnamed)
+export(check_dots_unused)
 export(check_dots_used)
 export(safe_median)
 useDynLib(ellipsis, .registration = TRUE)
