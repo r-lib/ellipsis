@@ -1,5 +1,8 @@
 # ellipsis (development version)
 
+* Improved error message suggesting that you check for misspelled argument 
+  names.
+
 * New `check_dots_unnused()` that checks that `...` is empty (#11).
 
 # ellipsis 0.1.0

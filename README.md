@@ -72,6 +72,10 @@ safe_mean <- function(x, ..., trim = 0, na.rm = FALSE) {
 }
 
 safe_mean(1, 2, 3, 4)
-#> Warning: Some components of ... were not used: ..1, ..2, ..3
+#> Warning: 3 components of ... were not used:
+#> * ..1
+#> * ..2
+#> * ..3
+#> Did you misspell an argument name?
 #> [1] 1
 ```

@@ -39,8 +39,9 @@ check_dots <- function(env = parent.frame()) {
 
   unnused <- names(proms)[!used]
   warning(
-    "Some components of ... were not used: ",
-    paste0(unnused, collapse = ", "),
+    length(unnused), " components of ... were not used:\n",
+    paste0("* ", unnused, "\n", collapse = ""),
+    "Did you misspell an argument name?",
     call. = FALSE,
     immediate. = TRUE
   )
@@ -70,8 +71,9 @@ check_dots_unnamed <- function(env = parent.frame()) {
 
   named <- names(proms)[!unnamed]
   warning(
-    "Some components of ... had unexpected names: ",
-    paste0(named, collapse = ", "),
+    "Some components of ... had unexpected names:\n",
+    paste0("* ", named, "\n", collapse = ""),
+    "Did you misspell an argument name?\n",
     call. = FALSE,
     immediate. = TRUE
   )
@@ -101,7 +103,8 @@ check_dots_unused <- function(env = parent.frame()) {
   }
 
   warning(
-    "`...` is not empty",
+    "`...` is not empty\n",
+    "Did you misspell an argument name?",
     call. = FALSE,
     immediate. = TRUE
   )
