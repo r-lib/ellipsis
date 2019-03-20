@@ -4,15 +4,24 @@
 #include <Rinternals.h>
 #include <stdio.h>
 
-SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
-  if (TYPEOF(env) != ENVSXP)
+static SEXP find_dots(SEXP env) {
+  if (TYPEOF(env) != ENVSXP) {
     Rf_errorcall(R_NilValue, "`env` is a not an environment");
-
-  int auto_name = Rf_asLogical(auto_name_);
+  }
 
   SEXP dots = PROTECT(Rf_findVarInFrame3(env, R_DotsSymbol, TRUE));
-  if (dots == R_UnboundValue)
+  if (dots == R_UnboundValue) {
     Rf_errorcall(R_NilValue, "No ... found");
+  }
+
+  UNPROTECT(1);
+  return dots;
+}
+
+SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
+  int auto_name = Rf_asLogical(auto_name_);
+
+  SEXP dots = PROTECT(find_dots(env));
 
   // Empty dots
   if (dots == R_MissingArg) {
@@ -20,17 +29,13 @@ SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
     return Rf_allocVector(VECSXP, 0);
   }
 
-
-  int n = 0;
-  for(SEXP nxt = dots; nxt != R_NilValue; nxt = CDR(nxt)) {
-    n++;
-  }
+  R_len_t n = Rf_length(dots);
 
   SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
   SEXP names = PROTECT(Rf_allocVector(STRSXP, n));
   Rf_setAttrib(out, R_NamesSymbol, names);
 
-  for (int i = 0; i < n; ++i) {
+  for (R_len_t i = 0; i < n; ++i) {
     SET_VECTOR_ELT(out, i, CAR(dots));
 
     SEXP name = TAG(dots);
@@ -50,9 +55,7 @@ SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
   }
 
   UNPROTECT(3);
-
   return out;
-
 }
 
 SEXP ellipsis_promise_forced(SEXP x) {
