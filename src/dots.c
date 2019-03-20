@@ -70,6 +70,29 @@ SEXP ellipsis_promise_forced(SEXP x) {
   return Rf_ScalarLogical(promise_forced(x));
 }
 
+SEXP ellipsis_dots_used(SEXP env) {
+  SEXP dots = PROTECT(find_dots(env));
+
+  if (dots == R_MissingArg) {
+    UNPROTECT(1);
+    return Rf_ScalarLogical(true);
+  }
+
+  while (dots != R_NilValue) {
+    SEXP elt = CAR(dots);
+
+    if (!promise_forced(elt)) {
+      UNPROTECT(1);
+      return Rf_ScalarLogical(false);
+    }
+
+    dots = CDR(dots);
+  }
+
+  UNPROTECT(1);
+  return Rf_ScalarLogical(true);
+}
+
 SEXP ellipsis_eval_bare(SEXP expr, SEXP env) {
   return Rf_eval(expr, env);
 }
