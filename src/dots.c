@@ -3,6 +3,7 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 static SEXP find_dots(SEXP env) {
   if (TYPEOF(env) != ENVSXP) {
@@ -58,12 +59,15 @@ SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
   return out;
 }
 
+static bool promise_forced(SEXP x) {
+  if (TYPEOF(x) != PROMSXP) {
+    return true;
+  } else {
+    return PRVALUE(x) != R_UnboundValue;
+  }
+}
 SEXP ellipsis_promise_forced(SEXP x) {
-  if (TYPEOF(x) != PROMSXP)
-    return Rf_ScalarLogical(TRUE);
-
-  SEXP value = PRVALUE(x);
-  return Rf_ScalarLogical(value != R_UnboundValue);
+  return Rf_ScalarLogical(promise_forced(x));
 }
 
 SEXP ellipsis_eval_bare(SEXP expr, SEXP env) {
