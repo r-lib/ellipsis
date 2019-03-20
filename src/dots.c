@@ -3,16 +3,26 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <stdio.h>
+#include <stdbool.h>
 
-SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
-  if (TYPEOF(env) != ENVSXP)
+static SEXP find_dots(SEXP env) {
+  if (TYPEOF(env) != ENVSXP) {
     Rf_errorcall(R_NilValue, "`env` is a not an environment");
-
-  int auto_name = Rf_asLogical(auto_name_);
+  }
 
   SEXP dots = PROTECT(Rf_findVarInFrame3(env, R_DotsSymbol, TRUE));
-  if (dots == R_UnboundValue)
+  if (dots == R_UnboundValue) {
     Rf_errorcall(R_NilValue, "No ... found");
+  }
+
+  UNPROTECT(1);
+  return dots;
+}
+
+SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
+  int auto_name = Rf_asLogical(auto_name_);
+
+  SEXP dots = PROTECT(find_dots(env));
 
   // Empty dots
   if (dots == R_MissingArg) {
@@ -20,17 +30,13 @@ SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
     return Rf_allocVector(VECSXP, 0);
   }
 
-
-  int n = 0;
-  for(SEXP nxt = dots; nxt != R_NilValue; nxt = CDR(nxt)) {
-    n++;
-  }
+  R_len_t n = Rf_length(dots);
 
   SEXP out = PROTECT(Rf_allocVector(VECSXP, n));
   SEXP names = PROTECT(Rf_allocVector(STRSXP, n));
   Rf_setAttrib(out, R_NamesSymbol, names);
 
-  for (int i = 0; i < n; ++i) {
+  for (R_len_t i = 0; i < n; ++i) {
     SET_VECTOR_ELT(out, i, CAR(dots));
 
     SEXP name = TAG(dots);
@@ -50,17 +56,41 @@ SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
   }
 
   UNPROTECT(3);
-
   return out;
-
 }
 
+static bool promise_forced(SEXP x) {
+  if (TYPEOF(x) != PROMSXP) {
+    return true;
+  } else {
+    return PRVALUE(x) != R_UnboundValue;
+  }
+}
 SEXP ellipsis_promise_forced(SEXP x) {
-  if (TYPEOF(x) != PROMSXP)
-    return Rf_ScalarLogical(TRUE);
+  return Rf_ScalarLogical(promise_forced(x));
+}
 
-  SEXP value = PRVALUE(x);
-  return Rf_ScalarLogical(value != R_UnboundValue);
+SEXP ellipsis_dots_used(SEXP env) {
+  SEXP dots = PROTECT(find_dots(env));
+
+  if (dots == R_MissingArg) {
+    UNPROTECT(1);
+    return Rf_ScalarLogical(true);
+  }
+
+  while (dots != R_NilValue) {
+    SEXP elt = CAR(dots);
+
+    if (!promise_forced(elt)) {
+      UNPROTECT(1);
+      return Rf_ScalarLogical(false);
+    }
+
+    dots = CDR(dots);
+  }
+
+  UNPROTECT(1);
+  return Rf_ScalarLogical(true);
 }
 
 SEXP ellipsis_eval_bare(SEXP expr, SEXP env) {

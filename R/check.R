@@ -24,12 +24,12 @@ check_dots_used <- function(env = parent.frame()) {
 }
 
 check_dots <- function(env = parent.frame()) {
-  proms <- dots(env)
-  used <- vapply(proms, promise_forced, logical(1))
-
-  if (all(used)) {
+  if (.Call(ellipsis_dots_used, env)) {
     return(invisible())
   }
+
+  proms <- dots(env)
+  used <- vapply(proms, promise_forced, logical(1))
 
   unnused <- names(proms)[!used]
   warning(
