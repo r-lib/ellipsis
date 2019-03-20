@@ -19,13 +19,7 @@
 #' f(x = 1, y = 2, z = 3)
 #' f(x = 1, y = 2, 3, 4, 5)
 check_dots_used <- function(env = parent.frame()) {
-  exit_handler <- bquote(
-    on.exit({
-      .(check_dots)(environment())
-    }, add = TRUE)
-  )
   eval_bare(exit_handler, env)
-
   invisible()
 }
 
@@ -46,6 +40,12 @@ check_dots <- function(env = parent.frame()) {
     immediate. = TRUE
   )
 }
+
+exit_handler <- bquote(
+  on.exit({
+    .(check_dots)(environment())
+  }, add = TRUE)
+)
 
 #' Check that all dots are unnamed
 #'
