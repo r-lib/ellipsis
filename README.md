@@ -24,7 +24,7 @@ silently ignored. This package provides tools for making `...` safer:
     evaluated. This allows an S3 generic to state that it expects every
     input to be evaluated.
 
-  - `check_dots_unnamed()` warns if any componetts of `...` are named.
+  - `check_dots_unnamed()` warns if any components of `...` are named.
     This allows you to collect arbitrary unnamed arguments, warning if
     the user mispells a named argument.
 
