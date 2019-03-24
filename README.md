@@ -26,7 +26,7 @@ silently ignored. This package provides tools for making `...` safer:
 
   - `check_dots_unnamed()` warns if any components of `...` are named.
     This allows you to collect arbitrary unnamed arguments, warning if
-    the user mispells a named argument.
+    the user misspells a named argument.
 
   - `check_dots_unused()` warns if `...` is used. This allows you to use
     `...` to force the user to supply full argument names, while still
