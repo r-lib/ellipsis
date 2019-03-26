@@ -25,7 +25,7 @@ x <- c(1:10, NA)
 safe_median(x, na.rm = TRUE)
 median(x, na.rm = TRUE)
 
-median(x, na.mr = TRUE)
+try(median(x, na.mr = TRUE))
 try(safe_median(x, na.mr = TRUE))
 
 median(1, 2, 3)
