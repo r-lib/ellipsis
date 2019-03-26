@@ -28,6 +28,6 @@ median(x, na.rm = TRUE)
 try(median(x, na.mr = TRUE))
 try(safe_median(x, na.mr = TRUE))
 
-median(1, 2, 3)
+try(median(1, 2, 3))
 try(safe_median(1, 2, 3))
 }

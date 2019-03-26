@@ -15,7 +15,7 @@
 #' try(median(x, na.mr = TRUE))
 #' try(safe_median(x, na.mr = TRUE))
 #'
-#' median(1, 2, 3)
+#' try(median(1, 2, 3))
 #' try(safe_median(1, 2, 3))
 safe_median <- function(x, ...) {
   check_dots_used()
