@@ -19,6 +19,6 @@ f <- function(x, ..., foofy = 8) {
   x + foofy
 }
 
-f(1, foof = 4)
+try(f(1, foof = 4))
 f(1, foofy = 4)
 }

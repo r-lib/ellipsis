@@ -93,16 +93,16 @@ check_dots_unnamed <- function(env = parent.frame()) {
 #'   x + foofy
 #' }
 #'
-#' f(1, foof = 4)
+#' try(f(1, foof = 4))
 #' f(1, foofy = 4)
 check_dots_empty <- function(...) {
   if (nargs()) {
-    warning(
-      "`...` is not empty\n",
-      "Did you misspell an argument name?",
-      call. = FALSE,
-      immediate. = TRUE
-    )
+    stop(call. = FALSE, paste_line(
+      "`...` is not empty.",
+      "",
+      "These dots only exist to allow future extensions and should be empty.",
+      "Did you misspell an argument name?"
+    ))
   }
   invisible()
 }
