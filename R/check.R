@@ -85,27 +85,36 @@ check_dots_unnamed <- function(env = parent.frame()) {
 #' Sometimes you just want to use `...` to force your users to fully name
 #' the details arguments. This function warns if `...` is not empty.
 #'
-#' @param env Environment in which to look for ...
+#' @param ... Dots that should be empty.
 #' @export
 #' @examples
 #' f <- function(x, ..., foofy = 8) {
-#'   check_dots_unused()
+#'   check_dots_empty(...)
 #'   x + foofy
 #' }
 #'
-#' f(1, foof = 4)
+#' try(f(1, foof = 4))
 #' f(1, foofy = 4)
-check_dots_unused <- function(env = parent.frame()) {
-  proms <- dots(env, auto_name = FALSE)
-
-  if (length(proms) == 0) {
-    return(invisible())
+check_dots_empty <- function(...) {
+  if (nargs()) {
+    stop_dots_not_empty()
   }
+  invisible()
+}
 
-  warning(
-    "`...` is not empty\n",
-    "Did you misspell an argument name?",
-    call. = FALSE,
-    immediate. = TRUE
+#' Stop with custom conditions
+#'
+#' Use these `stop_` functions when you need a different message or
+#' error class.
+#'
+#' @inheritParams rlang::abort
+#' @export
+stop_dots_not_empty <- function(message = NULL, .subclass = NULL, ...) {
+  message <- message %||% paste_line(
+    "`...` is not empty.",
+    "",
+    "These dots only exist to allow future extensions and should be empty.",
+    "Did you misspell an argument name?"
   )
+  abort(message, .subclass = c(.subclass, "rlib_error_dots_not_empty"), ...)
 }

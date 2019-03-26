@@ -12,9 +12,9 @@ test_that("can warn if dots named", {
 
 test_that("can warn if dots not empty", {
   f <- function(..., xyz = 1) {
-    check_dots_unused()
+    check_dots_empty(...)
   }
 
-  expect_warning(f(xyz = 1), NA)
-  expect_warning(f(xy = 4), "not empty")
+  expect_error(f(xyz = 1), NA)
+  expect_error(f(xy = 4), "not empty", class = "rlib_error_dots_not_empty")
 })
