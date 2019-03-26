@@ -89,13 +89,13 @@ check_dots_unnamed <- function(env = parent.frame()) {
 #' @export
 #' @examples
 #' f <- function(x, ..., foofy = 8) {
-#'   check_dots_unused()
+#'   check_dots_empty()
 #'   x + foofy
 #' }
 #'
 #' f(1, foof = 4)
 #' f(1, foofy = 4)
-check_dots_unused <- function(env = parent.frame()) {
+check_dots_empty <- function(env = parent.frame()) {
   proms <- dots(env, auto_name = FALSE)
 
   if (length(proms) == 0) {
