@@ -16,5 +16,5 @@ test_that("can warn if dots not empty", {
   }
 
   expect_error(f(xyz = 1), NA)
-  expect_error(f(xy = 4), "not empty")
+  expect_error(f(xy = 4), "not empty", class = "rlib_error_dots_not_empty")
 })

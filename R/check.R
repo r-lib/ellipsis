@@ -97,12 +97,24 @@ check_dots_unnamed <- function(env = parent.frame()) {
 #' f(1, foofy = 4)
 check_dots_empty <- function(...) {
   if (nargs()) {
-    stop(call. = FALSE, paste_line(
-      "`...` is not empty.",
-      "",
-      "These dots only exist to allow future extensions and should be empty.",
-      "Did you misspell an argument name?"
-    ))
+    stop_dots_not_empty()
   }
   invisible()
+}
+
+#' Stop with custom conditions
+#'
+#' Use these `stop_` functions when you need a different message or
+#' error class.
+#'
+#' @inheritParams rlang::abort
+#' @export
+stop_dots_not_empty <- function(message = NULL, .subclass = NULL, ...) {
+  message <- message %||% paste_line(
+    "`...` is not empty.",
+    "",
+    "These dots only exist to allow future extensions and should be empty.",
+    "Did you misspell an argument name?"
+  )
+  abort(message, .subclass = c(.subclass, "rlib_error_dots_not_empty"), ...)
 }
