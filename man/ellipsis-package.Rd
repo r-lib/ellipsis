@@ -6,11 +6,10 @@
 \alias{ellipsis-package}
 \title{ellipsis: Tools for Working with ...}
 \description{
-In S3 generics, it's useful to take ... so that methods can
-    have additional argument. But this flexibility comes at a cost: misspelled
-    arguments will be silently ignored. The ellipsis packages is an experiment
-    that allows a generic to warn if any arguments passed in ... are not
-    used.
+... is a powerful tool for function extensibility. Unfortunately 
+    this power comes at a cost: misspelled arguments will be silently ignored. 
+    The ellipsis package provides a collection of functions to catch problems
+    and alert the user.
 }
 \seealso{
 Useful links:
