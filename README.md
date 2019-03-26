@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ellipsis)](https://cran.r-project.org/package=ellipsis)
 [![Travis build
@@ -20,15 +20,15 @@ to accept any number of additional arguments. Unfortunately it comes
 with a big downside: any misspelled or extraneous arguments will be
 silently ignored. This package provides tools for making `...` safer:
 
-  - `check_dots_evaluated()` warns if any components of `...` are not
+  - `check_dots_evaluated()` errors if any components of `...` are not
     evaluated. This allows an S3 generic to state that it expects every
     input to be evaluated.
 
-  - `check_dots_unnamed()` warns if any components of `...` are named.
+  - `check_dots_unnamed()` errors if any components of `...` are named.
     This allows you to collect arbitrary unnamed arguments, warning if
     the user misspells a named argument.
 
-  - `check_dots_empty()` warns if `...` is used. This allows you to use
+  - `check_dots_empty()` errors if `...` is used. This allows you to use
     `...` to force the user to supply full argument names, while still
     warning if an argument name is misspelled.
 
@@ -74,10 +74,8 @@ safe_mean <- function(x, ..., trim = 0, na.rm = FALSE) {
 }
 
 safe_mean(1, 2, 3, 4)
-#> Warning: 3 components of ... were not used:
+#> Error: 3 components of ... were not used:
 #> * ..1
 #> * ..2
 #> * ..3
-#> Did you misspell an argument name?
-#> [1] 1
 ```
