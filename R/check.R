@@ -16,8 +16,8 @@
 #' }
 #' f(x = 1, y = 2)
 #'
-#' f(x = 1, y = 2, z = 3)
-#' f(x = 1, y = 2, 3, 4, 5)
+#' try(f(x = 1, y = 2, z = 3))
+#' try(f(x = 1, y = 2, 3, 4, 5))
 check_dots_used <- function(env = parent.frame()) {
   eval_bare(exit_handler, env)
   invisible()
@@ -32,12 +32,10 @@ check_dots <- function(env = parent.frame()) {
   used <- vapply(proms, promise_forced, logical(1))
 
   unnused <- names(proms)[!used]
-  warning(
-    length(unnused), " components of ... were not used:\n",
-    paste0("* ", unnused, "\n", collapse = ""),
-    "Did you misspell an argument name?",
-    call. = FALSE,
-    immediate. = TRUE
+  stop_dots(
+    message = paste0(length(unnused), " components of ... were not used:"),
+    dot_names = unnused,
+    .subclass = "rlib_error_dots_unnused"
   )
 }
 
@@ -51,31 +49,32 @@ exit_handler <- bquote(
 #'
 #' Named arguments in ... are often a sign of misspelled argument names.
 #'
-#' @param env Environment in which to look for ...
+#' @param ... Dots that should be unnamed.
 #' @export
 #' @examples
 #' f <- function(..., foofy = 8) {
-#'   check_dots_unnamed()
+#'   check_dots_unnamed(...)
 #'   c(...)
 #' }
 #'
 #' f(1, 2, 3, foofy = 4)
-#' f(1, 2, 3, foof = 4)
-check_dots_unnamed <- function(env = parent.frame()) {
-  proms <- dots(env, auto_name = FALSE)
+#' try(f(1, 2, 3, foof = 4))
+check_dots_unnamed <- function(...) {
+  if (!nargs()) {
+    return()
+  }
 
+  proms <- dots(environment(), auto_name = FALSE)
   unnamed <- is.na(names(proms))
   if (all(unnamed)) {
     return(invisible())
   }
 
   named <- names(proms)[!unnamed]
-  warning(
-    "Some components of ... had unexpected names:\n",
-    paste0("* ", named, "\n", collapse = ""),
-    "Did you misspell an argument name?\n",
-    call. = FALSE,
-    immediate. = TRUE
+  stop_dots(
+    message = paste0(length(named), " components of ... had unexpected names"),
+    dot_names = named,
+    .subclass = "rlib_error_dots_named"
   )
 }
 
@@ -96,25 +95,25 @@ check_dots_unnamed <- function(env = parent.frame()) {
 #' try(f(1, foof = 4))
 #' f(1, foofy = 4)
 check_dots_empty <- function(...) {
-  if (nargs()) {
-    stop_dots_not_empty()
+  if (!nargs()) {
+    return(invisible())
   }
-  invisible()
+
+  dots <- dots(environment())
+  stop_dots(
+    message = "`...` is not empty.",
+    dot_names = names(dots),
+    note = "These dots only exist to allow future extensions and should be empty.",
+    .subclass = "rlib_error_dots_nonempty"
+  )
 }
 
-#' Stop with custom conditions
-#'
-#' Use these `stop_` functions when you need a different message or
-#' error class.
-#'
-#' @inheritParams rlang::abort
-#' @export
-stop_dots_not_empty <- function(message = NULL, .subclass = NULL, ...) {
-  message <- message %||% paste_line(
-    "`...` is not empty.",
-    "",
-    "These dots only exist to allow future extensions and should be empty.",
-    "Did you misspell an argument name?"
+stop_dots <- function(message, dot_names, note = NULL, .subclass = NULL, ...) {
+  message <- paste_line(
+    message,
+    paste0("* ", dot_names),
+    note,
+    "Did you misspecify an argument?"
   )
-  abort(message, .subclass = c(.subclass, "rlib_error_dots_not_empty"), ...)
+  abort(message, .subclass = c(.subclass, "rlib_error_dots"), ...)
 }
