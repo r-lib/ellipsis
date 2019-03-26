@@ -1,14 +1,18 @@
 # ellipsis (development version)
 
-* All `check_()` functions now throw custom errors, rather than warnings. 
+* ellipsis has officially graduated from experimental to maturing in the
+  package lifecycle.
+
+* `check_()` functions now throw custom errors, rather than warnings. 
 
 * `check_` functions have been optimised for the most common case of no
-  problems. This means that you 
-
-* Improved error message suggesting that you check for misspelled argument 
-  names.
+  problems. This means that you use it in more places without worrying
+  about the performance cost.
 
 * New `check_dots_empty()` that checks that `...` is empty (#11).
+
+* Improved error message suggesting that you check for mispecified argument 
+  names.
 
 # ellipsis 0.1.0
 
