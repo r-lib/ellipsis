@@ -35,7 +35,7 @@ check_dots <- function(env = parent.frame()) {
 
   unnused <- names(proms)[!used]
   stop_dots(
-    message = paste0(length(unnused), " components of ... were not used:"),
+    message = paste0(length(unnused), " components of `...` were not used."),
     dot_names = unnused,
     .subclass = "rlib_error_dots_unnused"
   )
@@ -74,7 +74,7 @@ check_dots_unnamed <- function(env = parent.frame()) {
 
   named <- names(proms)[!unnamed]
   stop_dots(
-    message = paste0(length(named), " components of ... had unexpected names"),
+    message = paste0(length(named), " components of `...` had unexpected names."),
     dot_names = named,
     .subclass = "rlib_error_dots_named"
   )
@@ -113,7 +113,10 @@ check_dots_empty <- function(env = parent.frame()) {
 stop_dots <- function(message, dot_names, note = NULL, .subclass = NULL, ...) {
   message <- paste_line(
     message,
-    paste0("* ", dot_names),
+    "",
+    "We detected these problematic arguments:",
+    paste0("* `", dot_names, "`"),
+    "",
     note,
     "Did you misspecify an argument?"
   )
