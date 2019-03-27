@@ -1,7 +1,9 @@
 #' Check that all dots have been used
 #'
 #' Automatically sets exit handler to run when function terminates, checking
-#' that all elements of `...` have been evaluated.
+#' that all elements of `...` have been evaluated. If you use [on.exit()]
+#' elsewhere in your function, make sure to use `add = TRUE` so that you
+#' don't override the handler set up by `check_dots_used()`.
 #'
 #' @param env Environment in which to look for `...` and to set up handler.
 #' @export
