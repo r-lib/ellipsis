@@ -4,10 +4,10 @@
 \alias{check_dots_empty}
 \title{Check that dots are unused}
 \usage{
-check_dots_empty(...)
+check_dots_empty(env = parent.frame())
 }
 \arguments{
-\item{...}{Dots that should be empty.}
+\item{env}{Environment in which to look for \code{...}.}
 }
 \description{
 Sometimes you just want to use \code{...} to force your users to fully name
@@ -15,7 +15,7 @@ the details arguments. This function warns if \code{...} is not empty.
 }
 \examples{
 f <- function(x, ..., foofy = 8) {
-  check_dots_empty(...)
+  check_dots_empty()
   x + foofy
 }
 

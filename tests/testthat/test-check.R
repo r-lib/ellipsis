@@ -25,7 +25,7 @@ test_that("error if dots not used by another function", {
 
 test_that("error if dots named", {
   f <- function(..., xyz = 1) {
-    check_dots_unnamed(...)
+    check_dots_unnamed()
   }
 
   expect_error(f(xyz = 1), NA)
@@ -36,7 +36,7 @@ test_that("error if dots named", {
 
 test_that("error if if dots not empty", {
   f <- function(..., xyz = 1) {
-    check_dots_empty(...)
+    check_dots_empty()
   }
 
   expect_error(f(xyz = 1), NA)

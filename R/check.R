@@ -49,22 +49,22 @@ exit_handler <- bquote(
 #'
 #' Named arguments in ... are often a sign of misspelled argument names.
 #'
-#' @param ... Dots that should be unnamed.
+#' @param env Environment in which to look for `...`.
 #' @export
 #' @examples
 #' f <- function(..., foofy = 8) {
-#'   check_dots_unnamed(...)
+#'   check_dots_unnamed()
 #'   c(...)
 #' }
 #'
 #' f(1, 2, 3, foofy = 4)
 #' try(f(1, 2, 3, foof = 4))
-check_dots_unnamed <- function(...) {
-  if (!nargs()) {
+check_dots_unnamed <- function(env = parent.frame()) {
+  proms <- dots(env, auto_name = FALSE)
+  if (length(proms) == 0) {
     return()
   }
 
-  proms <- dots(environment(), auto_name = FALSE)
   unnamed <- is.na(names(proms))
   if (all(unnamed)) {
     return(invisible())
@@ -84,22 +84,22 @@ check_dots_unnamed <- function(...) {
 #' Sometimes you just want to use `...` to force your users to fully name
 #' the details arguments. This function warns if `...` is not empty.
 #'
-#' @param ... Dots that should be empty.
+#' @param env Environment in which to look for `...`.
 #' @export
 #' @examples
 #' f <- function(x, ..., foofy = 8) {
-#'   check_dots_empty(...)
+#'   check_dots_empty()
 #'   x + foofy
 #' }
 #'
 #' try(f(1, foof = 4))
 #' f(1, foofy = 4)
-check_dots_empty <- function(...) {
-  if (!nargs()) {
-    return(invisible())
+check_dots_empty <- function(env = parent.frame()) {
+  dots <- dots(env)
+  if (length(dots) == 0) {
+    return()
   }
 
-  dots <- dots(environment())
   stop_dots(
     message = "`...` is not empty.",
     dot_names = names(dots),

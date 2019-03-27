@@ -4,17 +4,17 @@
 \alias{check_dots_unnamed}
 \title{Check that all dots are unnamed}
 \usage{
-check_dots_unnamed(...)
+check_dots_unnamed(env = parent.frame())
 }
 \arguments{
-\item{...}{Dots that should be unnamed.}
+\item{env}{Environment in which to look for \code{...}.}
 }
 \description{
 Named arguments in ... are often a sign of misspelled argument names.
 }
 \examples{
 f <- function(..., foofy = 8) {
-  check_dots_unnamed(...)
+  check_dots_unnamed()
   c(...)
 }
 
