@@ -33,12 +33,8 @@ check_dots <- function(env = parent.frame()) {
   proms <- dots(env)
   used <- vapply(proms, promise_forced, logical(1))
 
-  unnused <- names(proms)[!used]
-  stop_dots(
-    message = paste0(length(unnused), " components of `...` were not used."),
-    dot_names = unnused,
-    .subclass = "rlib_error_dots_unnused"
-  )
+  unused <- names(proms)[!used]
+  stop_dots_used(unused)
 }
 
 exit_handler <- bquote(
@@ -73,11 +69,7 @@ check_dots_unnamed <- function(env = parent.frame()) {
   }
 
   named <- names(proms)[!unnamed]
-  stop_dots(
-    message = paste0(length(named), " components of `...` had unexpected names."),
-    dot_names = named,
-    .subclass = "rlib_error_dots_named"
-  )
+  stop_dots_unnamed(named)
 }
 
 
@@ -101,21 +93,61 @@ check_dots_empty <- function(env = parent.frame()) {
   if (length(dots) == 0) {
     return()
   }
+  stop_dots_empty(names(dots))
+}
+
+#' Error conditions
+#'
+#' @inheritParams rlang::abort
+#'
+#' @keywords internal
+#' @name conditions
+NULL
+
+#' @rdname conditions
+#' @param unused_names Names of unused dots.
+#' @export
+stop_dots_used <- function(unused_names, ..., message = NULL, .subclass = NULL) {
+  message <- message %||% paste0(length(unused_names), " components of `...` were not used.")
 
   stop_dots(
-    message = "`...` is not empty.",
-    dot_names = names(dots),
+    message = message,
+    names = unused_names,
+    .subclass = c(.subclass, "rlib_error_dots_unnused"),
+    ...
+  )
+}
+#' @rdname conditions
+#' @param named_names Names of dots that should have not been named.
+#' @export
+stop_dots_unnamed <- function(named_names, ..., message = NULL, .subclass = NULL) {
+  message <- message %||% paste0(length(named_names), " components of `...` had unexpected names.")
+  stop_dots(
+    message = message,
+    names = named_names,
+    .subclass = c(.subclass, "rlib_error_dots_named"),
+    ...
+  )
+}
+#' @rdname conditions
+#' @param names Names of dots.
+#' @export
+stop_dots_empty <- function(names, ..., message = NULL, .subclass = NULL) {
+  stop_dots(
+    message = message %||% "`...` is not empty.",
+    names = names,
     note = "These dots only exist to allow future extensions and should be empty.",
-    .subclass = "rlib_error_dots_nonempty"
+    .subclass = c(.subclass, "rlib_error_dots_nonempty"),
+    ...
   )
 }
 
-stop_dots <- function(message, dot_names, note = NULL, .subclass = NULL, ...) {
+stop_dots <- function(message, names, note = NULL, .subclass = NULL, ...) {
   message <- paste_line(
     message,
     "",
     "We detected these problematic arguments:",
-    paste0("* `", dot_names, "`"),
+    paste0("* `", names, "`"),
     "",
     note,
     "Did you misspecify an argument?"
