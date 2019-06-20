@@ -1,4 +1,5 @@
-# ellipsis (development version)
+
+# ellipsis 0.1.1
 
 * ellipsis has officially graduated from experimental to maturing in the
   package lifecycle.

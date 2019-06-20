@@ -1,5 +1,5 @@
 Package: ellipsis
-Version: 0.1.0.9000
+Version: 0.1.1
 Title: Tools for Working with ...
 Description: ... is a powerful tool for function extensibility. Unfortunately 
     this power comes at a cost: misspelled arguments will be silently ignored. 
