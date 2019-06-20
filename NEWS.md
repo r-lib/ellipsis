@@ -1,10 +1,11 @@
 
-# ellipsis 0.1.1
+# ellipsis 0.2.0
 
-* ellipsis has officially graduated from experimental to maturing in the
-  package lifecycle.
+ellipsis has officially graduated from experimental to maturing in the
+package lifecycle.
 
-* `check_()` functions now throw custom errors, rather than warnings. 
+* The main change of this release is that `check_()` functions now
+  throw custom errors, rather than warnings.
 
 * `check_` functions have been optimised for the most common case of no
   problems. This means that you use it in more places without worrying
