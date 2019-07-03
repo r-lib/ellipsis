@@ -44,8 +44,8 @@ SEXP ellipsis_dots(SEXP env, SEXP auto_name_) {
       SET_STRING_ELT(names, i, PRINTNAME(name));
     } else {
       if (auto_name) {
-        char buffer[10];
-        snprintf(buffer, 10, "..%i", i + 1);
+        char buffer[20];
+        snprintf(buffer, 20, "..%i", i + 1);
         SET_STRING_ELT(names, i, Rf_mkChar(buffer));
       } else {
         SET_STRING_ELT(names, i, NA_STRING);
