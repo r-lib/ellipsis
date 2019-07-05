@@ -20,7 +20,7 @@ to accept any number of additional arguments. Unfortunately it comes
 with a big downside: any misspelled or extraneous arguments will be
 silently ignored. This package provides tools for making `...` safer:
 
-  - `check_dots_evaluated()` errors if any components of `...` are not
+  - `check_dots_used()` errors if any components of `...` are not
     evaluated. This allows an S3 generic to state that it expects every
     input to be evaluated.
 
