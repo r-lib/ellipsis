@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ellipsis.r-lib.org/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ellipsis.r-lib.org/reference/check_dots_empty.html</loc>
+  </url>
+  <url>
+    <loc>https://ellipsis.r-lib.org/reference/check_dots_unnamed.html</loc>
+  </url>
+  <url>
+    <loc>https://ellipsis.r-lib.org/reference/check_dots_used.html</loc>
+  </url>
+  <url>
+    <loc>https://ellipsis.r-lib.org/reference/dots_empty.html</loc>
+  </url>
+  <url>
+    <loc>https://ellipsis.r-lib.org/reference/ellipsis-package.html</loc>
+  </url>
+  <url>
+    <loc>https://ellipsis.r-lib.org/reference/safe_median.html</loc>
+  </url>
+</urlset>
