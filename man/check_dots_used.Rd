@@ -4,10 +4,13 @@
 \alias{check_dots_used}
 \title{Check that all dots have been used}
 \usage{
-check_dots_used(env = parent.frame())
+check_dots_used(env = parent.frame(), action = abort)
 }
 \arguments{
 \item{env}{Environment in which to look for \code{...} and to set up handler.}
+
+\item{action}{The action to take when the dots have not been used. One of
+\code{\link[rlang:abort]{rlang::abort()}}, \code{\link[rlang:warn]{rlang::warn()}}, \code{\link[rlang:inform]{rlang::inform()}} or \code{\link[rlang:signal]{rlang::signal()}}.}
 }
 \description{
 Automatically sets exit handler to run when function terminates, checking

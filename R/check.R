@@ -5,6 +5,8 @@
 #' elsewhere in your function, make sure to use `add = TRUE` so that you
 #' don't override the handler set up by `check_dots_used()`.
 #'
+#' @param action The action to take when the dots have not been used. One of
+#'   [rlang::abort()], [rlang::warn()], [rlang::inform()] or [rlang::signal()].
 #' @param env Environment in which to look for `...` and to set up handler.
 #' @export
 #' @examples
@@ -20,12 +22,12 @@
 #'
 #' try(f(x = 1, y = 2, z = 3))
 #' try(f(x = 1, y = 2, 3, 4, 5))
-check_dots_used <- function(env = parent.frame()) {
-  eval_bare(exit_handler, env)
+check_dots_used <- function(env = parent.frame(), action = abort) {
+  eval_bare(exit_handler(action), env)
   invisible()
 }
 
-check_dots <- function(env = parent.frame()) {
+check_dots <- function(env = parent.frame(), action) {
   if (.Call(ellipsis_dots_used, env)) {
     return(invisible())
   }
@@ -33,24 +35,26 @@ check_dots <- function(env = parent.frame()) {
   proms <- dots(env)
   used <- vapply(proms, promise_forced, logical(1))
 
-  unnused <- names(proms)[!used]
-  stop_dots(
-    message = paste0(length(unnused), " components of `...` were not used."),
-    dot_names = unnused,
-    .subclass = "rlib_error_dots_unnused"
+  unused <- names(proms)[!used]
+  action_dots(
+    action = action,
+    message = paste0(length(unused), " components of `...` were not used."),
+    dot_names = unused,
+    .subclass = "rlib_error_dots_unused",
   )
 }
 
-exit_handler <- bquote(
+exit_handler <- function(action) bquote(
   on.exit({
-    .(check_dots)(environment())
-  }, add = TRUE)
+    .(check_dots)(environment(), .(action))
+  }, add = TRUE), list(check_dots = check_dots, action = action)
 )
 
 #' Check that all dots are unnamed
 #'
 #' Named arguments in ... are often a sign of misspelled argument names.
 #'
+#' @inheritParams check_dots_used
 #' @param env Environment in which to look for `...`.
 #' @export
 #' @examples
@@ -61,7 +65,7 @@ exit_handler <- bquote(
 #'
 #' f(1, 2, 3, foofy = 4)
 #' try(f(1, 2, 3, foof = 4))
-check_dots_unnamed <- function(env = parent.frame()) {
+check_dots_unnamed <- function(env = parent.frame(), action = abort) {
   proms <- dots(env, auto_name = FALSE)
   if (length(proms) == 0) {
     return()
@@ -73,10 +77,11 @@ check_dots_unnamed <- function(env = parent.frame()) {
   }
 
   named <- names(proms)[!unnamed]
-  stop_dots(
+  action_dots(
+    action = action,
     message = paste0(length(named), " components of `...` had unexpected names."),
     dot_names = named,
-    .subclass = "rlib_error_dots_named"
+    .subclass = "rlib_error_dots_named",
   )
 }
 
@@ -86,6 +91,7 @@ check_dots_unnamed <- function(env = parent.frame()) {
 #' Sometimes you just want to use `...` to force your users to fully name
 #' the details arguments. This function warns if `...` is not empty.
 #'
+#' @inheritParams check_dots_used
 #' @param env Environment in which to look for `...`.
 #' @export
 #' @examples
@@ -96,13 +102,14 @@ check_dots_unnamed <- function(env = parent.frame()) {
 #'
 #' try(f(1, foof = 4))
 #' f(1, foofy = 4)
-check_dots_empty <- function(env = parent.frame()) {
+check_dots_empty <- function(env = parent.frame(), action = abort) {
   dots <- dots(env)
   if (length(dots) == 0) {
     return()
   }
 
-  stop_dots(
+  action_dots(
+    action = action,
     message = "`...` is not empty.",
     dot_names = names(dots),
     note = "These dots only exist to allow future extensions and should be empty.",
@@ -110,7 +117,7 @@ check_dots_empty <- function(env = parent.frame()) {
   )
 }
 
-stop_dots <- function(message, dot_names, note = NULL, .subclass = NULL, ...) {
+action_dots <- function(action, message, dot_names, note = NULL, .subclass = NULL, ...) {
   message <- paste_line(
     message,
     "",
@@ -120,5 +127,5 @@ stop_dots <- function(message, dot_names, note = NULL, .subclass = NULL, ...) {
     note,
     "Did you misspecify an argument?"
   )
-  abort(message, .subclass = c(.subclass, "rlib_error_dots"), ...)
+  action(message, .subclass = c(.subclass, "rlib_error_dots"), ...)
 }
