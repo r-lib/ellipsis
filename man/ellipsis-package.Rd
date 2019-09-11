@@ -6,7 +6,7 @@
 \alias{ellipsis-package}
 \title{ellipsis: Tools for Working with ...}
 \description{
-... is a powerful tool for function extensibility. Unfortunately 
+The ellipsis is a powerful tool for extending functions. Unfortunately 
     this power comes at a cost: misspelled arguments will be silently ignored. 
     The ellipsis package provides a collection of functions to catch problems
     and alert the user.
@@ -14,6 +14,7 @@
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://ellipsis.r-lib.org}
   \item \url{https://github.com/r-lib/ellipsis}
   \item Report bugs at \url{https://github.com/r-lib/ellipsis/issues}
 }
