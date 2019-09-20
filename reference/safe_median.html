@@ -192,8 +192,8 @@ are never used.</p>
 #&gt; </span><span style='color: #555555;'> 37. </span><span>                          │     └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
 #&gt; </span><span style='color: #555555;'> 38. </span><span>                          │       └─base:::doTryCatch(return(expr), name, parentenv, handler)
 #&gt; </span><span style='color: #555555;'> 39. </span><span>                          └─ellipsis::safe_median(x, na.mr = TRUE)
-#&gt; </span><span style='color: #555555;'> 40. </span><span>                            └─(function (env = parent.frame()) ...
-#&gt; </span><span style='color: #555555;'> 41. </span><span>                              └─ellipsis:::stop_dots(...)</div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 40. </span><span>                            └─(function (env = parent.frame(), action) ...
+#&gt; </span><span style='color: #555555;'> 41. </span><span>                              └─ellipsis:::action_dots(...)</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>))</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>safe_median</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>))</div><div class='output co'>#&gt; Error : 2 components of `...` were not used.
 #&gt; 
 #&gt; We detected these problematic arguments:
@@ -242,8 +242,8 @@ are never used.</p>
 #&gt; </span><span style='color: #555555;'> 37. </span><span>                          │     └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
 #&gt; </span><span style='color: #555555;'> 38. </span><span>                          │       └─base:::doTryCatch(return(expr), name, parentenv, handler)
 #&gt; </span><span style='color: #555555;'> 39. </span><span>                          └─ellipsis::safe_median(1, 2, 3)
-#&gt; </span><span style='color: #555555;'> 40. </span><span>                            └─(function (env = parent.frame()) ...
-#&gt; </span><span style='color: #555555;'> 41. </span><span>                              └─ellipsis:::stop_dots(...)</div></span></pre>
+#&gt; </span><span style='color: #555555;'> 40. </span><span>                            └─(function (env = parent.frame(), action) ...
+#&gt; </span><span style='color: #555555;'> 41. </span><span>                              └─ellipsis:::action_dots(...)</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -262,7 +262,7 @@ are never used.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

@@ -117,7 +117,7 @@
     <p>Named arguments in ... are often a sign of misspelled argument names.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_dots_unnamed</span>(<span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())</pre>
+    <pre class="usage"><span class='fu'>check_dots_unnamed</span>(<span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), <span class='kw'>action</span> <span class='kw'>=</span> <span class='no'>abort</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -125,6 +125,11 @@
     <tr>
       <th>env</th>
       <td><p>Environment in which to look for <code>...</code>.</p></td>
+    </tr>
+    <tr>
+      <th>action</th>
+      <td><p>The action to take when the dots have not been used. One of
+<code><a href='https://rlang.r-lib.org/reference/abort.html'>rlang::abort()</a></code>, <code><a href='https://rlang.r-lib.org/reference/abort.html'>rlang::warn()</a></code>, <code><a href='https://rlang.r-lib.org/reference/abort.html'>rlang::inform()</a></code> or <code><a href='https://rlang.r-lib.org/reference/abort.html'>rlang::signal()</a></code>.</p></td>
     </tr>
     </table>
 
@@ -183,7 +188,7 @@
 #&gt; </span><span style='color: #555555;'> 38. </span><span>                          │       └─base:::doTryCatch(return(expr), name, parentenv, handler)
 #&gt; </span><span style='color: #555555;'> 39. </span><span>                          └─f(1, 2, 3, foof = 4)
 #&gt; </span><span style='color: #555555;'> 40. </span><span>                            └─ellipsis::check_dots_unnamed()
-#&gt; </span><span style='color: #555555;'> 41. </span><span>                              └─ellipsis:::stop_dots(...)</div></span></pre>
+#&gt; </span><span style='color: #555555;'> 41. </span><span>                              └─ellipsis:::action_dots(...)</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -202,7 +207,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
