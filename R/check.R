@@ -71,12 +71,16 @@ check_dots_unnamed <- function(env = parent.frame(), action = abort) {
     return()
   }
 
-  unnamed <- is.na(names(proms))
+  if (any(names(proms) == "...")) {
+    message(paste("Please don't name argument `...`."))
+    }
+  
+  unnamed <- is.na(names(proms[names(proms) != "..."]))
   if (all(unnamed)) {
     return(invisible())
   }
 
-  named <- names(proms)[!unnamed]
+  named <- names(proms[names(proms) != "..."])[!unnamed]
   action_dots(
     action = action,
     message = paste0(length(named), " components of `...` had unexpected names."),
