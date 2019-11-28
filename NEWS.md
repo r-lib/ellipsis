@@ -1,9 +1,13 @@
 
+# ellipsis (development version)
+
+
 # ellipsis 0.3.0
 
 * `check_dots_used()`, `check_dots_unnamed()`, and `check_dots_empty()` gain an
   `action` argument, to specify if they should error, warn, message or signal
   when the dots meet the condition.
+
 
 # ellipsis 0.2.0
 
@@ -19,8 +23,9 @@ package lifecycle.
 
 * New `check_dots_empty()` that checks that `...` is empty (#11).
 
-* Improved error message suggesting that you check for mispecified argument 
-  names.
+* Improved error message suggesting that you check for mispecified
+  argument names.
+
 
 # ellipsis 0.1.0
 
@@ -28,6 +33,7 @@ package lifecycle.
   unnamed (#7).
 
 * Fix a bug that caused `check_dots_used()` to emit many false positives (#8)
+
 
 # ellipsis 0.0.2
 
