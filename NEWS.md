@@ -1,4 +1,5 @@
-# ellipsis (development version)
+
+# ellipsis 0.3.0
 
 * `check_dots_used()`, `check_dots_unnamed()`, and `check_dots_empty()` gain an
   `action` argument, to specify if they should error, warn, message or signal
