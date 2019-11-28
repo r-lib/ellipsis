@@ -44,11 +44,11 @@ check_dots <- function(env = parent.frame(), action) {
   )
 }
 
-exit_handler <- function(action) bquote(
-  on.exit({
-    .(check_dots)(environment(), .(action))
-  }, add = TRUE), list(check_dots = check_dots, action = action)
-)
+exit_handler <- function(action) {
+  expr(
+    on.exit((!!check_dots)(environment(), !!action), add = TRUE)
+  )
+}
 
 #' Check that all dots are unnamed
 #'
