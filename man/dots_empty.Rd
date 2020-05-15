@@ -2,12 +2,12 @@
 % Please edit documentation in R/dots.R
 \name{dots_empty}
 \alias{dots_empty}
-\title{Helper for consistent documentation}
+\title{Helper for consistent documentation of empty dots}
 \arguments{
 \item{...}{These dots are for future extensions and must be empty.}
 }
 \description{
-Use \code{@inheritParams ellipsis::dots_empty} in your package
+Use \verb{@inheritParams ellipsis::dots_empty} in your package
 to consistently document an unused \code{...} argument.
 }
 \keyword{internal}

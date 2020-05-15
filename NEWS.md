@@ -3,6 +3,9 @@
 
 * Fixed an incompatibility with R devel.
 
+* New `?dots_used` topics from which you can inherit `...`
+  documenation when dots are passed to methods.
+
 
 # ellipsis 0.3.0
 
