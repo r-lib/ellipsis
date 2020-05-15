@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • ellipsis</title>
+<title>Helper for consistent documentation of used dots — dots_used • ellipsis</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Helper for consistent documentation of used dots — dots_used" />
+<meta property="og:description" content="Use @inheritParams ellipsis::dots_used in your package
+to consistently document an unused ... argument." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -110,65 +112,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/r-lib/ellipsis/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Helper for consistent documentation of used dots</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/ellipsis/blob/master/R/dots.R'><code>R/dots.R</code></a></small>
+    <div class="hidden name"><code>dots_used.Rd</code></div>
     </div>
 
-    <div id="ellipsis-0-3-1" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.1">
-<a href="#ellipsis-0-3-1" class="anchor"></a>ellipsis 0.3.1<small> Unreleased </small>
-</h1>
-<ul>
-<li><p>Fixed an incompatibility with R devel.</p></li>
-<li><p>New <code><a href="../reference/dots_used.html">?dots_used</a></code> topics from which you can inherit <code>...</code> documenation when dots are passed to methods.</p></li>
-</ul>
-</div>
-    <div id="ellipsis-0-3-0" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.0">
-<a href="#ellipsis-0-3-0" class="anchor"></a>ellipsis 0.3.0<small> 2019-09-20 </small>
-</h1>
-<ul>
-<li>
-<code><a href="../reference/check_dots_used.html">check_dots_used()</a></code>, <code><a href="../reference/check_dots_unnamed.html">check_dots_unnamed()</a></code>, and <code><a href="../reference/check_dots_empty.html">check_dots_empty()</a></code> gain an <code>action</code> argument, to specify if they should error, warn, message or signal when the dots meet the condition.</li>
-</ul>
-</div>
-    <div id="ellipsis-0-2-0" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.0">
-<a href="#ellipsis-0-2-0" class="anchor"></a>ellipsis 0.2.0<small> 2019-06-20 </small>
-</h1>
-<p>ellipsis has officially graduated from experimental to maturing in the package lifecycle.</p>
-<ul>
-<li><p>The main change of this release is that <code>check_()</code> functions now throw custom errors, rather than warnings.</p></li>
-<li><p><code>check_</code> functions have been optimised for the most common case of no problems. This means that you use it in more places without worrying about the performance cost.</p></li>
-<li><p>New <code><a href="../reference/check_dots_empty.html">check_dots_empty()</a></code> that checks that <code>...</code> is empty (<a href='https://github.com/r-lib/ellipsis/issues/11'>#11</a>).</p></li>
-<li><p>Improved error message suggesting that you check for mispecified argument names.</p></li>
-</ul>
-</div>
-    <div id="ellipsis-0-1-0" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0">
-<a href="#ellipsis-0-1-0" class="anchor"></a>ellipsis 0.1.0<small> 2019-02-19 </small>
-</h1>
-<ul>
-<li><p>New <code><a href="../reference/check_dots_unnamed.html">check_dots_unnamed()</a></code> that checks that all components of <code>...</code> are unnamed (<a href='https://github.com/r-lib/ellipsis/issues/7'>#7</a>).</p></li>
-<li><p>Fix a bug that caused <code><a href="../reference/check_dots_used.html">check_dots_used()</a></code> to emit many false positives (<a href='https://github.com/r-lib/ellipsis/issues/8'>#8</a>)</p></li>
-</ul>
-</div>
-    <div id="ellipsis-0-0-2" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.2">
-<a href="#ellipsis-0-0-2" class="anchor"></a>ellipsis 0.0.2<small> 2019-01-09 </small>
-</h1>
-<ul>
-<li>Fix a <code>PROTECT</code>ion error</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Use <code>@inheritParams ellipsis::dots_used</code> in your package
+to consistently document an unused <code>...</code> argument.</p>
+    </div>
 
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>...</th>
+      <td><p>Arguments passed to methods.</p></td>
+    </tr>
+    </table>
+
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
