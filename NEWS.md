@@ -1,5 +1,7 @@
 
-# ellipsis (development version)
+# ellipsis 0.3.1
+
+* Fixed an incompatibility with R devel.
 
 
 # ellipsis 0.3.0
