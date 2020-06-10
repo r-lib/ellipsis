@@ -155,6 +155,13 @@ action_dots <- function(action, message, dot_names, note = NULL, .subclass = NUL
 #'          simplify = TRUE,
 #'          USE.NAMES = TRUE)
 #' }
+#'
+#' \dontrun{
+#' # while the original `sapply()` silently ignores misspelled arguments,
+#' sapply(1:5, paste, "hour workdays", sep = "-", colaspe = " ")
+#' # `sapply_safe()` will throw an informative error message:
+#' sapply_safe(1:5, paste, "hour workdays", sep = "-", colaspe = " ")
+#' }
 check_dots_named <- function(...,
                              .function,
                              .forbidden = NULL,
