@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check_dots_named}
 \alias{check_dots_named}
-\title{Check that dots are either empty or all dot parameter names are a valid subset of a function's parameter names.}
+\title{Check that all dot parameter names are a valid subset of a function's parameter names.}
 \usage{
 check_dots_named(
   ...,
@@ -17,15 +17,17 @@ check_dots_named(
 
 \item{.function}{The function the \code{...} will be passed on to.}
 
-\item{.forbidden}{Parameter names within \code{...} that should be treated as invalid.}
+\item{.forbidden}{Parameter names within \code{...} that should be treated as
+invalid.}
 
-\item{.empty_ok}{Set to \code{TRUE} if empty \code{...} should be allowed, otherwise to \code{FALSE}.}
+\item{.empty_ok}{Set to \code{TRUE} if empty \code{...} should be allowed, or to \code{FALSE}
+otherwise.}
 
-\item{.action}{The action to take when the dots have not been used. One of
-\code{\link[rlang:abort]{rlang::abort()}}, \code{\link[rlang:warn]{rlang::warn()}}, \code{\link[rlang:inform]{rlang::inform()}} or \code{\link[rlang:signal]{rlang::signal()}}.}
+\item{.action}{The action to take when the check fails. One of \code{\link[rlang:abort]{rlang::abort()}},
+\code{\link[rlang:warn]{rlang::warn()}}, \code{\link[rlang:inform]{rlang::inform()}} or \code{\link[rlang:signal]{rlang::signal()}}.}
 }
 \description{
-Check that dots are either empty or all dot parameter names are a valid subset of a function's parameter names.
+Check that all dot parameter names are a valid subset of a function's parameter names.
 }
 \examples{
 sapply_safe <- function(X,

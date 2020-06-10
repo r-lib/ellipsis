@@ -130,13 +130,16 @@ action_dots <- function(action, message, dot_names, note = NULL, .subclass = NUL
   action(message, .subclass = c(.subclass, "rlib_error_dots"), ...)
 }
 
-#' Check that dots are either empty or all dot parameter names are a valid subset of a function's parameter names.
+#' Check that all dot parameter names are a valid subset of a function's parameter names.
 #'
-#' @inheritParams check_dots_used
 #' @param ... The dots argument to check.
 #' @param .function The function the `...` will be passed on to.
-#' @param .forbidden Parameter names within `...` that should be treated as invalid.
-#' @param .empty_ok Set to `TRUE` if empty `...` should be allowed, otherwise to `FALSE`.
+#' @param .forbidden Parameter names within `...` that should be treated as
+#'   invalid.
+#' @param .empty_ok Set to `TRUE` if empty `...` should be allowed, or to `FALSE`
+#'   otherwise.
+#' @param .action The action to take when the check fails. One of [rlang::abort()],
+#'   [rlang::warn()], [rlang::inform()] or [rlang::signal()].
 #' @export
 #' @examples
 #' sapply_safe <- function(X,
