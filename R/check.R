@@ -134,7 +134,7 @@ action_dots <- function(action, message, dot_names, note = NULL, .subclass = NUL
 #'
 #' @inheritParams check_dots_used
 #' @param ... The dots argument to check.
-#' @param .function The function name.
+#' @param .function The function the `...` will be passed on to.
 #' @param .forbidden Parameter names within `...` that should be treated as invalid.
 #' @param .empty_ok Set to `TRUE` if empty `...` should be allowed, otherwise to `FALSE`.
 #' @export

@@ -15,7 +15,7 @@ check_dots_named(
 \arguments{
 \item{...}{The dots argument to check.}
 
-\item{.function}{The function name.}
+\item{.function}{The function the \code{...} will be passed on to.}
 
 \item{.forbidden}{Parameter names within \code{...} that should be treated as invalid.}
 
