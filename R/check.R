@@ -129,3 +129,83 @@ action_dots <- function(action, message, dot_names, note = NULL, .subclass = NUL
   )
   action(message, .subclass = c(.subclass, "rlib_error_dots"), ...)
 }
+
+#' Check that dots are either empty or all dot parameter names are a valid subset of a function's parameter names.
+#'
+#' @inheritParams check_dots_used
+#' @param ... The dots argument to check.
+#' @param .function The function name.
+#' @param .forbidden Parameter names within `...` that should be treated as invalid.
+#' @param .empty_ok Set to `TRUE` if empty `...` should be allowed, otherwise to `FALSE`.
+#' @export
+#' @examples
+#' sapply_safe <- function(X,
+#'                         FUN,
+#'                         ...,
+#'                         simplify = TRUE,
+#'                         USE.NAMES = TRUE) {
+#'   check_dots_named(...,
+#'                    .function = FUN)
+#'   sapply(X = X,
+#'          FUN = FUN,
+#'          ...,
+#'          simplify = TRUE,
+#'          USE.NAMES = TRUE)
+#' }
+check_dots_named <- function(...,
+                             .function,
+                             .forbidden = NULL,
+                             .empty_ok = TRUE,
+                             .action = abort) {
+  if (length(list(...))) {
+    purrr::walk(
+      .x = setdiff(names(c(...)), ""),
+      .f = check_dot_named,
+      values = allowed_dots_params(fun = checkmate::assert_function(.function),
+                                   forbidden = .forbidden),
+      action = .action
+    )
+
+  } else if (!.empty_ok) {
+    .action("`...` must be provided (!= `NULL`).",
+            .subclass = c("rlib_error_dots_empty", "rlib_error_dots"))
+  }
+}
+
+allowed_dots_params <- function(fun,
+                                forbidden) {
+  setdiff(methods::formalArgs(fun),
+          checkmate::assert_character(forbidden,
+                                      any.missing = FALSE,
+                                      null.ok = TRUE))
+}
+
+check_dot_named <- function(dot,
+                            values,
+                            action) {
+  # The following code is largely borrowed from `rlang::arg_match()`
+  i <- match(dot, values)
+
+  if (is_na(i)) {
+    msg <- paste0("Invalid argument provided in `...`: `", dot,
+                  "`\nValid arguments include: ", prose_ls(values, wrap = "`"))
+    i_partial <- pmatch(dot, values)
+
+    if (!is_na(i_partial)) {
+      candidate <- values[[i_partial]]
+    }
+
+    i_close <- utils::adist(dot, values)/nchar(values)
+
+    if (any(i_close <= 0.5)) {
+      candidate <- values[[which.min(i_close)]]
+    }
+
+    if (exists("candidate")) {
+      candidate <- prose_ls(candidate, wrap = "`")
+      msg <- paste0(msg, "\n", "Did you mean ", candidate, "?")
+    }
+
+    action(msg, .subclass = c("rlib_error_dots_invalid_name", "rlib_error_dots"))
+  }
+}

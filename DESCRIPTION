@@ -1,5 +1,4 @@
 Package: ellipsis
-Version: 0.3.1.9000
 Title: Tools for Working with ...
 Description: The ellipsis is a powerful tool for extending functions. Unfortunately 
     this power comes at a cost: misspelled arguments will be silently ignored. 
@@ -9,6 +8,7 @@ Authors@R: c(
       person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
       person("RStudio", role = "cph")
     )
+Version: 0.3.1.9001
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -19,7 +19,11 @@ BugReports: https://github.com/r-lib/ellipsis/issues
 Depends: 
     R (>= 3.2)
 Imports:
-    rlang (>= 0.3.0)
+    checkmate (>= 2.0.0),
+    methods (>= 4.0.1),
+    purrr (>= 0.3.4),
+    rlang (>= 0.3.0),
+    utils (>= 4.0.1)
 Suggests: 
     covr,
     testthat
