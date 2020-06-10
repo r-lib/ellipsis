@@ -1,20 +1,25 @@
 Package: ellipsis
 Title: Tools for Working with ...
-Description: The ellipsis is a powerful tool for extending functions. Unfortunately 
-    this power comes at a cost: misspelled arguments will be silently ignored. 
-    The ellipsis package provides a collection of functions to catch problems
-    and alert the user.
-Authors@R: c(
-      person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
-      person("RStudio", role = "cph")
-    )
 Version: 0.3.1.9001
+Authors@R: 
+    c(person(given = "Hadley",
+             family = "Wickham",
+             role = c("aut", "cre"),
+             email = "hadley@rstudio.com"),
+      person(given = "Salim",
+             family = "Brüggemann",
+             role = c("aut"),
+             email = "salim-b@pm.me",
+             comment = c(ORCID = "0000-0002-5329-5987")),
+      person(given = "RStudio",
+             role = "cph"))
+Description: The ellipsis is a powerful tool for extending
+    functions. Unfortunately this power comes at a cost: misspelled
+    arguments will be silently ignored.  The ellipsis package provides a
+    collection of functions to catch problems and alert the user.
 License: GPL-3
-Encoding: UTF-8
-LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
-URL: https://ellipsis.r-lib.org, https://github.com/r-lib/ellipsis
+URL: https://ellipsis.r-lib.org,
+    https://github.com/r-lib/ellipsis
 BugReports: https://github.com/r-lib/ellipsis/issues
 Depends: 
     R (>= 3.2)
@@ -27,3 +32,7 @@ Imports:
 Suggests: 
     covr,
     testthat
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0

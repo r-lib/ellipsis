@@ -6,10 +6,10 @@
 \alias{ellipsis-package}
 \title{ellipsis: Tools for Working with ...}
 \description{
-The ellipsis is a powerful tool for extending functions. Unfortunately 
-    this power comes at a cost: misspelled arguments will be silently ignored. 
-    The ellipsis package provides a collection of functions to catch problems
-    and alert the user.
+The ellipsis is a powerful tool for extending
+    functions. Unfortunately this power comes at a cost: misspelled
+    arguments will be silently ignored.  The ellipsis package provides a
+    collection of functions to catch problems and alert the user.
 }
 \seealso{
 Useful links:
@@ -22,6 +22,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Hadley Wickham \email{hadley@rstudio.com}
+
+Authors:
+\itemize{
+  \item Salim Brüggemann \email{salim-b@pm.me} (\href{https://orcid.org/0000-0002-5329-5987}{ORCID})
+}
 
 Other contributors:
 \itemize{
