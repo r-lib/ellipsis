@@ -161,8 +161,10 @@ check_dots_named <- function(...,
     purrr::walk(
       .x = setdiff(names(c(...)), ""),
       .f = check_dot_named,
-      values = allowed_dots_params(fun = checkmate::assert_function(.function),
-                                   forbidden = .forbidden),
+      values = setdiff(methods::formalArgs(.function),
+                       checkmate::assert_character(.forbidden,
+                                                   any.missing = FALSE,
+                                                   null.ok = TRUE)),
       action = .action
     )
 
@@ -170,14 +172,6 @@ check_dots_named <- function(...,
     .action("`...` must be provided (!= `NULL`).",
             .subclass = c("rlib_error_dots_empty", "rlib_error_dots"))
   }
-}
-
-allowed_dots_params <- function(fun,
-                                forbidden) {
-  setdiff(methods::formalArgs(fun),
-          checkmate::assert_character(forbidden,
-                                      any.missing = FALSE,
-                                      null.ok = TRUE))
 }
 
 check_dot_named <- function(dot,
