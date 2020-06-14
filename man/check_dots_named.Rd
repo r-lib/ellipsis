@@ -18,7 +18,7 @@ check_dots_named(
 \item{.function}{The function the \code{...} will be passed on to.}
 
 \item{.forbidden}{Parameter names within \code{...} that should be treated as
-invalid.}
+invalid. A character vector.}
 
 \item{.empty_ok}{Set to \code{TRUE} if empty \code{...} should be allowed, or to \code{FALSE}
 otherwise.}
@@ -27,9 +27,39 @@ otherwise.}
 \code{\link[rlang:warn]{rlang::warn()}}, \code{\link[rlang:inform]{rlang::inform()}} or \code{\link[rlang:signal]{rlang::signal()}}.}
 }
 \description{
-Check that all dot parameter names are a valid subset of a function's parameter names.
+This function ensures that \link[base:dots]{dots (...)} are either empty (if \code{.empty_ok = TRUE}), or all named dot parameter names are a valid subset of a
+function's parameter names. In case of an invalid or \code{.forbidden} argument, an informative message is shown and the defined \code{.action} is taken.
+}
+\details{
+\code{check_dots_named()} is intended to combat the second one of the two major downsides that using \code{...} usually brings. In chapter 6.6 of the book
+\emph{Advanced R} it is \href{https://adv-r.hadley.nz/functions.html#fun-dot-dot-dot}{phrased} as follows:
+
+\emph{Using \code{...} comes with two downsides:}
+\itemize{
+\item \emph{When you use it to pass arguments to another function, you have to carefully explain to the user where those arguments go. This makes it hard to
+understand what you can do with functions like \code{lapply()} and \code{plot()}.}
+\item \strong{\emph{A misspelled argument will not raise an error. This makes it easy for typos to go unnoticed.}}
+}
 }
 \examples{
+# We can use `check_dots_named()` to address this second downside:
+sum_safe <- function(...,
+                     na.rm = FALSE) {
+  check_dots_named(...,
+                   .function = sum)
+  sum(...,
+      na.rm = na.rm)
+}
+
+# note how the misspelled `na_rm` (instead of `na.rm`) silently gets ignored
+# in the original function
+sum(1, 2, NA, na_rm = TRUE)
+
+\dontrun{
+# whereas our safe version properly errors
+sum_safe(1, 2, NA, na_rm = TRUE)}
+
+# we can even build an `sapply()` function that fails "intelligently"
 sapply_safe <- function(X,
                         FUN,
                         ...,
@@ -44,10 +74,31 @@ sapply_safe <- function(X,
          USE.NAMES = TRUE)
 }
 
-\dontrun{
 # while the original `sapply()` silently ignores misspelled arguments,
 sapply(1:5, paste, "hour workdays", sep = "-", colaspe = " ")
-# `sapply_safe()` will throw an informative error message:
-sapply_safe(1:5, paste, "hour workdays", sep = "-", colaspe = " ")
-}
+
+\dontrun{
+# `sapply_safe()` will throw an informative error message
+sapply_safe(1:5, paste, "hour workdays", sep = "-", colaspe = " ")}
+
+\dontrun{
+# but be aware that `check_dots_named()` might be a bit rash
+sum_safe(a = 1, b = 2)}
+
+# while the original function actually has nothing to complain about
+sum(a = 1, b = 2)
+
+\dontrun{
+# also, it doesn't play nicely with functions that don't expose all of
+# their arg names (`to` and `by` in the case of `seq()`)
+sapply_safe(X = c(0,50),
+            FUN = seq,
+            to = 100,
+            by = 5)}
+
+# but providing `to` and `by` *unnamed* is fine of course:
+sapply_safe(X = c(0,50),
+            FUN = seq,
+            100,
+            5)
 }
