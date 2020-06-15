@@ -13,6 +13,7 @@ paste_line <- function(...) {
 #' @param last_separator The separator to delimit the second-last and last element of `x`.
 #'
 #' @return A character scalar.
+#' @keywords internal
 prose_ls <- function(x,
                      wrap = "",
                      separator = ", ",

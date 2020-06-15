@@ -21,3 +21,4 @@ A character scalar.
 \description{
 This function takes a vector or list and concatenates its elements to a single string separated in prose-style.
 }
+\keyword{internal}
