@@ -2,6 +2,7 @@
 
 S3method(safe_median,numeric)
 export(check_dots_empty)
+export(check_dots_named)
 export(check_dots_unnamed)
 export(check_dots_used)
 export(safe_median)
