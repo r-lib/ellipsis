@@ -219,7 +219,7 @@ check_dots_named <- function(...,
                              .forbidden = NULL,
                              .empty_ok = TRUE,
                              .action = abort) {
-  if (length(list(...))) {
+  if (...length()) {
 
     # determine original function name the `...` will be passed on to
     fun_arg_name <- deparse1(substitute(.function))
