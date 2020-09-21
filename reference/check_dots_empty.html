@@ -122,7 +122,7 @@ the details arguments. This function warns if ... is not empty." />
 the details arguments. This function warns if <code>...</code> is not empty.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_dots_empty</span>(<span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), <span class='kw'>action</span> <span class='kw'>=</span> <span class='no'>abort</span>)</pre>
+    <pre class="usage"><span class='fu'>check_dots_empty</span>(env = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), action = <span class='kw'>abort</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,18 +140,20 @@ the details arguments. This function warns if <code>...</code> is not empty.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='no'>foofy</span> <span class='kw'>=</span> <span class='fl'>8</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>f</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>x</span>, <span class='kw'>...</span>, <span class='kw'>foofy</span> = <span class='fl'>8</span>) {
   <span class='fu'>check_dots_empty</span>()
-  <span class='no'>x</span> + <span class='no'>foofy</span>
+  <span class='kw'>x</span> <span class='op'>+</span> <span class='kw'>foofy</span>
 }
 
-<span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>f</span>(<span class='fl'>1</span>, <span class='kw'>foof</span> <span class='kw'>=</span> <span class='fl'>4</span>))</div><div class='output co'>#&gt; Error : `...` is not empty.
+<span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>f</span>(<span class='fl'>1</span>, foof = <span class='fl'>4</span>))
+</div><div class='output co'>#&gt; Error : `...` is not empty.
 #&gt; 
 #&gt; We detected these problematic arguments:
 #&gt; * `foof`
 #&gt; 
 #&gt; These dots only exist to allow future extensions and should be empty.
-#&gt; Did you misspecify an argument?</div><div class='input'><span class='fu'>f</span>(<span class='fl'>1</span>, <span class='kw'>foofy</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] 5</div></pre>
+#&gt; Did you misspecify an argument?</div><div class='input'><span class='fu'>f</span>(<span class='fl'>1</span>, foofy = <span class='fl'>4</span>)
+</div><div class='output co'>#&gt; [1] 5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -167,7 +169,7 @@ the details arguments. This function warns if <code>...</code> is not empty.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

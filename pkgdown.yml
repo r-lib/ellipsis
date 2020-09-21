@@ -1,8 +1,8 @@
 pandoc: '2.2'
-pkgdown: 1.5.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
-articles: []
-last_built: 2020-05-15T12:35Z
+articles: {}
+last_built: 2020-09-21T13:51Z
 urls:
   reference: https://ellipsis.r-lib.org/reference
   article: https://ellipsis.r-lib.org/articles

@@ -122,10 +122,10 @@ are never used." />
 are never used.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>safe_median</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>safe_median</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for numeric</span>
-<span class='fu'>safe_median</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>safe_median</span>(<span class='kw'>x</span>, <span class='kw'>...</span>, na.rm = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,15 +146,21 @@ are never used.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>NA</span>)
-<span class='fu'>safe_median</span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] 5.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] 5.5</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>(<span class='no'>x</span>, <span class='kw'>na.mr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>safe_median</span>(<span class='no'>x</span>, <span class='kw'>na.mr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; Error : 1 components of `...` were not used.
+    <pre class="examples"><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='fl'>NA</span>)
+<span class='fu'>safe_median</span>(<span class='kw'>x</span>, na.rm = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; [1] 5.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>(<span class='kw'>x</span>, na.rm = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; [1] 5.5</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>(<span class='kw'>x</span>, na.mr = <span class='fl'>TRUE</span>))
+</div><div class='output co'>#&gt; [1] NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>safe_median</span>(<span class='kw'>x</span>, na.mr = <span class='fl'>TRUE</span>))
+</div><div class='output co'>#&gt; Error : 1 components of `...` were not used.
 #&gt; 
 #&gt; We detected these problematic arguments:
 #&gt; * `na.mr`
 #&gt; 
 #&gt; Did you misspecify an argument?</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>))</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>safe_median</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>))</div><div class='output co'>#&gt; Error : 2 components of `...` were not used.
+<span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/median.html'>median</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>))
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>safe_median</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>))
+</div><div class='output co'>#&gt; Error : 2 components of `...` were not used.
 #&gt; 
 #&gt; We detected these problematic arguments:
 #&gt; * `..1`
@@ -176,7 +182,7 @@ are never used.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
