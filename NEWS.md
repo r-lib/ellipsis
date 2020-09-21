@@ -1,5 +1,7 @@
 # ellipsis (development version)
 
+* Changed license to MIT (#39).
+
 
 # ellipsis 0.3.1
 
