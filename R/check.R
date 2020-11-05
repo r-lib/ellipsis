@@ -46,7 +46,7 @@ check_dots <- function(env = parent.frame(), action) {
 
 exit_handler <- function(action) {
   expr(
-    on.exit((!!check_dots)(environment(), !!action), add = TRUE)
+    on.exit(ellipsis:::check_dots(base::environment(), !!action), add = TRUE)
   )
 }
 
