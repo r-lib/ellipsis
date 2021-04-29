@@ -26,6 +26,9 @@ check_dots_used <- function(env = parent.frame(), action = abort) {
   eval_bare(exit_handler(action), env)
   invisible()
 }
+on_load({
+  check_dots_used <- replace_from("check_dots_used", "rlang")
+})
 
 check_dots <- function(env = parent.frame(), action) {
   if (.Call(ellipsis_dots_used, env)) {
@@ -84,6 +87,9 @@ check_dots_unnamed <- function(env = parent.frame(), action = abort) {
     .subclass = "rlib_error_dots_named",
   )
 }
+on_load({
+  check_dots_unnamed <- replace_from("check_dots_unnamed", "rlang")
+})
 
 
 #' Check that dots are unused
@@ -116,6 +122,9 @@ check_dots_empty <- function(env = parent.frame(), action = abort) {
     .subclass = "rlib_error_dots_nonempty"
   )
 }
+on_load({
+  check_dots_empty <- replace_from("check_dots_empty", "rlang")
+})
 
 action_dots <- function(action, message, dot_names, note = NULL, .subclass = NULL, ...) {
   message <- paste_line(
