@@ -1,5 +1,7 @@
 # ellipsis (development version)
 
+* Compatibility with next version of rlang.
+
 * Changed license to MIT (#39).
 
 
