@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 # ellipsis
 
 <!-- badges: start -->
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R-CMD-check](https://github.com/r-lib/ellipsis/workflows/R-CMD-check/badge.svg)](https://github.com/r-lib/ellipsis/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/ellipsis)](https://cran.r-project.org/package=ellipsis)
 [![Codecov test coverage](https://codecov.io/gh/r-lib/ellipsis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/ellipsis?branch=master)
@@ -35,7 +35,7 @@ Adding `...` to a function is a powerful technique because it allows you to acce
   force the user to supply full argument names, while still warning if an
   argument name is misspelled.
 
-Thanks to [Jenny Bryan](http://github.com/jennybc) for the idea, and [Lionel Henry](http://github.com/lionel-) for the heart of the implementation.
+Thanks to [Jenny Bryan](https://github.com/jennybc) for the idea, and [Lionel Henry](https://github.com/lionel-) for the heart of the implementation.
 
 ## Installation
 

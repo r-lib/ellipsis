@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ellipsis)](https://cran.r-project.org/package=ellipsis)
 [![Travis build
@@ -32,8 +32,8 @@ silently ignored. This package provides tools for making `...` safer:
     `...` to force the user to supply full argument names, while still
     warning if an argument name is misspelled.
 
-Thanks to [Jenny Bryan](http://github.com/jennybc) for the idea, and
-[Lionel Henry](http://github.com/lionel-) for the heart of the
+Thanks to [Jenny Bryan](https://github.com/jennybc) for the idea, and
+[Lionel Henry](https://github.com/lionel-) for the heart of the
 implementation.
 
 ## Installation
