@@ -5,6 +5,7 @@
 #' elsewhere in your function, make sure to use `add = TRUE` so that you
 #' don't override the handler set up by `check_dots_used()`.
 #'
+#' @usage NULL
 #' @param action The action to take when the dots have not been used. One of
 #'   [rlang::abort()], [rlang::warn()], [rlang::inform()] or [rlang::signal()].
 #' @param env Environment in which to look for `...` and to set up handler.
@@ -57,6 +58,7 @@ exit_handler <- function(action) {
 #'
 #' Named arguments in ... are often a sign of misspelled argument names.
 #'
+#' @usage NULL
 #' @inheritParams check_dots_used
 #' @param env Environment in which to look for `...`.
 #' @export
@@ -97,6 +99,7 @@ on_load({
 #' Sometimes you just want to use `...` to force your users to fully name
 #' the details arguments. This function warns if `...` is not empty.
 #'
+#' @usage NULL
 #' @inheritParams check_dots_used
 #' @param env Environment in which to look for `...`.
 #' @export

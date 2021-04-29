@@ -3,14 +3,11 @@
 \name{check_dots_unnamed}
 \alias{check_dots_unnamed}
 \title{Check that all dots are unnamed}
-\usage{
-check_dots_unnamed(env = parent.frame(), action = abort)
-}
 \arguments{
 \item{env}{Environment in which to look for \code{...}.}
 
 \item{action}{The action to take when the dots have not been used. One of
-\code{\link[rlang:abort]{rlang::abort()}}, \code{\link[rlang:warn]{rlang::warn()}}, \code{\link[rlang:inform]{rlang::inform()}} or \code{\link[rlang:signal]{rlang::signal()}}.}
+\code{\link[rlang:abort]{rlang::abort()}}, \code{\link[rlang:abort]{rlang::warn()}}, \code{\link[rlang:abort]{rlang::inform()}} or \code{\link[rlang:abort]{rlang::signal()}}.}
 }
 \description{
 Named arguments in ... are often a sign of misspelled argument names.

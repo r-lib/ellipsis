@@ -3,14 +3,11 @@
 \name{check_dots_empty}
 \alias{check_dots_empty}
 \title{Check that dots are unused}
-\usage{
-check_dots_empty(env = parent.frame(), action = abort)
-}
 \arguments{
 \item{env}{Environment in which to look for \code{...}.}
 
 \item{action}{The action to take when the dots have not been used. One of
-\code{\link[rlang:abort]{rlang::abort()}}, \code{\link[rlang:warn]{rlang::warn()}}, \code{\link[rlang:inform]{rlang::inform()}} or \code{\link[rlang:signal]{rlang::signal()}}.}
+\code{\link[rlang:abort]{rlang::abort()}}, \code{\link[rlang:abort]{rlang::warn()}}, \code{\link[rlang:abort]{rlang::inform()}} or \code{\link[rlang:abort]{rlang::signal()}}.}
 }
 \description{
 Sometimes you just want to use \code{...} to force your users to fully name
