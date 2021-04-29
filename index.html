@@ -42,7 +42,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -56,7 +56,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/r-lib/ellipsis/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -88,32 +88,29 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the released version from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"ellipsis"</span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"ellipsis"</span><span class="op">)</span></code></pre></div>
 <p>Or the development version from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"r-lib/ellipsis"</span>)
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-lib/ellipsis"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p><code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> is a little dangerous because you might expect it to work like <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt; [1] 10</span>
-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>)
-<span class="co">#&gt; [1] 1</span>
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1</span></code></pre></div>
 <p>This silently returns the incorrect result because <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> has arguments <code>x</code> and <code>...</code>. The <code>...</code> silently swallows up the additional arguments. We can use <code><a href="reference/check_dots_used.html">ellipsis::check_dots_used()</a></code> to check that every input to <code>...</code> is actually used:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">safe_mean</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">x</span>, <span class="kw">...</span>, <span class="kw">trim</span> = <span class="fl">0</span>, <span class="kw">na.rm</span> = <span class="fl">FALSE</span>) {
-  <span class="kw">ellipsis</span>::<span class="fu"><a href="reference/check_dots_used.html">check_dots_used</a></span>()
-  <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">x</span>, <span class="kw">...</span>, trim = <span class="kw">trim</span>, na.rm = <span class="kw">na.rm</span>)
-}
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">safe_mean</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, <span class="va">trim</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">na.rm</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu">ellipsis</span><span class="fu">::</span><span class="fu"><a href="reference/check_dots_used.html">check_dots_used</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, trim <span class="op">=</span> <span class="va">trim</span>, na.rm <span class="op">=</span> <span class="va">na.rm</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="fu">safe_mean</span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>)
+<span class="fu">safe_mean</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt; Error: 3 components of `...` were not used.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; We detected these problematic arguments:</span>
@@ -121,8 +118,7 @@
 <span class="co">#&gt; * `..2`</span>
 <span class="co">#&gt; * `..3`</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Did you misspecify an argument?</span>
-</pre></div>
+<span class="co">#&gt; Did you misspecify an argument?</span></code></pre></div>
 </div>
 </div>
   </div>
