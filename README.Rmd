@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![R-CMD-check](https://github.com/r-lib/ellipsis/workflows/R-CMD-check/badge.svg)](https://github.com/r-lib/ellipsis/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/ellipsis)](https://cran.r-project.org/package=ellipsis)
-[![Travis build status](https://travis-ci.org/r-lib/ellipsis.svg?branch=master)](https://travis-ci.org/r-lib/ellipsis)
 [![Codecov test coverage](https://codecov.io/gh/r-lib/ellipsis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/ellipsis?branch=master)
 <!-- badges: end -->
 

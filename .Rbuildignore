@@ -11,3 +11,4 @@
 ^pkgdown$
 ^TAGS$
 ^LICENSE\.md$
+^\.github$
