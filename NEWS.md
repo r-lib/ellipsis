@@ -1,3 +1,5 @@
+# ellipsis (development version)
+
 # ellipsis 0.3.2
 
 * Compatibility with next version of rlang.
