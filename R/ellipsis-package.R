@@ -3,5 +3,8 @@
 "_PACKAGE"
 
 .onLoad <- function(...) {
-  run_on_load()
+  check_dots_used <<- rlang::check_dots_used
+  check_dots_unnamed <<- rlang::check_dots_unnamed
+  check_dots_empty <<- rlang::check_dots_empty
 }
+
