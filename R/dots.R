@@ -17,4 +17,3 @@ NULL
 #' @name dots_used
 #' @keywords internal
 NULL
-

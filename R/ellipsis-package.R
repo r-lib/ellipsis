@@ -7,4 +7,3 @@
   check_dots_unnamed <<- rlang::check_dots_unnamed
   check_dots_empty <<- rlang::check_dots_empty
 }
-
