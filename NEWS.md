@@ -1,4 +1,4 @@
-# ellipsis (development version)
+# ellipsis 0.3.3
 
 * Now unconditionally uses rlang
 
