@@ -1,0 +1,44 @@
+Package: cuda.ml
+Type: Package
+Title: R Interface for the RAPIDS cuML Suite of Libraries
+Version: 0.3.2
+Authors@R: 
+    c(person(given = "Yitao",
+           family = "Li",
+           role = c("aut", "cph"),
+           email = "yitao@rstudio.com",
+           comment = c(ORCID = "0000-0002-1261-905X")),
+      person(given = "Tomasz",
+             family = "Kalinowski",
+             role = c("cph", "ctb"),
+             email = "tomasz.kalinowski@rstudio.com"),
+      person(given = "Daniel",
+             family = "Falbel",
+             role = c("aut", "cre", "cph"),
+             email = "daniel@rstudio.com"),
+      person(given = "RStudio",
+           role = c("cph", "fnd")))
+Maintainer: Daniel Falbel <daniel@rstudio.com>
+Description: R interface for RAPIDS cuML (<https://github.com/rapidsai/cuml>),
+    a suite of GPU-accelerated machine learning libraries powered by CUDA
+    (<https://en.wikipedia.org/wiki/CUDA>).
+License: MIT + file LICENSE
+URL: https://mlverse.github.io/cuda.ml/
+BugReports: https://github.com/mlverse/cuda.ml/issues
+Depends: R (>= 3.2)
+Imports: ellipsis, hardhat, parsnip, Rcpp (>= 1.0.6), rlang (>= 0.1.4)
+Suggests: callr, glmnet, MASS, magrittr, mlbench, purrr, reticulate,
+        testthat, xgboost
+LinkingTo: Rcpp
+Encoding: UTF-8
+RoxygenNote: 7.1.2
+OS_type: unix
+SystemRequirements: RAPIDS cuML (see https://rapids.ai/start.html)
+NeedsCompilation: yes
+Packaged: 2022-01-07 22:00:35 UTC; yitaoli
+Author: Yitao Li [aut, cph] (<https://orcid.org/0000-0002-1261-905X>),
+  Tomasz Kalinowski [cph, ctb],
+  Daniel Falbel [aut, cre, cph],
+  RStudio [cph, fnd]
+Repository: CRAN
+Date/Publication: 2022-01-08 01:42:47 UTC

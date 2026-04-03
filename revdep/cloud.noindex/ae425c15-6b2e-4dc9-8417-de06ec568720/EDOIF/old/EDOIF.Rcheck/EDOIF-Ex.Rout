@@ -1,0 +1,532 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "EDOIF"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('EDOIF')
+Loading required package: boot
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("EDOIF")
+> ### * EDOIF
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: EDOIF
+> ### Title: Empirical Distribution Ordering Inference Framework (EDOIF)
+> ### Aliases: EDOIF
+> 
+> ### ** Examples
+> 
+> # Generate simulation data
+> nInv<-100
+> initMean=10
+> stepMean=20
+> std=8
+> simData1<-c()
+> simData1$Values<-rnorm(nInv,mean=initMean,sd=std)
+> simData1$Group<-rep(c("C1"),times=nInv)
+> simData1$Values<-c(simData1$Values,rnorm(nInv,mean=initMean,sd=std) )
+> simData1$Group<-c(simData1$Group,rep(c("C2"),times=nInv))
+> simData1$Values<-c(simData1$Values,rnorm(nInv,mean=initMean+2*stepMean,sd=std) )
+> simData1$Group<-c(simData1$Group,rep(c("C3"),times=nInv) )
+> simData1$Values<-c(simData1$Values,rnorm(nInv,mean=initMean+3*stepMean,sd=std) )
+> simData1$Group<-c(simData1$Group, rep(c("C4"),times=nInv) )
+> simData1$Values<-c(simData1$Values,rnorm(nInv,mean=initMean+4*stepMean,sd=std) )
+> simData1$Group<-c(simData1$Group, rep(c("C5"),times=nInv) )
+> 
+> # Performing ordering infernce from simData1
+> 
+> resultObj<-EDOIF(simData1$Values,simData1$Group)
+> 
+> # Print results in text mode
+> 
+> print(resultObj)
+EDOIF (Empirical Distribution Ordering Inference Framework)
+=======================================================
+Alpha = 0.050000, Number of bootstrap resamples = 1000, CI type = perc
+Using Mann-Whitney test to report whether A ≺ B
+A dominant-distribution network density:0.900000
+Distribution: C2
+Mean:9.697535 95CI:[ 8.211252,11.290370]
+Distribution: C1
+Mean:10.871099 95CI:[ 9.565343,12.216328]
+Distribution: C3
+Mean:50.237388 95CI:[ 48.669403,51.818819]
+Distribution: C4
+Mean:70.412815 95CI:[ 68.926274,71.920483]
+Distribution: C5
+Mean:89.686926 95CI:[ 87.832621,91.323319]
+=======================================================
+Mean difference of C1 (n=100) minus C2 (n=100): C2 ⊀ C1
+ :p-val 0.0626
+Mean Diff:1.173564 95CI:[ -0.926233,3.190313]
+
+Mean difference of C3 (n=100) minus C2 (n=100): C2 ≺ C3
+ :p-val 0.0000
+Mean Diff:40.539853 95CI:[ 38.292252,42.817952]
+
+Mean difference of C4 (n=100) minus C2 (n=100): C2 ≺ C4
+ :p-val 0.0000
+Mean Diff:60.715279 95CI:[ 58.433234,62.904768]
+
+Mean difference of C5 (n=100) minus C2 (n=100): C2 ≺ C5
+ :p-val 0.0000
+Mean Diff:79.989391 95CI:[ 77.533447,82.269840]
+
+Mean difference of C3 (n=100) minus C1 (n=100): C1 ≺ C3
+ :p-val 0.0000
+Mean Diff:39.366289 95CI:[ 37.153423,41.572335]
+
+Mean difference of C4 (n=100) minus C1 (n=100): C1 ≺ C4
+ :p-val 0.0000
+Mean Diff:59.541716 95CI:[ 57.520627,61.545051]
+
+Mean difference of C5 (n=100) minus C1 (n=100): C1 ≺ C5
+ :p-val 0.0000
+Mean Diff:78.815827 95CI:[ 76.572694,81.102333]
+
+Mean difference of C4 (n=100) minus C3 (n=100): C3 ≺ C4
+ :p-val 0.0000
+Mean Diff:20.175427 95CI:[ 17.855874,22.598036]
+
+Mean difference of C5 (n=100) minus C3 (n=100): C3 ≺ C5
+ :p-val 0.0000
+Mean Diff:39.449538 95CI:[ 37.078157,41.767567]
+
+Mean difference of C5 (n=100) minus C4 (n=100): C4 ≺ C5
+ :p-val 0.0000
+Mean Diff:19.274111 95CI:[ 16.849992,21.820247]
+
+> 
+> # Plot results in graphic mode
+> 
+> plot(resultObj)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SimMixDist")
+> ### * SimMixDist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SimMixDist
+> ### Title: SimMixDist function
+> ### Aliases: SimMixDist
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples with a mixture distribution
+> # The distribution consist of the following distributions:
+> # 1) 10% of uniform distribution range [-400,400];
+> # 2) 50% of normal distribution with mean = 40 and std =8; and
+> # 3) 40% of Cauchy distribution with location= 45 and scale = 2.
+> 
+> V<-SimMixDist(nInv=100,mean=40,std=8,p1=0.1,p2=0.5)
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SimNonNormalDist")
+> ### * SimNonNormalDist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SimNonNormalDist
+> ### Title: SimNonNormalDist function
+> ### Aliases: SimNonNormalDist
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories with 10% of uniform noise
+> 
+> simData<-SimNonNormalDist(nInv=100,noisePer=0.1)
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("checkSim3Res")
+> ### * checkSim3Res
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: checkSim3Res
+> ### Title: checkSim3Res function
+> ### Aliases: checkSim3Res
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories
+> 
+> simData<-SimNonNormalDist(nInv=100)
+> 
+> # Performing ordering infernce from simData
+> 
+> resultObj<-EDOIF(simData$Values,simData$Group)
+> 
+> # Compare the inferred adjacency matrix with the ground truth
+> 
+> checkSim3Res(adjMat=resultObj$adjMat)
+$F1
+[1] 1
+
+$prec
+[1] 1
+
+$rec
+[1] 1
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("getADJNetDen")
+> ### * getADJNetDen
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: getADJNetDen
+> ### Title: getADJNetDen function
+> ### Aliases: getADJNetDen
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories
+> 
+> simData<-SimNonNormalDist(nInv=100)
+> 
+> # Performing ordering infernce from simData
+> 
+> resultObj<-EDOIF(simData$Values,simData$Group)
+> 
+> # Get a network density of an adjacency matrix
+> 
+> getADJNetDen(adjMat=resultObj$adjMat)
+[1] 0.4
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("getOrder")
+> ### * getOrder
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: getOrder
+> ### Title: getOrder function
+> ### Aliases: getOrder
+> 
+> ### ** Examples
+> 
+> # Generate simulation data
+> 
+> simData<-SimNonNormalDist(nInv=100,noisePer=0.1)
+> 
+> # Call the function to get the sorted lists
+> getOrder(Values=simData$Values,Group=simData$Group)
+$sortedGroupList
+[1] "C4" "C1" "C2" "C3" "C5"
+
+$sortedmeanList
+[1]  61.74614  71.41053  72.25086  87.40468 118.30241
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("getiGraphNetDen")
+> ### * getiGraphNetDen
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: getiGraphNetDen
+> ### Title: getiGraphNetDen function
+> ### Aliases: getiGraphNetDen
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories
+> 
+> simData<-SimNonNormalDist(nInv=100)
+> 
+> # Performing ordering infernce from simData
+> 
+> resultObj<-EDOIF(simData$Values,simData$Group)
+> 
+> # Get a network density of an iGraph object
+> 
+> getiGraphNetDen(g=resultObj$gObj)
+[1] 0.4
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("getiGraphOBJ")
+> ### * getiGraphOBJ
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: getiGraphOBJ
+> ### Title: getiGraphOBJ function
+> ### Aliases: getiGraphOBJ
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories
+> 
+> simData<-SimNonNormalDist(nInv=100)
+> 
+> # Performing ordering infernce from simData
+> 
+> resultObj<-EDOIF(simData$Values,simData$Group)
+> 
+> # Get an iGraph object from an adjacency matrix
+> 
+> igraphObj<-getiGraphOBJ(adjMat=resultObj$adjMat,sortedGroupList=resultObj$sortedGroupList)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot.EDOIF")
+> ### * plot.EDOIF
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.EDOIF
+> ### Title: plot.EDOIF function
+> ### Aliases: plot.EDOIF
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories
+> 
+> simData<-SimNonNormalDist(nInv=100)
+> 
+> # Performing ordering infernce from simData
+> 
+> resultObj<-EDOIF(simData$Values,simData$Group)
+> 
+> # Plot results in graphic mode
+> 
+> plot(resultObj)
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotGraph")
+> ### * plotGraph
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotGraph
+> ### Title: plotGraph function
+> ### Aliases: plotGraph
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories
+> 
+> simData<-SimNonNormalDist(nInv=100)
+> 
+> # Performing ordering infernce from simData
+> 
+> resultObj<-EDOIF(simData$Values,simData$Group)
+> 
+> # Plot a dominant-distribution network and return a list of an iGraph object
+> 
+> iGraphList<-plotGraph(obj=resultObj)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotMeanCIs")
+> ### * plotMeanCIs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotMeanCIs
+> ### Title: plotMeanCIs function
+> ### Aliases: plotMeanCIs
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories
+> 
+> simData<-SimNonNormalDist(nInv=100)
+> 
+> # Performing ordering infernce from simData
+> 
+> resultObj<-EDOIF(simData$Values,simData$Group)
+> 
+> # Get a list of ggplot object of mean confidence intervals
+> 
+> ggplotList<-plotMeanCIs(obj=resultObj)
+> 
+> # Plot mean confidence intervals
+> 
+> plot(ggplotList$pMeanCI)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotMeanDiffCIs")
+> ### * plotMeanDiffCIs
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotMeanDiffCIs
+> ### Title: plotMeanDiffCIs function
+> ### Aliases: plotMeanDiffCIs
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories
+> 
+> simData<-SimNonNormalDist(nInv=100)
+> 
+> # Performing ordering infernce from simData
+> 
+> resultObj<-EDOIF(simData$Values,simData$Group)
+> 
+> # Get a list of ggplot object of mean-difference confidence intervals
+> 
+> ggplotList<-plotMeanDiffCIs(obj=resultObj)
+> 
+> # Plot mean-difference confidence intervals
+> 
+> plot(ggplotList$pDiffCI)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("print.EDOIF")
+> ### * print.EDOIF
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: print.EDOIF
+> ### Title: print.EDOIF function
+> ### Aliases: print.EDOIF
+> 
+> ### ** Examples
+> 
+> # Generate simulation data with 100 samples per categories
+> 
+> simData<-SimNonNormalDist(nInv=100)
+> 
+> # Performing ordering infernce from simData
+> 
+> resultObj<-EDOIF(simData$Values,simData$Group)
+> 
+> # Print results in text mode
+> 
+> print(resultObj)
+EDOIF (Empirical Distribution Ordering Inference Framework)
+=======================================================
+Alpha = 0.050000, Number of bootstrap resamples = 1000, CI type = perc
+Using Mann-Whitney test to report whether A ≺ B
+A dominant-distribution network density:0.400000
+Distribution: C4
+Mean:63.963324 95CI:[ 43.391910,80.966469]
+Distribution: C1
+Mean:80.574948 95CI:[ 68.446665,90.623845]
+Distribution: C2
+Mean:81.880579 95CI:[ 69.876721,92.139310]
+Distribution: C3
+Mean:82.891747 95CI:[ 76.160294,90.759868]
+Distribution: C5
+Mean:123.887883 95CI:[ 105.998610,137.856999]
+=======================================================
+Mean difference of C1 (n=100) minus C4 (n=100): C4 ⊀ C1
+ :p-val 0.2262
+Mean Diff:16.611624 95CI:[ -3.421598,40.453807]
+
+Mean difference of C2 (n=100) minus C4 (n=100): C4 ⊀ C2
+ :p-val 0.1044
+Mean Diff:17.917255 95CI:[ -1.391857,41.535803]
+
+Mean difference of C3 (n=100) minus C4 (n=100): C4 ⊀ C3
+ :p-val 0.2111
+Mean Diff:18.928423 95CI:[ 0.752649,39.610371]
+
+Mean difference of C5 (n=100) minus C4 (n=100): C4 ≺ C5
+ :p-val 0.0000
+Mean Diff:59.924559 95CI:[ 37.323822,85.756972]
+
+Mean difference of C2 (n=100) minus C1 (n=100): C1 ⊀ C2
+ :p-val 0.2389
+Mean Diff:1.305631 95CI:[ -13.393451,16.551407]
+
+Mean difference of C3 (n=100) minus C1 (n=100): C1 ⊀ C3
+ :p-val 0.4684
+Mean Diff:2.316799 95CI:[ -10.246714,14.925858]
+
+Mean difference of C5 (n=100) minus C1 (n=100): C1 ≺ C5
+ :p-val 0.0000
+Mean Diff:43.312935 95CI:[ 23.162092,62.161133]
+
+Mean difference of C3 (n=100) minus C2 (n=100): C2 ⊀ C3
+ :p-val 0.7058
+Mean Diff:1.011168 95CI:[ -10.483050,13.776450]
+
+Mean difference of C5 (n=100) minus C2 (n=100): C2 ≺ C5
+ :p-val 0.0000
+Mean Diff:42.007304 95CI:[ 22.545086,59.264711]
+
+Mean difference of C5 (n=100) minus C3 (n=100): C3 ≺ C5
+ :p-val 0.0000
+Mean Diff:40.996136 95CI:[ 24.042338,57.634898]
+
+> 
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  10.941 2.304 9.488 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

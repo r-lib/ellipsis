@@ -1,0 +1,53 @@
+Package: GaussSuppression
+Type: Package
+Title: Tabular Data Suppression using Gaussian Elimination
+Version: 1.3.0
+Date: 2026-02-25
+Authors@R: c(person("Øyvind", "Langsrud", role = c("aut", "cre"),
+                    email = "oyl@ssb.no",
+                    comment = c(ORCID = "0000-0002-1380-4396")),
+             person("Daniel", "Lupp", role = c("aut"),
+                    comment = c(ORCID = "0000-0003-3575-1691")),        
+             person("Hege", "Bøvelstad", role = c("ctb"),
+                    comment = c(ORCID = "0000-0002-4522-8987")),
+             person("Vidar Norstein", "Klungre", role = "rev",
+                    comment = c(ORCID = "0000-0003-1925-5911")),
+             person("Jonas", "Lindblad", role = c("ctb")),        
+             person("Statistics Norway", role = "cph"))
+Imports: SSBtools (>= 1.8.6), RegSDC (>= 0.7.0), stats, methods, utils,
+        Matrix, ellipsis, rlang
+Description: A statistical disclosure control tool to protect tables by suppression 
+    using the Gaussian elimination secondary suppression algorithm 
+    (Langsrud, 2024) <doi:10.1007/978-3-031-69651-0_6>. A suggestion is 
+    to start by working with functions SuppressSmallCounts() and 
+    SuppressDominantCells(). These functions use primary suppression functions for 
+    the minimum frequency rule and the dominance rule, respectively. Novel 
+    functionality for suppression of disclosive cells is also included. General 
+    primary suppression functions can be supplied as input to the general working 
+    horse function, GaussSuppressionFromData(). Suppressed frequencies can be 
+    replaced by synthetic decimal numbers as described in 
+    Langsrud (2019) <doi:10.1007/s11222-018-9848-9>.
+License: MIT + file LICENSE
+URL: https://github.com/statisticsnorway/ssb-gausssuppression,
+        https://statisticsnorway.github.io/ssb-gausssuppression/
+BugReports: https://github.com/statisticsnorway/ssb-gausssuppression/issues
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Suggests: formattable, kableExtra, knitr, rmarkdown, testthat (>=
+        3.0.0), lpSolve, Rsymphony, Rglpk, slam, highs, data.table
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2026-02-25 13:57:54 UTC; oyl
+Author: Øyvind Langsrud [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-1380-4396>),
+  Daniel Lupp [aut] (ORCID: <https://orcid.org/0000-0003-3575-1691>),
+  Hege Bøvelstad [ctb] (ORCID: <https://orcid.org/0000-0002-4522-8987>),
+  Vidar Norstein Klungre [rev] (ORCID:
+    <https://orcid.org/0000-0003-1925-5911>),
+  Jonas Lindblad [ctb],
+  Statistics Norway [cph]
+Maintainer: Øyvind Langsrud <oyl@ssb.no>
+Depends: R (>= 3.5.0)
+Repository: CRAN
+Date/Publication: 2026-02-26 10:10:03 UTC

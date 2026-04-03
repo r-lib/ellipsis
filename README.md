@@ -6,31 +6,35 @@
 <!-- badges: start -->
 
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+superseded](https://lifecycle.r-lib.org/articles/figures/lifecycle-superseded.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ellipsis)](https://cran.r-project.org/package=ellipsis)
-[![Travis build
-status](https://travis-ci.org/r-lib/ellipsis.svg?branch=master)](https://travis-ci.org/r-lib/ellipsis)
+[![R-CMD-check](https://github.com/r-lib/ellipsis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/ellipsis/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/r-lib/ellipsis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/ellipsis?branch=master)
+coverage](https://codecov.io/gh/r-lib/ellipsis/graph/badge.svg)](https://app.codecov.io/gh/r-lib/ellipsis)
 <!-- badges: end -->
+
+Superseded by rlang. All the functionality in ellipsis is now provided
+by rlang.
+
+------------------------------------------------------------------------
 
 Adding `...` to a function is a powerful technique because it allows you
 to accept any number of additional arguments. Unfortunately it comes
 with a big downside: any misspelled or extraneous arguments will be
 silently ignored. This package provides tools for making `...` safer:
 
-  - `check_dots_used()` errors if any components of `...` are not
-    evaluated. This allows an S3 generic to state that it expects every
-    input to be evaluated.
+- `check_dots_evaluated()` errors if any components of `...` are not
+  evaluated. This allows an S3 generic to state that it expects every
+  input to be evaluated.
 
-  - `check_dots_unnamed()` errors if any components of `...` are named.
-    This allows you to collect arbitrary unnamed arguments, warning if
-    the user misspells a named argument.
+- `check_dots_unnamed()` errors if any components of `...` are named.
+  This allows you to collect arbitrary unnamed arguments, warning if the
+  user misspells a named argument.
 
-  - `check_dots_empty()` errors if `...` is used. This allows you to use
-    `...` to force the user to supply full argument names, while still
-    warning if an argument name is misspelled.
+- `check_dots_empty()` errors if `...` is used. This allows you to use
+  `...` to force the user to supply full argument names, while still
+  warning if an argument name is misspelled.
 
 Thanks to [Jenny Bryan](https://github.com/jennybc) for the idea, and
 [Lionel Henry](https://github.com/lionel-) for the heart of the
@@ -74,12 +78,11 @@ safe_mean <- function(x, ..., trim = 0, na.rm = FALSE) {
 }
 
 safe_mean(1, 2, 3, 4)
-#> Error: 3 components of `...` were not used.
-#> 
-#> We detected these problematic arguments:
-#> * `..1`
-#> * `..2`
-#> * `..3`
-#> 
-#> Did you misspecify an argument?
+#> Error in `safe_mean()`:
+#> ! Arguments in `...` must be used.
+#> ✖ Problematic arguments:
+#> • ..1 = 2
+#> • ..2 = 3
+#> • ..3 = 4
+#> ℹ Did you misspell an argument name?
 ```

@@ -1,0 +1,1895 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "SmallCountRounding"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('SmallCountRounding')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("HDutility")
+> ### * HDutility
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HD
+> ### Title: Hellinger Distance (Utility)
+> ### Aliases: HD HDutility
+> 
+> ### ** Examples
+> 
+> f <- 1:6
+> g <- c(0, 3, 3, 3, 6, 6)
+> print(c(
++   HD = HD(f, g), 
++   HDutility = HDutility(f, g), 
++   maxdiff = max(abs(g - f)), 
++   meanAbsDiff = mean(abs(g - f)), 
++   rootMeanSquare = sqrt(mean((g - f)^2))
++ ))
+            HD      HDutility        maxdiff    meanAbsDiff rootMeanSquare 
+     0.7805018      0.8296805      1.0000000      0.6666667      0.8164966 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PLS2way")
+> ### * PLS2way
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PLS2way
+> ### Title: Two-way table from PLSrounding output
+> ### Aliases: PLS2way
+> 
+> ### ** Examples
+> 
+> # Making tables from PLSrounding examples 
+> z <- SmallCountData("e6")
+> a <- PLSrounding(z, "freq", formula = ~eu * year + geo)
+> PLS2way(a, "original")
+         X2018 X2019 Total
+Iceland      2     1     3
+Portugal     3     5     8
+Spain        7     6    13
+EU          10    11    21
+Total       12    12    24
+nonEU        2     1     3
+> PLS2way(a, "difference")
+         X2018 X2019 Total
+Iceland      1    -1     0
+Portugal     0     0     0
+Spain        0     0     0
+EU           0     0     0
+Total        1    -1     0
+nonEU        1    -1     0
+> PLS2way(a, "code")
+         X2018 X2019 Total
+Iceland      .     .     #
+Portugal     .     .     #
+Spain        .     .     #
+EU           #     #     #
+Total        #     #     #
+nonEU        #     #     #
+> PLS2way(PLSrounding(z, "freq", formula = ~eu * year + geo * year), "code")
+         X2018 X2019 Total
+Iceland      &     &     #
+Portugal     &     &     #
+Spain        &     &     #
+EU           #     #     #
+Total        #     #     #
+nonEU        #     #     #
+> eHrc2 <- list(geo = c("EU", "@Portugal", "@Spain", "Iceland"), year = c("2018", "2019"))
+> PLS2way(PLSrounding(z, "freq", hierarchies = eHrc2))
+         X2018 X2019 Total
+Iceland      3     0     3
+Portugal     3     5     8
+Spain        7     6    13
+EU          10    11    21
+Total       13    11    24
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PLSrounding")
+> ### * PLSrounding
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PLSrounding
+> ### Title: PLS inspired rounding
+> ### Aliases: PLSrounding PLSroundingInner PLSroundingPublish
+> 
+> ### ** Examples
+> 
+> # Small example data set
+> z <- SmallCountData("e6")
+> print(z)
+       geo    eu year freq
+1  Iceland nonEU 2018    2
+2 Portugal    EU 2018    3
+3    Spain    EU 2018    7
+4  Iceland nonEU 2019    1
+5 Portugal    EU 2019    5
+6    Spain    EU 2019    6
+> 
+> # Publishable cells by formula interface
+> a <- PLSrounding(z, "freq", roundBase = 5,  formula = ~geo + eu + year)
+> print(a)
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             3          0.938           1.25         1.6583 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-4 inn.5 inn.6+ inn.all pub.0 pub.1-4 pub.5 pub.6+ pub.all
+original     .       3     1      2       6     .       2     .      6       8
+rounded      1       1     2      2       6     .       .     2      6       8
+absDiff      4       2     .      .       6     3       5     .      .       8
+
+> print(a$inner)
+       geo year original rounded difference
+1  Iceland 2018        2       5          3
+2 Portugal 2018        3       3          0
+3    Spain 2018        7       7          0
+4  Iceland 2019        1       0         -1
+5 Portugal 2019        5       5          0
+6    Spain 2019        6       6          0
+> print(a$publish)
+       geo  year original rounded difference
+1    Total Total       24      26          2
+2  Iceland Total        3       5          2
+3 Portugal Total        8       8          0
+4    Spain Total       13      13          0
+5       EU Total       21      21          0
+6    nonEU Total        3       5          2
+7    Total  2018       12      15          3
+8    Total  2019       12      11         -1
+> print(a$metrics)
+           roundBase             maxRound              maxdiff 
+           5.0000000            4.0000000            3.0000000 
+     inner_HDutility            HDutility    inner_meanAbsDiff 
+           0.8131709            0.9380433            0.6666667 
+         meanAbsDiff inner_rootMeanSquare       rootMeanSquare 
+           1.2500000            1.2909944            1.6583124 
+> print(a$freqTable)
+         inn.0 inn.1-4 inn.5 inn.6+ inn.all pub.0 pub.1-4 pub.5 pub.6+ pub.all
+original     0       3     1      2       6     0       2     0      6       8
+rounded      1       1     2      2       6     0       0     2      6       8
+absDiff      4       2     0      0       6     3       5     0      0       8
+> 
+> # Using FormulaSelection()
+> FormulaSelection(a$publish, ~eu + year)
+    geo  year original rounded difference
+1 Total Total       24      26          2
+5    EU Total       21      21          0
+6 nonEU Total        3       5          2
+7 Total  2018       12      15          3
+8 Total  2019       12      11         -1
+> FormulaSelection(a, ~eu + year) # same as above
+    geo  year original rounded difference
+1 Total Total       24      26          2
+5    EU Total       21      21          0
+6 nonEU Total        3       5          2
+7 Total  2018       12      15          3
+8 Total  2019       12      11         -1
+> FormulaSelection(a)             # just a$publish
+       geo  year original rounded difference
+1    Total Total       24      26          2
+2  Iceland Total        3       5          2
+3 Portugal Total        8       8          0
+4    Spain Total       13      13          0
+5       EU Total       21      21          0
+6    nonEU Total        3       5          2
+7    Total  2018       12      15          3
+8    Total  2019       12      11         -1
+> 
+> # Recalculation of maxdiff, HDutility, meanAbsDiff and rootMeanSquare
+> max(abs(a$publish[, "difference"]))
+[1] 3
+> HDutility(a$publish[, "original"], a$publish[, "rounded"])
+[1] 0.9380433
+> mean(abs(a$publish[, "difference"]))
+[1] 1.25
+> sqrt(mean((a$publish[, "difference"])^2))
+[1] 1.658312
+> 
+> # Five lines below produce equivalent results 
+> # Ordering of rows can be different
+> PLSrounding(z, "freq", dimVar = c("geo", "eu", "year"))
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             1         0.9117         0.3333         0.5774 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     .       2     1      3       6     .       4     3     11      18
+rounded      1       .     2      3       6     2       .     5     11      18
+absDiff      4       2     .      .       6    12       6     .      .      18
+
+> PLSrounding(z, "freq", formula = ~eu * year + geo * year)
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             1         0.9117         0.3333         0.5774 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     .       2     1      3       6     .       4     3     11      18
+rounded      1       .     2      3       6     2       .     5     11      18
+absDiff      4       2     .      .       6    12       6     .      .      18
+
+> PLSrounding(z[, -2], "freq", hierarchies = SmallCountData("eHrc"))
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             1         0.9117         0.3333         0.5774 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     .       2     1      3       6     .       4     3     11      18
+rounded      1       .     2      3       6     2       .     5     11      18
+absDiff      4       2     .      .       6    12       6     .      .      18
+
+> PLSrounding(z[, -2], "freq", hierarchies = SmallCountData("eDimList"))
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             1         0.9117         0.3333         0.5774 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     .       2     1      3       6     .       4     3     11      18
+rounded      1       .     2      3       6     2       .     5     11      18
+absDiff      4       2     .      .       6    12       6     .      .      18
+
+> PLSrounding(z[, -2], "freq", hierarchies = SmallCountData("eDimList"), formula = ~geo * year)
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             1         0.9117         0.3333         0.5774 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     .       2     1      3       6     .       4     3     11      18
+rounded      1       .     2      3       6     2       .     5     11      18
+absDiff      4       2     .      .       6    12       6     .      .      18
+
+> 
+> # Define publishable cells differently by making use of formula interface
+> PLSrounding(z, "freq", formula = ~eu * year + geo)
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             1          0.931         0.3333         0.5774 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     .       2     1      3       6     .       2     2      8      12
+rounded      1       .     2      3       6     1       .     3      8      12
+absDiff      4       2     .      .       6     8       4     .      .      12
+
+> 
+> # Define publishable cells differently by making use of hierarchy interface
+> eHrc2 <- list(geo = c("EU", "@Portugal", "@Spain", "Iceland"), year = c("2018", "2019"))
+> PLSrounding(z, "freq", hierarchies = eHrc2)
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             1         0.9357         0.2667         0.5164 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     .       2     1      3       6     .       2     2     11      15
+rounded      1       .     2      3       6     1       .     3     11      15
+absDiff      4       2     .      .       6    11       4     .      .      15
+
+> 
+> # Also possible to combine hierarchies and formula
+> PLSrounding(z, "freq", hierarchies = SmallCountData("eDimList"), formula = ~geo + year)
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             0              1              0              0 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     .       2     1      3       6     .       .     2      7       9
+rounded      .       2     1      3       6     .       .     2      7       9
+absDiff      6       .     .      .       6     9       .     .      .       9
+
+> 
+> # Single data frame output
+> PLSroundingInner(z, "freq", roundBase = 5, formula = ~geo + eu + year)
+       geo year original rounded difference
+1  Iceland 2018        2       5          3
+2 Portugal 2018        3       3          0
+3    Spain 2018        7       7          0
+4  Iceland 2019        1       0         -1
+5 Portugal 2019        5       5          0
+6    Spain 2019        6       6          0
+> PLSroundingPublish(z, roundBase = 5, formula = ~geo + eu + year)
+       geo  year original rounded difference
+1    Total Total        6       5         -1
+2  Iceland Total        2       0         -2
+3 Portugal Total        2       0         -2
+4    Spain Total        2       5          3
+5       EU Total        4       5          1
+6    nonEU Total        2       0         -2
+7    Total  2018        3       5          2
+8    Total  2019        3       0         -3
+> 
+> # Microdata input
+> PLSroundingInner(rbind(z, z), roundBase = 5, formula = ~geo + eu + year)
+       geo year original rounded difference
+1 Portugal 2018        2       0         -2
+2    Spain 2018        2       5          3
+3  Iceland 2018        2       0         -2
+4 Portugal 2019        2       0         -2
+5    Spain 2019        2       0         -2
+6  Iceland 2019        2       5          3
+> 
+> # Zero perturbed due to both  extend0 = TRUE and zeroCandidates = TRUE 
+> set.seed(12345)
+> PLSroundingInner(z[sample.int(5, 12, replace = TRUE), 1:3], 
++                  formula = ~geo + eu + year, roundBase = 5, 
++                  extend0 = TRUE, zeroCandidates = TRUE, printInc = TRUE)
+[preAggregate 12*3->5*4]
+[extend0 5*4->6*4]
+[-**..:=]
+       geo year original rounded difference
+1 Portugal 2018        4       0         -4
+2    Spain 2018        3       0         -3
+3  Iceland 2018        2       5          3
+4 Portugal 2019        1       0         -1
+5  Iceland 2019        2       0         -2
+6    Spain 2019        0       5          5
+> 
+> # Parameter avoidHierarchical (see RoundViaDummy and ModelMatrix) 
+> PLSroundingPublish(z, roundBase = 5, formula = ~geo + eu + year, avoidHierarchical = TRUE)
+       geo    eu  year original rounded difference
+1    Total Total Total        6       5         -1
+2  Iceland Total Total        2       0         -2
+3 Portugal Total Total        2       0         -2
+4    Spain Total Total        2       5          3
+5    Total    EU Total        4       5          1
+6    Total nonEU Total        2       0         -2
+7    Total Total  2018        3       5          2
+8    Total Total  2019        3       0         -3
+> 
+> 
+> # To illustrate hierarchical_extend0 
+> #    (parameter to underlying function, SSBtools::Extend0fromModelMatrixInput)
+> PLSroundingInner(z[-c(2:3), ], roundBase = 5, formula = ~geo + eu + year, 
++    avoidHierarchical = TRUE, zeroCandidates = TRUE, extend0 = TRUE)
+        geo    eu year original rounded difference
+1   Iceland nonEU 2018        1       0         -1
+2  Portugal    EU 2019        1       0         -1
+3     Spain    EU 2019        1       0         -1
+4   Iceland nonEU 2019        1       0         -1
+5  Portugal nonEU 2018        0       0          0
+6     Spain nonEU 2018        0       0          0
+7   Iceland    EU 2018        0       0          0
+8  Portugal    EU 2018        0       0          0
+9     Spain    EU 2018        0       0          0
+10 Portugal nonEU 2019        0       0          0
+11    Spain nonEU 2019        0       0          0
+12  Iceland    EU 2019        0       5          5
+> PLSroundingInner(z[-c(2:3), ], roundBase = 5, formula = ~geo + eu + year, 
++    avoidHierarchical = TRUE, zeroCandidates = TRUE, extend0 = TRUE, 
++    hierarchical_extend0 = TRUE)
+       geo    eu year original rounded difference
+1  Iceland nonEU 2018        1       0         -1
+2 Portugal    EU 2019        1       0         -1
+3    Spain    EU 2019        1       0         -1
+4  Iceland nonEU 2019        1       5          4
+5 Portugal    EU 2018        0       0          0
+6    Spain    EU 2018        0       0          0
+> 
+> # Package sdcHierarchies can be used to create hierarchies. 
+> # The small example code below works if this package is available. 
+> if (require(sdcHierarchies)) {
++   z2 <- cbind(geo = c("11", "21", "22"), z[, 3:4], stringsAsFactors = FALSE)
++   h2 <- list(
++     geo = hier_compute(inp = unique(z2$geo), dim_spec = c(1, 1), root = "Tot", as = "df"),
++     year = hier_convert(hier_create(root = "Total", nodes = c("2018", "2019")), as = "df"))
++   PLSrounding(z2, "freq", hierarchies = h2)
++ }
+Loading required package: sdcHierarchies
+Loading required package: shinythemes
+Package 'sdcHierarchies' 0.23.0 has been loaded.
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             1         0.9117         0.3333         0.5774 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     .       2     1      3       6     .       4     3     11      18
+rounded      1       .     2      3       6     2       .     5     11      18
+absDiff      4       2     .      .       6    12       6     .      .      18
+
+> 
+> # Use PLS2way to produce tables as in Langsrud and Heldal (2018) and to demonstrate 
+> # parameters maxRound, zeroCandidates and identifyNew (see RoundViaDummy).   
+> # Parameter rndSeed used to ensure same output as in reference.
+> exPSD <- SmallCountData("exPSD")
+> a <- PLSrounding(exPSD, "freq", 5, formula = ~rows + cols, rndSeed=124)
+> PLS2way(a, "original")  # Table 1
+      col1 col2 col3 col4 col5 Total
+row1     6    0    1    3    4    14
+row2     1    2    3    1    2     9
+row3     0    1    1    0    2     4
+Total    7    3    5    4    8    27
+> PLS2way(a)  # Table 2
+      col1 col2 col3 col4 col5 Total
+row1     6    0    5    0    4    15
+row2     1    0    0    5    2     8
+row3     0    5    0    0    0     5
+Total    7    5    5    5    6    28
+> a <- PLSrounding(exPSD, "freq", 5, formula = ~rows + cols, identifyNew = FALSE, rndSeed=124)
+> PLS2way(a)  # Table 3
+      col1 col2 col3 col4 col5 Total
+row1     6    0    1    0    4    11
+row2     1    0    3    5    2    11
+row3     0    5    0    0    0     5
+Total    7    5    4    5    6    27
+> a <- PLSrounding(exPSD, "freq", 5, formula = ~rows + cols, maxRound = 7)
+> PLS2way(a)  # Values in col1 rounded
+      col1 col2 col3 col4 col5 Total
+row1     5    0    0    5    0    10
+row2     0    0    5    0    5    10
+row3     0    5    0    0    0     5
+Total    5    5    5    5    5    25
+> a <- PLSrounding(exPSD, "freq", 5, formula = ~rows + cols, zeroCandidates = TRUE)
+> PLS2way(a)  # (row3, col4): original is 0 and rounded is 5
+      col1 col2 col3 col4 col5 Total
+row1     6    0    5    0    4    15
+row2     1    5    0    0    2     8
+row3     0    0    0    5    0     5
+Total    7    5    5    5    6    28
+> 
+> # Using formula followed by FormulaSelection 
+> output <- PLSrounding(data = SmallCountData("example1"), 
++                       formula = ~age * geo * year + eu * year, 
++                       freqVar = "freq", 
++                       roundBase = 5)
+> FormulaSelection(output, ~(age + eu) * year)
+     age   geo  year original rounded difference
+1  Total Total Total       59      59          0
+2    old Total Total       38      37         -1
+3  young Total Total       21      22          1
+7  Total Total  2014       20      21          1
+8  Total Total  2015       18      16         -2
+9  Total Total  2016       21      22          1
+10 Total    EU Total       46      49          3
+11 Total nonEU Total       13      10         -3
+18   old Total  2014       13      16          3
+19   old Total  2015       13      11         -2
+20   old Total  2016       12      10         -2
+21 young Total  2014        7       5         -2
+22 young Total  2015        5       5          0
+23 young Total  2016        9      12          3
+33 Total    EU  2014       15      16          1
+34 Total nonEU  2014        5       5          0
+35 Total    EU  2015       15      16          1
+36 Total nonEU  2015        3       0         -3
+37 Total    EU  2016       16      17          1
+38 Total nonEU  2016        5       5          0
+> 
+> # Example similar to the one in the documentation of tables_by_formulas,
+> # but using PLSroundingPublish with roundBase = 4.
+> tables_by_formulas(SSBtoolsData("magnitude1"),
++                    table_fun = PLSroundingPublish, 
++                    table_formulas = list(table_1 = ~region * sector2, 
++                                          table_2 = ~region1:sector4 - 1, 
++                                          table_3 = ~region + sector4 - 1), 
++                    substitute_vars = list(region = c("geo", "eu"), region1 = "eu"), 
++                    collapse_vars = list(sector = c("sector2", "sector4")), 
++                    roundBase = 4) 
+     region        sector original rounded difference table_1 table_2 table_3
+1     Total         Total       20      21          1    TRUE   FALSE   FALSE
+2   Iceland         Total        4       4          0    TRUE   FALSE    TRUE
+3  Portugal         Total        8       8          0    TRUE   FALSE    TRUE
+4     Spain         Total        8       9          1    TRUE   FALSE    TRUE
+5        EU         Total       16      17          1    TRUE   FALSE    TRUE
+6     nonEU         Total        4       4          0    TRUE   FALSE    TRUE
+7     Total       private       16      17          1    TRUE   FALSE   FALSE
+8     Total        public        4       4          0    TRUE   FALSE   FALSE
+9     Total   Agriculture        4       4          0   FALSE   FALSE    TRUE
+10    Total Entertainment        6       5         -1   FALSE   FALSE    TRUE
+11    Total  Governmental        4       4          0   FALSE   FALSE    TRUE
+12    Total      Industry        6       8          2   FALSE   FALSE    TRUE
+13  Iceland       private        4       4          0    TRUE   FALSE   FALSE
+14 Portugal       private        6       4         -2    TRUE   FALSE   FALSE
+15 Portugal        public        2       4          2    TRUE   FALSE   FALSE
+16    Spain       private        6       9          3    TRUE   FALSE   FALSE
+17    Spain        public        2       0         -2    TRUE   FALSE   FALSE
+18       EU       private       12      13          1    TRUE   FALSE   FALSE
+19       EU        public        4       4          0    TRUE   FALSE   FALSE
+20    nonEU       private        4       4          0    TRUE   FALSE   FALSE
+21       EU   Agriculture        4       4          0   FALSE    TRUE   FALSE
+22       EU Entertainment        5       5          0   FALSE    TRUE   FALSE
+23       EU  Governmental        4       4          0   FALSE    TRUE   FALSE
+24       EU      Industry        3       4          1   FALSE    TRUE   FALSE
+25    nonEU Entertainment        1       0         -1   FALSE    TRUE   FALSE
+26    nonEU      Industry        3       4          1   FALSE    TRUE   FALSE
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching 'package:sdcHierarchies', 'package:shinythemes'
+
+> nameEx("PLSroundingFits")
+> ### * PLSroundingFits
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PLSroundingFits
+> ### Title: Small count rounding with post-processing to expected
+> ###   frequencies
+> ### Aliases: PLSroundingFits
+> 
+> ### ** Examples
+> 
+> z <- data.frame(geo  = c("Iceland", "Portugal", "Spain"), 
++                 eu = c("nonEU", "EU", "EU"),
++                 year = rep(c("2018","2019"), each = 3),
++                 freq = c(2,3,7,1,5,6), stringsAsFactors = FALSE)
+> z4 <- z[-c(1:2), ]
+> 
+> PLSroundingFits(z4, "freq", formula = ~eu * year + geo, extend0 = FALSE)[c("inner", "publish")]
+-z(6*12->4*8):.  1 iterations: deviation 0
+$inner
+       geo    eu year freq original rounded difference    ipFit
+1    Spain    EU 2018    7        7       7          0 5.055556
+2  Iceland nonEU 2019    1        1       0         -1 0.000000
+3 Portugal    EU 2019    5        5       5          0 3.055556
+4    Spain    EU 2019    6        6       6          0 7.944444
+5  Iceland nonEU 2018    0        0       0          0 0.000000
+6 Portugal    EU 2018    0        0       0          0 1.944444
+
+$publish
+        geo  year original rounded difference ipFit
+1     Total Total       19      18         -1    18
+2        EU Total       18      18          0    18
+3     nonEU Total        1       0         -1     0
+4     Total  2018        7       7          0     7
+5     Total  2019       12      11         -1    11
+6   Iceland Total        1       0         -1     0
+7  Portugal Total        5       5          0     5
+8     Spain Total       13      13          0    13
+9        EU  2018        7       7          0     7
+10       EU  2019       11      11          0    11
+11    nonEU  2018        0       0          0     0
+12    nonEU  2019        1       0         -1     0
+
+> PLSroundingFits(z4, "freq", formula = ~eu * year + geo)[c("inner", "publish")]
+-z(6*12->4*8):.  1 iterations: deviation 0
+$inner
+       geo    eu year freq original rounded difference    ipFit
+1    Spain    EU 2018    7        7       7          0 5.055556
+2  Iceland nonEU 2019    1        1       0         -1 0.000000
+3 Portugal    EU 2019    5        5       5          0 3.055556
+4    Spain    EU 2019    6        6       6          0 7.944444
+5  Iceland nonEU 2018    0        0       0          0 0.000000
+6 Portugal    EU 2018    0        0       0          0 1.944444
+
+$publish
+        geo  year original rounded difference ipFit
+1     Total Total       19      18         -1    18
+2        EU Total       18      18          0    18
+3     nonEU Total        1       0         -1     0
+4     Total  2018        7       7          0     7
+5     Total  2019       12      11         -1    11
+6   Iceland Total        1       0         -1     0
+7  Portugal Total        5       5          0     5
+8     Spain Total       13      13          0    13
+9        EU  2018        7       7          0     7
+10       EU  2019       11      11          0    11
+11    nonEU  2018        0       0          0     0
+12    nonEU  2019        1       0         -1     0
+
+> 
+> my_km2 <- SSBtools::SSBtoolsData("my_km2")
+> 
+> # Default automatic extension (extend0Fits = TRUE)
+> PLSroundingFits(my_km2, "freq", 
++        formula = ~(Sex + Age) * Municipality * Square1000m + Square250m)[c("inner", "publish")]
+-z(60*59->33*50):.  1 iterations: deviation 2.842171e-14
+$inner
+   Square1000m      Square250m Municipality         Age    Sex freq original
+1        my_km         500_000         Oslo    15_to_65 female    3        3
+2        my_km         500_000         Oslo    15_to_65   male    2        2
+3        my_km         500_000         Oslo    under_15   male    1        1
+4        my_km         750_250     Nittedal    15_to_65 female    2        2
+5        my_km         750_250     Nittedal    15_to_65   male    2        2
+6        my_km         750_250     Nittedal    under_15 female    1        1
+7        my_km         750_250     Nittedal    under_15   male    1        1
+8        my_km         750_500     Nittedal 65_and_over female    1        1
+9        my_km         750_500     Nittedal 65_and_over   male    1        1
+10       my_km         750_500         Oslo    15_to_65 female    1        1
+11  another_km another_500_000         Oslo    15_to_65 female   26       26
+12  another_km another_500_000         Oslo    15_to_65   male   21       21
+13  another_km another_500_000         Oslo    under_15 female   31       31
+14  another_km another_500_000         Oslo    under_15   male   34       34
+15  another_km another_750_250         Oslo    15_to_65 female    2        2
+16  another_km another_750_250         Oslo    15_to_65   male    1        1
+17  another_km another_750_250         Oslo 65_and_over female   10       10
+18  another_km another_750_250         Oslo 65_and_over   male   13       13
+19       my_km         500_000         Oslo    under_15 female    0        0
+20       my_km         500_000         Oslo 65_and_over female    0        0
+21       my_km         500_000         Oslo 65_and_over   male    0        0
+22       my_km         500_000     Nittedal    15_to_65 female    0        0
+23       my_km         500_000     Nittedal    15_to_65   male    0        0
+24       my_km         500_000     Nittedal    under_15 female    0        0
+25       my_km         500_000     Nittedal    under_15   male    0        0
+26       my_km         500_000     Nittedal 65_and_over female    0        0
+27       my_km         500_000     Nittedal 65_and_over   male    0        0
+28       my_km         750_250         Oslo    15_to_65 female    0        0
+29       my_km         750_250         Oslo    15_to_65   male    0        0
+30       my_km         750_250         Oslo    under_15 female    0        0
+31       my_km         750_250         Oslo    under_15   male    0        0
+32       my_km         750_250         Oslo 65_and_over female    0        0
+33       my_km         750_250         Oslo 65_and_over   male    0        0
+34       my_km         750_250     Nittedal 65_and_over female    0        0
+35       my_km         750_250     Nittedal 65_and_over   male    0        0
+36       my_km         750_500         Oslo    15_to_65   male    0        0
+37       my_km         750_500         Oslo    under_15 female    0        0
+38       my_km         750_500         Oslo    under_15   male    0        0
+39       my_km         750_500         Oslo 65_and_over female    0        0
+40       my_km         750_500         Oslo 65_and_over   male    0        0
+41       my_km         750_500     Nittedal    15_to_65 female    0        0
+42       my_km         750_500     Nittedal    15_to_65   male    0        0
+43       my_km         750_500     Nittedal    under_15 female    0        0
+44       my_km         750_500     Nittedal    under_15   male    0        0
+45  another_km another_500_000         Oslo 65_and_over female    0        0
+46  another_km another_500_000         Oslo 65_and_over   male    0        0
+47  another_km another_500_000     Nittedal    15_to_65 female    0        0
+48  another_km another_500_000     Nittedal    15_to_65   male    0        0
+49  another_km another_500_000     Nittedal    under_15 female    0        0
+50  another_km another_500_000     Nittedal    under_15   male    0        0
+51  another_km another_500_000     Nittedal 65_and_over female    0        0
+52  another_km another_500_000     Nittedal 65_and_over   male    0        0
+53  another_km another_750_250         Oslo    under_15 female    0        0
+54  another_km another_750_250         Oslo    under_15   male    0        0
+55  another_km another_750_250     Nittedal    15_to_65 female    0        0
+56  another_km another_750_250     Nittedal    15_to_65   male    0        0
+57  another_km another_750_250     Nittedal    under_15 female    0        0
+58  another_km another_750_250     Nittedal    under_15   male    0        0
+59  another_km another_750_250     Nittedal 65_and_over female    0        0
+60  another_km another_750_250     Nittedal 65_and_over   male    0        0
+   rounded difference     ipFit
+1        3          0  1.125000
+2        0         -2  0.000000
+3        0         -1  0.000000
+4        2          0  0.875000
+5        2          0  0.875000
+6        0         -1  0.656250
+7        3          2  0.656250
+8        3          2  0.562500
+9        0         -1  0.562500
+10       3          2  2.250000
+11      26          0 20.289855
+12      21          0 20.289855
+13      31          0 26.376812
+14      34          0 26.376812
+15       2          0  4.710145
+16       1          0  4.710145
+17      10          0  2.166667
+18      13          0  2.166667
+19       0          0  0.000000
+20       0          0  0.000000
+21       0          0  0.000000
+22       0          0  0.375000
+23       0          0  0.375000
+24       0          0  0.281250
+25       0          0  0.281250
+26       0          0  0.281250
+27       0          0  0.281250
+28       0          0  2.625000
+29       0          0  0.000000
+30       0          0  0.000000
+31       0          0  0.000000
+32       0          0  0.000000
+33       0          0  0.000000
+34       0          0  0.656250
+35       0          0  0.656250
+36       0          0  0.000000
+37       0          0  0.000000
+38       0          0  0.000000
+39       0          0  0.000000
+40       0          0  0.000000
+41       0          0  0.750000
+42       0          0  0.750000
+43       0          0  0.562500
+44       0          0  0.562500
+45       0          0  9.333333
+46       0          0  9.333333
+47       0          0  0.000000
+48       0          0  0.000000
+49       0          0  0.000000
+50       0          0  0.000000
+51       0          0  0.000000
+52       0          0  0.000000
+53       0          0  6.123188
+54       0          0  6.123188
+55       0          0  0.000000
+56       0          0  0.000000
+57       0          0  0.000000
+58       0          0  0.000000
+59       0          0  0.000000
+60       0          0  0.000000
+
+$publish
+        Square250m Municipality         Age    Sex original rounded difference
+1            Total        Total       Total  Total      153     154          1
+2            Total        Total       Total female       77      80          3
+3            Total        Total       Total   male       76      74         -2
+4            Total        Total    15_to_65  Total       60      60          0
+5            Total        Total 65_and_over  Total       25      26          1
+6            Total        Total    under_15  Total       68      68          0
+7            Total     Nittedal       Total  Total        8      10          2
+8            Total         Oslo       Total  Total      145     144         -1
+9       another_km        Total       Total  Total      138     138          0
+10           my_km        Total       Total  Total       15      16          1
+11         500_000        Total       Total  Total        6       3         -3
+12         750_250        Total       Total  Total        6       7          1
+13         750_500        Total       Total  Total        3       6          3
+14 another_500_000        Total       Total  Total      112     112          0
+15 another_750_250        Total       Total  Total       26      26          0
+16           Total     Nittedal       Total female        4       5          1
+17           Total         Oslo       Total female       73      75          2
+18           Total     Nittedal       Total   male        4       5          1
+19           Total         Oslo       Total   male       72      69         -3
+20           Total     Nittedal    15_to_65  Total        4       4          0
+21           Total         Oslo    15_to_65  Total       56      56          0
+22           Total     Nittedal 65_and_over  Total        2       3          1
+23           Total         Oslo 65_and_over  Total       23      23          0
+24           Total     Nittedal    under_15  Total        2       3          1
+25           Total         Oslo    under_15  Total       66      65         -1
+26      another_km        Total       Total female       69      69          0
+27           my_km        Total       Total female        8      11          3
+28      another_km        Total       Total   male       69      69          0
+29           my_km        Total       Total   male        7       5         -2
+30      another_km        Total    15_to_65  Total       50      50          0
+31           my_km        Total    15_to_65  Total       10      10          0
+32      another_km        Total 65_and_over  Total       23      23          0
+33           my_km        Total 65_and_over  Total        2       3          1
+34      another_km        Total    under_15  Total       65      65          0
+35           my_km        Total    under_15  Total        3       3          0
+36      another_km     Nittedal       Total  Total        0       0          0
+37           my_km     Nittedal       Total  Total        8      10          2
+38      another_km         Oslo       Total  Total      138     138          0
+39           my_km         Oslo       Total  Total        7       6         -1
+40      another_km     Nittedal       Total female        0       0          0
+41           my_km     Nittedal       Total female        4       5          1
+42      another_km         Oslo       Total female       69      69          0
+43           my_km         Oslo       Total female        4       6          2
+44      another_km     Nittedal       Total   male        0       0          0
+45           my_km     Nittedal       Total   male        4       5          1
+46      another_km         Oslo       Total   male       69      69          0
+47           my_km         Oslo       Total   male        3       0         -3
+48      another_km     Nittedal    15_to_65  Total        0       0          0
+49           my_km     Nittedal    15_to_65  Total        4       4          0
+50      another_km         Oslo    15_to_65  Total       50      50          0
+51           my_km         Oslo    15_to_65  Total        6       6          0
+52      another_km     Nittedal 65_and_over  Total        0       0          0
+53           my_km     Nittedal 65_and_over  Total        2       3          1
+54      another_km         Oslo 65_and_over  Total       23      23          0
+55           my_km         Oslo 65_and_over  Total        0       0          0
+56      another_km     Nittedal    under_15  Total        0       0          0
+57           my_km     Nittedal    under_15  Total        2       3          1
+58      another_km         Oslo    under_15  Total       65      65          0
+59           my_km         Oslo    under_15  Total        1       0         -1
+   ipFit
+1    154
+2     80
+3     74
+4     60
+5     26
+6     68
+7     10
+8    144
+9    138
+10    16
+11     3
+12     7
+13     6
+14   112
+15    26
+16     5
+17    75
+18     5
+19    69
+20     4
+21    56
+22     3
+23    23
+24     3
+25    65
+26    69
+27    11
+28    69
+29     5
+30    50
+31    10
+32    23
+33     3
+34    65
+35     3
+36     0
+37    10
+38   138
+39     6
+40     0
+41     5
+42    69
+43     6
+44     0
+45     5
+46    69
+47     0
+48     0
+49     4
+50    50
+51     6
+52     0
+53     3
+54    23
+55     0
+56     0
+57     3
+58    65
+59     0
+
+> 
+> # Manual specification to avoid Nittedal combined with another_km
+> PLSroundingFits(my_km2, "freq", formula = ~(Sex + Age) * Municipality * Square1000m + Square250m, 
++        extend0Fits = list(c("Sex", "Age"), 
++        c("Municipality", "Square1000m", "Square250m")))[c("inner", "publish")]
+-zx-x-(36*53->24*46):.  1 iterations: deviation 1.421085e-14
+$inner
+   Square1000m      Square250m Municipality         Age    Sex freq original
+1        my_km         500_000         Oslo    15_to_65 female    3        3
+2        my_km         500_000         Oslo    15_to_65   male    2        2
+3        my_km         500_000         Oslo    under_15   male    1        1
+4        my_km         750_250     Nittedal    15_to_65 female    2        2
+5        my_km         750_250     Nittedal    15_to_65   male    2        2
+6        my_km         750_250     Nittedal    under_15 female    1        1
+7        my_km         750_250     Nittedal    under_15   male    1        1
+8        my_km         750_500     Nittedal 65_and_over female    1        1
+9        my_km         750_500     Nittedal 65_and_over   male    1        1
+10       my_km         750_500         Oslo    15_to_65 female    1        1
+11  another_km another_500_000         Oslo    15_to_65 female   26       26
+12  another_km another_500_000         Oslo    15_to_65   male   21       21
+13  another_km another_500_000         Oslo    under_15 female   31       31
+14  another_km another_500_000         Oslo    under_15   male   34       34
+15  another_km another_750_250         Oslo    15_to_65 female    2        2
+16  another_km another_750_250         Oslo    15_to_65   male    1        1
+17  another_km another_750_250         Oslo 65_and_over female   10       10
+18  another_km another_750_250         Oslo 65_and_over   male   13       13
+19       my_km         500_000         Oslo    under_15 female    0        0
+20       my_km         500_000         Oslo 65_and_over female    0        0
+21       my_km         500_000         Oslo 65_and_over   male    0        0
+22       my_km         750_250     Nittedal 65_and_over female    0        0
+23       my_km         750_250     Nittedal 65_and_over   male    0        0
+24       my_km         750_500     Nittedal    15_to_65 female    0        0
+25       my_km         750_500     Nittedal    15_to_65   male    0        0
+26       my_km         750_500     Nittedal    under_15   male    0        0
+27       my_km         750_500     Nittedal    under_15 female    0        0
+28       my_km         750_500         Oslo    15_to_65   male    0        0
+29       my_km         750_500         Oslo    under_15   male    0        0
+30       my_km         750_500         Oslo    under_15 female    0        0
+31       my_km         750_500         Oslo 65_and_over female    0        0
+32       my_km         750_500         Oslo 65_and_over   male    0        0
+33  another_km another_500_000         Oslo 65_and_over female    0        0
+34  another_km another_500_000         Oslo 65_and_over   male    0        0
+35  another_km another_750_250         Oslo    under_15   male    0        0
+36  another_km another_750_250         Oslo    under_15 female    0        0
+   rounded difference     ipFit
+1        3          0  3.000000
+2        0         -2  0.000000
+3        0         -1  0.000000
+4        2          0  1.400000
+5        2          0  1.400000
+6        0         -1  1.050000
+7        3          2  1.050000
+8        3          2  0.450000
+9        0         -1  0.450000
+10       3          2  3.000000
+11      26          0 20.289855
+12      21          0 20.289855
+13      31          0 26.376812
+14      34          0 26.376812
+15       2          0  4.710145
+16       1          0  4.710145
+17      10          0  2.166667
+18      13          0  2.166667
+19       0          0  0.000000
+20       0          0  0.000000
+21       0          0  0.000000
+22       0          0  1.050000
+23       0          0  1.050000
+24       0          0  0.600000
+25       0          0  0.600000
+26       0          0  0.450000
+27       0          0  0.450000
+28       0          0  0.000000
+29       0          0  0.000000
+30       0          0  0.000000
+31       0          0  0.000000
+32       0          0  0.000000
+33       0          0  9.333333
+34       0          0  9.333333
+35       0          0  6.123188
+36       0          0  6.123188
+
+$publish
+        Square250m Municipality         Age    Sex original rounded difference
+1            Total        Total       Total  Total      153     154          1
+2            Total        Total       Total female       77      80          3
+3            Total        Total       Total   male       76      74         -2
+4            Total        Total    15_to_65  Total       60      60          0
+5            Total        Total 65_and_over  Total       25      26          1
+6            Total        Total    under_15  Total       68      68          0
+7            Total     Nittedal       Total  Total        8      10          2
+8            Total         Oslo       Total  Total      145     144         -1
+9       another_km        Total       Total  Total      138     138          0
+10           my_km        Total       Total  Total       15      16          1
+11         500_000        Total       Total  Total        6       3         -3
+12         750_250        Total       Total  Total        6       7          1
+13         750_500        Total       Total  Total        3       6          3
+14 another_500_000        Total       Total  Total      112     112          0
+15 another_750_250        Total       Total  Total       26      26          0
+16           Total     Nittedal       Total female        4       5          1
+17           Total         Oslo       Total female       73      75          2
+18           Total     Nittedal       Total   male        4       5          1
+19           Total         Oslo       Total   male       72      69         -3
+20           Total     Nittedal    15_to_65  Total        4       4          0
+21           Total         Oslo    15_to_65  Total       56      56          0
+22           Total     Nittedal 65_and_over  Total        2       3          1
+23           Total         Oslo 65_and_over  Total       23      23          0
+24           Total     Nittedal    under_15  Total        2       3          1
+25           Total         Oslo    under_15  Total       66      65         -1
+26      another_km        Total       Total female       69      69          0
+27           my_km        Total       Total female        8      11          3
+28      another_km        Total       Total   male       69      69          0
+29           my_km        Total       Total   male        7       5         -2
+30      another_km        Total    15_to_65  Total       50      50          0
+31           my_km        Total    15_to_65  Total       10      10          0
+32      another_km        Total 65_and_over  Total       23      23          0
+33           my_km        Total 65_and_over  Total        2       3          1
+34      another_km        Total    under_15  Total       65      65          0
+35           my_km        Total    under_15  Total        3       3          0
+36           my_km     Nittedal       Total  Total        8      10          2
+37      another_km         Oslo       Total  Total      138     138          0
+38           my_km         Oslo       Total  Total        7       6         -1
+39           my_km     Nittedal       Total female        4       5          1
+40      another_km         Oslo       Total female       69      69          0
+41           my_km         Oslo       Total female        4       6          2
+42           my_km     Nittedal       Total   male        4       5          1
+43      another_km         Oslo       Total   male       69      69          0
+44           my_km         Oslo       Total   male        3       0         -3
+45           my_km     Nittedal    15_to_65  Total        4       4          0
+46      another_km         Oslo    15_to_65  Total       50      50          0
+47           my_km         Oslo    15_to_65  Total        6       6          0
+48           my_km     Nittedal 65_and_over  Total        2       3          1
+49      another_km         Oslo 65_and_over  Total       23      23          0
+50           my_km         Oslo 65_and_over  Total        0       0          0
+51           my_km     Nittedal    under_15  Total        2       3          1
+52      another_km         Oslo    under_15  Total       65      65          0
+53           my_km         Oslo    under_15  Total        1       0         -1
+   ipFit
+1    154
+2     80
+3     74
+4     60
+5     26
+6     68
+7     10
+8    144
+9    138
+10    16
+11     3
+12     7
+13     6
+14   112
+15    26
+16     5
+17    75
+18     5
+19    69
+20     4
+21    56
+22     3
+23    23
+24     3
+25    65
+26    69
+27    11
+28    69
+29     5
+30    50
+31    10
+32    23
+33     3
+34    65
+35     3
+36    10
+37   138
+38     6
+39     5
+40    69
+41     6
+42     5
+43    69
+44     0
+45     4
+46    50
+47     6
+48     3
+49    23
+50     0
+51     3
+52    65
+53     0
+
+>        
+> # Example with both extend0 (specified) and extend0Fits (default is TRUE)
+> PLSroundingFits(my_km2, "freq", formula = ~(Sex + Age) * Municipality * Square1000m + Square250m, 
++        printInc = TRUE, zeroCandidates = TRUE, roundBase = 5, extend0 = list(c("Sex", "Age"), 
++        c("Municipality", "Square1000m", "Square250m")))[c("inner", "publish")]        
+[extend0 18*6->36*6]
+[extend0Fits 36*6->60*6]
+[-**...:=]
+-z(60*59->27*47):.  1 iterations: deviation 1.421085e-14
+$inner
+      Sex         Age Municipality Square1000m      Square250m freq original
+1  female    15_to_65         Oslo       my_km         500_000    3        3
+2    male    15_to_65         Oslo       my_km         500_000    2        2
+3    male    under_15         Oslo       my_km         500_000    1        1
+4  female    15_to_65     Nittedal       my_km         750_250    2        2
+5    male    15_to_65     Nittedal       my_km         750_250    2        2
+6  female    under_15     Nittedal       my_km         750_250    1        1
+7    male    under_15     Nittedal       my_km         750_250    1        1
+8  female 65_and_over     Nittedal       my_km         750_500    1        1
+9    male 65_and_over     Nittedal       my_km         750_500    1        1
+10 female    15_to_65         Oslo       my_km         750_500    1        1
+11 female    15_to_65         Oslo  another_km another_500_000   26       26
+12   male    15_to_65         Oslo  another_km another_500_000   21       21
+13 female    under_15         Oslo  another_km another_500_000   31       31
+14   male    under_15         Oslo  another_km another_500_000   34       34
+15 female    15_to_65         Oslo  another_km another_750_250    2        2
+16   male    15_to_65         Oslo  another_km another_750_250    1        1
+17 female 65_and_over         Oslo  another_km another_750_250   10       10
+18   male 65_and_over         Oslo  another_km another_750_250   13       13
+19 female    under_15         Oslo       my_km         500_000    0        0
+20 female 65_and_over         Oslo       my_km         500_000    0        0
+21   male 65_and_over         Oslo       my_km         500_000    0        0
+22 female 65_and_over     Nittedal       my_km         750_250    0        0
+23   male 65_and_over     Nittedal       my_km         750_250    0        0
+24 female    15_to_65     Nittedal       my_km         750_500    0        0
+25   male    15_to_65     Nittedal       my_km         750_500    0        0
+26   male    under_15     Nittedal       my_km         750_500    0        0
+27 female    under_15     Nittedal       my_km         750_500    0        0
+28   male    15_to_65         Oslo       my_km         750_500    0        0
+29   male    under_15         Oslo       my_km         750_500    0        0
+30 female    under_15         Oslo       my_km         750_500    0        0
+31 female 65_and_over         Oslo       my_km         750_500    0        0
+32   male 65_and_over         Oslo       my_km         750_500    0        0
+33 female 65_and_over         Oslo  another_km another_500_000    0        0
+34   male 65_and_over         Oslo  another_km another_500_000    0        0
+35   male    under_15         Oslo  another_km another_750_250    0        0
+36 female    under_15         Oslo  another_km another_750_250    0        0
+37 female    15_to_65     Nittedal       my_km         500_000    0        0
+38   male    15_to_65     Nittedal       my_km         500_000    0        0
+39 female    under_15     Nittedal       my_km         500_000    0        0
+40   male    under_15     Nittedal       my_km         500_000    0        0
+41 female 65_and_over     Nittedal       my_km         500_000    0        0
+42   male 65_and_over     Nittedal       my_km         500_000    0        0
+43 female    15_to_65         Oslo       my_km         750_250    0        0
+44   male    15_to_65         Oslo       my_km         750_250    0        0
+45 female    under_15         Oslo       my_km         750_250    0        0
+46   male    under_15         Oslo       my_km         750_250    0        0
+47 female 65_and_over         Oslo       my_km         750_250    0        0
+48   male 65_and_over         Oslo       my_km         750_250    0        0
+49 female    15_to_65     Nittedal  another_km another_500_000    0        0
+50   male    15_to_65     Nittedal  another_km another_500_000    0        0
+51 female    under_15     Nittedal  another_km another_500_000    0        0
+52   male    under_15     Nittedal  another_km another_500_000    0        0
+53 female 65_and_over     Nittedal  another_km another_500_000    0        0
+54   male 65_and_over     Nittedal  another_km another_500_000    0        0
+55 female    15_to_65     Nittedal  another_km another_750_250    0        0
+56   male    15_to_65     Nittedal  another_km another_750_250    0        0
+57 female    under_15     Nittedal  another_km another_750_250    0        0
+58   male    under_15     Nittedal  another_km another_750_250    0        0
+59 female 65_and_over     Nittedal  another_km another_750_250    0        0
+60   male 65_and_over     Nittedal  another_km another_750_250    0        0
+   rounded difference      ipFit
+1        5          2  1.6666667
+2        0         -2  0.0000000
+3        0         -1  0.0000000
+4        0         -2  0.8333333
+5        5          3  0.8333333
+6        0         -1  0.8333333
+7        0         -1  0.8333333
+8        0         -1  0.0000000
+9        0         -1  0.0000000
+10       0         -1  1.6666667
+11      26          0 20.2898551
+12      21          0 20.2898551
+13      31          0 26.3768116
+14      34          0 26.3768116
+15       2          0  4.7101449
+16       1          0  4.7101449
+17      10          0  2.1666667
+18      13          0  2.1666667
+19       0          0  0.0000000
+20       0          0  0.0000000
+21       0          0  0.0000000
+22       0          0  0.0000000
+23       0          0  0.0000000
+24       0          0  0.8333333
+25       0          0  0.8333333
+26       0          0  0.8333333
+27       5          5  0.8333333
+28       0          0  0.0000000
+29       0          0  0.0000000
+30       0          0  0.0000000
+31       0          0  0.0000000
+32       0          0  0.0000000
+33       0          0  9.3333333
+34       0          0  9.3333333
+35       0          0  6.1231884
+36       0          0  6.1231884
+37       0          0  0.8333333
+38       0          0  0.8333333
+39       0          0  0.8333333
+40       0          0  0.8333333
+41       0          0  0.0000000
+42       0          0  0.0000000
+43       0          0  1.6666667
+44       0          0  0.0000000
+45       0          0  0.0000000
+46       0          0  0.0000000
+47       0          0  0.0000000
+48       0          0  0.0000000
+49       0          0  0.0000000
+50       0          0  0.0000000
+51       0          0  0.0000000
+52       0          0  0.0000000
+53       0          0  0.0000000
+54       0          0  0.0000000
+55       0          0  0.0000000
+56       0          0  0.0000000
+57       0          0  0.0000000
+58       0          0  0.0000000
+59       0          0  0.0000000
+60       0          0  0.0000000
+
+$publish
+      Sex         Age Municipality      Square250m original rounded difference
+1   Total       Total        Total           Total      153     153          0
+2  female       Total        Total           Total       77      79          2
+3    male       Total        Total           Total       76      74         -2
+4   Total    15_to_65        Total           Total       60      60          0
+5   Total 65_and_over        Total           Total       25      23         -2
+6   Total    under_15        Total           Total       68      70          2
+7   Total       Total     Nittedal           Total        8      10          2
+8   Total       Total         Oslo           Total      145     143         -2
+9   Total       Total        Total      another_km      138     138          0
+10  Total       Total        Total           my_km       15      15          0
+11  Total       Total        Total         500_000        6       5         -1
+12  Total       Total        Total         750_250        6       5         -1
+13  Total       Total        Total         750_500        3       5          2
+14  Total       Total        Total another_500_000      112     112          0
+15  Total       Total        Total another_750_250       26      26          0
+16 female       Total     Nittedal           Total        4       5          1
+17 female       Total         Oslo           Total       73      74          1
+18   male       Total     Nittedal           Total        4       5          1
+19   male       Total         Oslo           Total       72      69         -3
+20  Total    15_to_65     Nittedal           Total        4       5          1
+21  Total    15_to_65         Oslo           Total       56      55         -1
+22  Total 65_and_over     Nittedal           Total        2       0         -2
+23  Total 65_and_over         Oslo           Total       23      23          0
+24  Total    under_15     Nittedal           Total        2       5          3
+25  Total    under_15         Oslo           Total       66      65         -1
+26 female       Total        Total      another_km       69      69          0
+27 female       Total        Total           my_km        8      10          2
+28   male       Total        Total      another_km       69      69          0
+29   male       Total        Total           my_km        7       5         -2
+30  Total    15_to_65        Total      another_km       50      50          0
+31  Total    15_to_65        Total           my_km       10      10          0
+32  Total 65_and_over        Total      another_km       23      23          0
+33  Total 65_and_over        Total           my_km        2       0         -2
+34  Total    under_15        Total      another_km       65      65          0
+35  Total    under_15        Total           my_km        3       5          2
+36  Total       Total     Nittedal      another_km        0       0          0
+37  Total       Total     Nittedal           my_km        8      10          2
+38  Total       Total         Oslo      another_km      138     138          0
+39  Total       Total         Oslo           my_km        7       5         -2
+40 female       Total     Nittedal      another_km        0       0          0
+41 female       Total     Nittedal           my_km        4       5          1
+42 female       Total         Oslo      another_km       69      69          0
+43 female       Total         Oslo           my_km        4       5          1
+44   male       Total     Nittedal      another_km        0       0          0
+45   male       Total     Nittedal           my_km        4       5          1
+46   male       Total         Oslo      another_km       69      69          0
+47   male       Total         Oslo           my_km        3       0         -3
+48  Total    15_to_65     Nittedal      another_km        0       0          0
+49  Total    15_to_65     Nittedal           my_km        4       5          1
+50  Total    15_to_65         Oslo      another_km       50      50          0
+51  Total    15_to_65         Oslo           my_km        6       5         -1
+52  Total 65_and_over     Nittedal      another_km        0       0          0
+53  Total 65_and_over     Nittedal           my_km        2       0         -2
+54  Total 65_and_over         Oslo      another_km       23      23          0
+55  Total 65_and_over         Oslo           my_km        0       0          0
+56  Total    under_15     Nittedal      another_km        0       0          0
+57  Total    under_15     Nittedal           my_km        2       5          3
+58  Total    under_15         Oslo      another_km       65      65          0
+59  Total    under_15         Oslo           my_km        1       0         -1
+   ipFit
+1    153
+2     79
+3     74
+4     60
+5     23
+6     70
+7     10
+8    143
+9    138
+10    15
+11     5
+12     5
+13     5
+14   112
+15    26
+16     5
+17    74
+18     5
+19    69
+20     5
+21    55
+22     0
+23    23
+24     5
+25    65
+26    69
+27    10
+28    69
+29     5
+30    50
+31    10
+32    23
+33     0
+34    65
+35     5
+36     0
+37    10
+38   138
+39     5
+40     0
+41     5
+42    69
+43     5
+44     0
+45     5
+46    69
+47     0
+48     0
+49     5
+50    50
+51     5
+52     0
+53     0
+54    23
+55     0
+56     0
+57     5
+58    65
+59     0
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("PLSroundingLoop")
+> ### * PLSroundingLoop
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PLSroundingLoop
+> ### Title: PLSrounding on portions of data at a time
+> ### Aliases: PLSroundingLoop
+> 
+> ### ** Examples
+> 
+> mf2 <- ~region + fylke * hovedint
+> z2 <- SmallCountData("z2")
+> a <- PLSroundingLoop(z2, loopId = "kostragr", freqVar = "ant", formula = mf2)
+   1: []
+   2: [-]
+> a
+
+PLSrounding summary:  
+
+       maxdiff      HDutility    meanAbsDiff rootMeanSquare 
+             1         0.9873         0.2391          0.489 
+
+Frequencies of cell frequencies and absolute differences:  
+
+         inn.0 inn.1-2 inn.3 inn.4+ inn.all pub.0 pub.1-2 pub.3 pub.4+ pub.all
+original     2       4     2     36      44     .       2     .     44      46
+rounded      3       1     4     36      44     1       .     1     44      46
+absDiff     41       3     .      .      44    35      11     .      .      46
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("Round2")
+> ### * Round2
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Round2
+> ### Title: Small count rounding by various methods
+> ### Aliases: Round2
+> ### Keywords: internal
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D z <- SmallCountData("sosialFiktiv")
+> ##D d <- list(c("region","mnd") , c("hovedint","mnd2") , c("fylke","hovedint","mnd2") , 
+> ##D           c("kostragr","hovedint","mnd"))
+> ##D con <- MakeControl(d,z)
+> ##D sor <- names(z)[c(4,5,3,2,1)]
+> ##D 
+> ##D roundedA <-  Round2(data=z,b=3,d=d,micro=FALSE,sort=sor,control=con, nin="ant",nout="Rndtall",
+> ##D                     minit=2,maxit=10,maxdiff=5,seed=123,method="roundtabs")
+> ##D roundedB <-  Round2(data=z,b=3,d=d,micro=FALSE,sort=sor,control=con, nin="ant",nout="Rndtall",
+> ##D                     minit=2,maxit=10,maxdiff=5,seed=123,method="viadummy")
+> ##D #10 rows of rounded data
+> ##D roundedA$Ar[1:10,]  #"roundtabs"
+> ##D cbind(z,roundedB$yInner)[1:10,] #"viadummy"
+> ##D 
+> ##D # recalculate maxdiff  nMaxdiff
+> ##D dA <- FindMaxDiff(roundedA$Ar,con,"ant","m")
+> ##D dB <- FindMaxDiff(z,con,roundedB$yInner[,1],roundedB$yInner[,2])
+> ##D 
+> ##D # Formula from d and control
+> ##D Lists2formula(d,con,z)
+> ##D 
+> ##D # Formula from another d
+> ##D d2 <-list(sor)
+> ##D Lists2formula(d2,con,z)
+> ##D Lists2formula(d2,con) # Without knowing data
+> ##D Lists2formula(d2,data=z) # Without control
+> ##D Lists2formula(d2,data=z) # Without control and data
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RoundViaDummy")
+> ### * RoundViaDummy
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RoundViaDummy
+> ### Title: Small Count Rounding of Tabular Data
+> ### Aliases: RoundViaDummy
+> 
+> ### ** Examples
+> 
+> # See similar and related examples in PLSrounding documentation
+> RoundViaDummy(SmallCountData("e6"), "freq")
+[-**.:=]
+$yInner
+     original rounded
+[1,]        2       3
+[2,]        3       3
+[3,]        7       7
+[4,]        1       0
+[5,]        5       5
+[6,]        6       6
+
+$yPublish
+               original rounded
+Total:Total          24      24
+Total:2018           12      13
+Total:2019           12      11
+EU:Total             21      21
+EU:2018              10      10
+EU:2019              11      11
+nonEU:Total           3       3
+nonEU:2018            2       3
+nonEU:2019            1       0
+Iceland:Total         3       3
+Iceland:2018          2       3
+Iceland:2019          1       0
+Portugal:Total        8       8
+Portugal:2018         3       3
+Portugal:2019         5       5
+Spain:Total          13      13
+Spain:2018            7       7
+Spain:2019            6       6
+
+$crossTable
+        geo  year
+1     Total Total
+2     Total  2018
+3     Total  2019
+4        EU Total
+5        EU  2018
+6        EU  2019
+7     nonEU Total
+8     nonEU  2018
+9     nonEU  2019
+10  Iceland Total
+11  Iceland  2018
+12  Iceland  2019
+13 Portugal Total
+14 Portugal  2018
+15 Portugal  2019
+16    Spain Total
+17    Spain  2018
+18    Spain  2019
+
+> RoundViaDummy(SmallCountData("e6"), "freq", formula = ~eu * year + geo)
+[-**.:=]
+$yInner
+     original rounded
+[1,]        2       3
+[2,]        3       3
+[3,]        7       7
+[4,]        1       0
+[5,]        5       5
+[6,]        6       6
+
+$yPublish
+               original rounded
+Total-Total          24      24
+Total-EU             21      21
+Total-nonEU           3       3
+2018-Total           12      13
+2019-Total           12      11
+Total-Iceland         3       3
+Total-Portugal        8       8
+Total-Spain          13      13
+2018-EU              10      10
+2019-EU              11      11
+2018-nonEU            2       3
+2019-nonEU            1       0
+
+$crossTable
+    year      geo
+1  Total    Total
+2  Total       EU
+3  Total    nonEU
+4   2018    Total
+5   2019    Total
+6  Total  Iceland
+7  Total Portugal
+8  Total    Spain
+9   2018       EU
+10  2019       EU
+11  2018    nonEU
+12  2019    nonEU
+
+> RoundViaDummy(SmallCountData("e6"), "freq", hierarchies = 
++    list(geo = c("EU", "@Portugal", "@Spain", "Iceland"), year = c("2018", "2019")))
+[-**.:=]
+$yInner
+     original rounded
+[1,]        2       3
+[2,]        3       3
+[3,]        7       7
+[4,]        1       0
+[5,]        5       5
+[6,]        6       6
+
+$yPublish
+               original rounded
+Total:Total          24      24
+Total:2018           12      13
+Total:2019           12      11
+EU:Total             21      21
+EU:2018              10      10
+EU:2019              11      11
+Iceland:Total         3       3
+Iceland:2018          2       3
+Iceland:2019          1       0
+Portugal:Total        8       8
+Portugal:2018         3       3
+Portugal:2019         5       5
+Spain:Total          13      13
+Spain:2018            7       7
+Spain:2019            6       6
+
+$crossTable
+        geo  year
+1     Total Total
+2     Total  2018
+3     Total  2019
+4        EU Total
+5        EU  2018
+6        EU  2019
+7   Iceland Total
+8   Iceland  2018
+9   Iceland  2019
+10 Portugal Total
+11 Portugal  2018
+12 Portugal  2019
+13    Spain Total
+14    Spain  2018
+15    Spain  2019
+
+> 
+> RoundViaDummy(SmallCountData('z2'), 
++               'ant', ~region + hovedint + fylke*hovedint + kostragr*hovedint, 10)
+[-**..:=]
+$yInner
+      original rounded
+ [1,]       11      11
+ [2,]        7      10
+ [3,]        5       5
+ [4,]       13      13
+ [5,]        9       9
+ [6,]       12      12
+ [7,]        6       6
+ [8,]        9       9
+ [9,]        3       3
+[10,]        9       9
+[11,]        4       4
+[12,]       11      11
+[13,]        1       0
+[14,]        8       8
+[15,]        2       2
+[16,]       14      14
+[17,]        9       9
+[18,]        4      10
+[19,]        3       0
+[20,]        0       0
+[21,]        0       0
+[22,]        2       0
+[23,]       55      55
+[24,]       29      29
+[25,]       35      35
+[26,]       17      17
+[27,]       63      63
+[28,]       24      24
+[29,]       22      22
+[30,]       38      38
+[31,]        9       9
+[32,]       32      32
+[33,]       18      18
+[34,]       36      36
+[35,]       18      18
+[36,]       25      25
+[37,]       13      13
+[38,]       52      52
+[39,]       22      22
+[40,]        8       8
+[41,]       15      15
+[42,]        2       2
+[43,]       20      20
+[44,]       11      11
+
+$yPublish
+               original rounded
+Total-Total         706     709
+A-Total             113     113
+B-Total              55      57
+C-Total              73      73
+D-Total              45      45
+E-Total             138     138
+F-Total              67      67
+G-Total              40      46
+H-Total              65      62
+I-Total              14      14
+J-Total              61      61
+K-Total              35      33
+Total-annet          88      91
+Total-arbeid         54      54
+Total-soshjelp      342     342
+Total-trygd         222     222
+1-Total             127     127
+4-Total              55      57
+5-Total             118     118
+6-Total             205     205
+8-Total             105     108
+10-Total             96      94
+300-Total           596     601
+400-Total           110     108
+1-annet              14      14
+4-annet               7      10
+5-annet              18      18
+6-annet              21      21
+8-annet              15      15
+10-annet             13      13
+1-arbeid             11      11
+4-arbeid              1       0
+5-arbeid             10      10
+6-arbeid             23      23
+8-arbeid              7      10
+10-arbeid             2       0
+1-soshjelp           64      64
+4-soshjelp           29      29
+5-soshjelp           52      52
+6-soshjelp           87      87
+8-soshjelp           60      60
+10-soshjelp          50      50
+1-trygd              38      38
+4-trygd              18      18
+5-trygd              38      38
+6-trygd              74      74
+8-trygd              23      23
+10-trygd             31      31
+300-annet            72      75
+400-annet            16      16
+300-arbeid           52      54
+400-arbeid            2       0
+300-soshjelp        283     283
+400-soshjelp         59      59
+300-trygd           189     189
+400-trygd            33      33
+
+$crossTable
+   region hovedint
+1   Total    Total
+2       A    Total
+3       B    Total
+4       C    Total
+5       D    Total
+6       E    Total
+7       F    Total
+8       G    Total
+9       H    Total
+10      I    Total
+11      J    Total
+12      K    Total
+13  Total    annet
+14  Total   arbeid
+15  Total soshjelp
+16  Total    trygd
+17      1    Total
+18      4    Total
+19      5    Total
+20      6    Total
+21      8    Total
+22     10    Total
+23    300    Total
+24    400    Total
+25      1    annet
+26      4    annet
+27      5    annet
+28      6    annet
+29      8    annet
+30     10    annet
+31      1   arbeid
+32      4   arbeid
+33      5   arbeid
+34      6   arbeid
+35      8   arbeid
+36     10   arbeid
+37      1 soshjelp
+38      4 soshjelp
+39      5 soshjelp
+40      6 soshjelp
+41      8 soshjelp
+42     10 soshjelp
+43      1    trygd
+44      4    trygd
+45      5    trygd
+46      6    trygd
+47      8    trygd
+48     10    trygd
+49    300    annet
+50    400    annet
+51    300   arbeid
+52    400   arbeid
+53    300 soshjelp
+54    400 soshjelp
+55    300    trygd
+56    400    trygd
+
+> mf <- ~region*mnd + hovedint*mnd + fylke*hovedint*mnd + kostragr*hovedint*mnd
+> a <- RoundViaDummy(SmallCountData('z3'), 'ant', mf, 5)
+[-**........=-**.:=-**.:=]
+> b <- RoundViaDummy(SmallCountData('sosialFiktiv'), 'ant', mf, 4)
+[-**.........:=]
+> print(cor(b[[2]]),digits=12) # Correlation between original and rounded
+               original        rounded
+original 1.000000000000 0.999999987033
+rounded  0.999999987033 1.000000000000
+> 
+> # Demonstrate parameter leverageCheck 
+> # The 42nd inner cell must be rounded since it can be revealed from the published cells.
+> mf2 <- ~region + hovedint + fylke * hovedint + kostragr * hovedint
+> RoundViaDummy(SmallCountData("z2"), "ant", mf2, leverageCheck = FALSE)$yInner[42, ]
+[-**.:=]
+original  rounded 
+       2        2 
+> RoundViaDummy(SmallCountData("z2"), "ant", mf2, leverageCheck = TRUE)$yInner[42, ]
+[{-x-=H-}(check:1)-**..:={-zx-=H-}]
+original  rounded 
+       2        3 
+> 
+> ## Not run: 
+> ##D # Demonstrate parameters maxRound, zeroCandidates and forceInner 
+> ##D # by tabulating the inner cells that have been changed.
+> ##D z4 <- SmallCountData("sosialFiktiv")
+> ##D for (forceInner in c("FALSE", "z4$ant < 10")) 
+> ##D   for (zeroCandidates in c(FALSE, TRUE)) 
+> ##D     for (maxRound in c(2, 5)) {
+> ##D       set.seed(123)
+> ##D       a <- RoundViaDummy(z4, "ant", formula = mf, maxRound = maxRound, 
+> ##D                          zeroCandidates = zeroCandidates, 
+> ##D                          forceInner = eval(parse(text = forceInner)))
+> ##D       change <- a$yInner[, "original"] != a$yInner[, "rounded"]
+> ##D       cat("\n\n---------------------------------------------------\n")
+> ##D       cat("      maxRound:", maxRound, "\n")
+> ##D       cat("zeroCandidates:", zeroCandidates, "\n")
+> ##D       cat("    forceInner:", forceInner, "\n\n")
+> ##D       print(table(original = a$yInner[change, "original"], rounded = a$yInner[change, "rounded"]))
+> ##D       cat("---------------------------------------------------\n")
+> ##D     }
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("SmallCountData")
+> ### * SmallCountData
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: SmallCountData
+> ### Title: Function that returns a dataset
+> ### Aliases: SmallCountData
+> 
+> ### ** Examples
+> 
+>  SmallCountData("z1")
+   region hovedint ant
+1       A    annet  11
+2       B    annet   7
+3       C    annet   5
+4       D    annet  13
+5       E    annet   9
+6       F    annet  12
+7       G    annet   6
+8       H    annet   9
+9       A   arbeid  11
+10      B   arbeid   1
+11      C   arbeid   8
+12      D   arbeid   2
+13      E   arbeid  14
+14      F   arbeid   9
+15      G   arbeid   4
+16      H   arbeid   3
+17      A soshjelp  55
+18      B soshjelp  29
+19      C soshjelp  35
+20      D soshjelp  17
+21      E soshjelp  63
+22      F soshjelp  24
+23      G soshjelp  22
+24      H soshjelp  38
+25      A    trygd  36
+26      B    trygd  18
+27      C    trygd  25
+28      D    trygd  13
+29      E    trygd  52
+30      F    trygd  22
+31      G    trygd   8
+32      H    trygd  15
+>  SmallCountData("e6")
+       geo    eu year freq
+1  Iceland nonEU 2018    2
+2 Portugal    EU 2018    3
+3    Spain    EU 2018    7
+4  Iceland nonEU 2019    1
+5 Portugal    EU 2019    5
+6    Spain    EU 2019    6
+>  SmallCountData("eHrc")      #  TauArgus coded hierarchies
+$geo
+[1] "EU"        "@Portugal" "@Spain"    "nonEU"     "@Iceland" 
+
+$year
+[1] "2018" "2019"
+
+>  SmallCountData("eDimList")  #  sdcTable coded hierarchies
+$geo
+  levels    codes
+1      @    Total
+2     @@       EU
+3    @@@ Portugal
+4    @@@    Spain
+5     @@    nonEU
+6    @@@  Iceland
+
+$year
+  levels codes
+1      @ Total
+2     @@  2018
+3     @@  2019
+
+>  SmallCountData("exPSD")     #  Example data in presentation at Privacy in statistical databases
+   rows cols freq
+1  row1 col1    6
+2  row2 col1    1
+3  row3 col1    0
+4  row1 col2    0
+5  row2 col2    2
+6  row3 col2    1
+7  row1 col3    1
+8  row2 col3    3
+9  row3 col3    1
+10 row1 col4    3
+11 row2 col4    1
+12 row3 col4    0
+13 row1 col5    4
+14 row2 col5    2
+15 row3 col5    2
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  2.511 0.054 2.657 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

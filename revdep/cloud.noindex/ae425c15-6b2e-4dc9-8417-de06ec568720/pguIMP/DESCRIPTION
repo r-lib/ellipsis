@@ -1,0 +1,45 @@
+Package: pguIMP
+Title: Visually Guided Preprocessing of Bioanalytical Laboratory Data
+Version: 0.1.1
+Authors@R: c(
+    person(given = "Sebastian",
+           family = "Malkusch",
+           role = c("aut"),
+           email = "",
+           comment = c(ORCID = "0000-0001-6766-140X")),
+    person(given = "Jorn",
+           family = "Lotsch",
+           role = c("aut", "cre"),
+           email = "j.lotsch@em.uni-frankfurt.de",
+           comment = c(ORCID = "0000-0002-5818-6958")))
+Maintainer: Jorn Lotsch <j.lotsch@em.uni-frankfurt.de>
+Description: Reproducible cleaning of biomedical laboratory data using visualization, error correction, and transformation methods implemented as interactive R notebooks. A detailed description of the methods ca ben found in Malkusch, S., Hahnefeld, L., Gurke, R. and J. Lotsch. (2021) <doi:10.1002/psp4.12704>.
+License: GPL (>= 3)
+Encoding: UTF-8
+URL: https://github.com/JornLotsch/pguIMP
+BugReports: https://github.com/JornLotsch/pguIMP/issues
+Imports: R6 (>= 2.4.1), DT, DataVisualizations, dbscan, dplyr, e1071,
+        finalfit, ggplot2, ggthemes, Hmisc, magrittr, MASS, RWeka, VIM,
+        bbmle, grid, gridExtra, mice, nortest, outliers, plotly, psych,
+        purrr, rcompanion, readr, readxl, rlang, rmarkdown, robust,
+        shiny, stats, stringr, tibble, tidyr, tidyselect, tools,
+        writexl
+Collate: 'dLogLikelihood.R' 'importDataSet.R' 'normalDistribution.R'
+        'pguCorrValidator.R' 'pguCorrelator.R' 'pguDMwR.R' 'pguFile.R'
+        'pguData.R' 'pguFilter.R' 'pguLimitsOfQuantification.R'
+        'pguImporter.R' 'pguStatus.R' 'pguReporter.R' 'pguExporter.R'
+        'pguValidator.R' 'pguImputation.R' 'pguOutlierDetection.R'
+        'pguOutliers.R' 'pguMissingsCharacterizer.R' 'pguMissings.R'
+        'pguNormalizer.R' 'sLogLikelihood.R' 'pguNormDist.R'
+        'pguModel.R' 'pguTransformator.R' 'pguOptimizer.R'
+        'pguExplorer.R' 'pguDelegate.R' 'transposeTibble.R' 'pguIMP.R'
+        'pguRegressor.R'
+Suggests: knitr, devtools, ellipsis (>= 0.3.2), roxygen2
+NeedsCompilation: no
+RoxygenNote: 7.3.3
+Packaged: 2026-02-18 06:23:40 UTC; joern
+Author: Sebastian Malkusch [aut] (ORCID:
+    <https://orcid.org/0000-0001-6766-140X>),
+  Jorn Lotsch [aut, cre] (ORCID: <https://orcid.org/0000-0002-5818-6958>)
+Repository: CRAN
+Date/Publication: 2026-02-20 10:40:26 UTC

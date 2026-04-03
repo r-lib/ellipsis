@@ -1,0 +1,44 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # This file is part of the standard setup for testthat.
+> # It is recommended that you do not modify it.
+> #
+> # Where should you do additional test configuration?
+> # Learn more about the roles of various files in:
+> # * https://r-pkgs.org/tests.html
+> # * https://testthat.r-lib.org/reference/test_package.html#special-files
+> 
+> library(testthat)
+> library(beaver)
+> 
+> test_check("beaver")
+[ FAIL 0 | WARN 0 | SKIP 18 | PASS 1631 ]
+
+══ Skipped tests (18) ══════════════════════════════════════════════════════════
+• On CRAN (18): 'test-plot.R:315:3', 'test-plot.R:412:3', 'test-plot.R:517:3',
+  'test-plot.R:622:3', 'test-plot.R:736:3', 'test-posterior.R:219:3',
+  'test-posterior.R:430:3', 'test-posterior.R:641:3', 'test-posterior.R:812:3',
+  'test-posterior.R:1345:3', 'test-posterior.R:2305:3', 'test-pr_eoi.R:4:3',
+  'test-pr_eoi.R:465:3', 'test-pr_eoi.R:532:3', 'test-pr_eoi.R:755:3',
+  'test-pr_eoi.R:1262:3', 'test-pr_eoi.R:1341:3', 'test-pr_eoi.R:1693:3'
+
+[ FAIL 0 | WARN 0 | SKIP 18 | PASS 1631 ]
+> 
+> proc.time()
+   user  system elapsed 
+206.281   0.439 206.724 

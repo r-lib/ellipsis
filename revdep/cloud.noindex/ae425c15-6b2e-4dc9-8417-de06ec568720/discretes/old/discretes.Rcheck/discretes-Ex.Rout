@@ -1,0 +1,607 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "discretes"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('discretes')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("Math.discretes")
+> ### * Math.discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Math.discretes
+> ### Title: Math group generic for numeric series
+> ### Aliases: Math.discretes
+> 
+> ### ** Examples
+> 
+> exp(integers(from = 0, to = 3))
+Transformed series of length 4:
+1, 2.718282, 7.389056, 20.08554
+> log(natural1())
+Transformed series of length Inf:
+0, 0.6931472, 1.098612, 1.386294, 1.609438, 1.791759, ...
+> sqrt(integers(from = 0, to = 10))
+Transformed series of length 11:
+0, 1, 1.414214, ..., 2.828427, 3, 3.162278
+> 
+> 
+> 
+> cleanEx()
+> nameEx("Ops.discretes")
+> ### * Ops.discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Ops.discretes
+> ### Title: Arithmetic and power operators for numeric series
+> ### Aliases: Ops.discretes
+> 
+> ### ** Examples
+> 
+> integers() + 1
+Linear-transformed series of length Inf:
+..., -1, 0, 1, 2, 3, 4, ...
+> 2 * natural1()
+Linear-transformed series of length Inf:
+2, 4, 6, 8, 10, 12, ...
+> 1 / integers(from = 1, to = 5)
+Reciprocal series of length 5:
+Loading required namespace: testthat
+0.2, 0.25, 0.3333333, 0.5, 1
+> natural0()^2
+Transformed series of length Inf:
+0, 1, 4, 9, 16, 25, ...
+> 
+> 
+> 
+> cleanEx()
+> nameEx("arithmetic")
+> ### * arithmetic
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: arithmetic
+> ### Title: Arithmetic series
+> ### Aliases: arithmetic
+> 
+> ### ** Examples
+> 
+> arithmetic(representative = -0.6, spacing = 0.7)
+Arithmetic series of length Inf:
+..., -2, -1.3, -0.6, 0.1, 0.8, 1.5, ...
+> arithmetic(representative = 0.6, spacing = 0.7, n_right = 0)
+Arithmetic series of length Inf:
+..., -2.9, -2.2, -1.5, -0.8, -0.1, 0.6
+> arithmetic(representative = 0, spacing = 2, n_left = 2, n_right = 2)
+Arithmetic series of length 5:
+-4, -2, 0, 2, 4
+> 
+> # Negative zero, resulting in `-Inf` upon inversion:
+> has_negative_zero(arithmetic(-0, 1))
+[1] TRUE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("as.double.discretes")
+> ### * as.double.discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: as.double.discretes
+> ### Title: Convert a numeric series to a numeric vector
+> ### Aliases: as.double.discretes
+> 
+> ### ** Examples
+> 
+> as.numeric(integers(-3.5, 10))
+ [1] -3 -2 -1  0  1  2  3  4  5  6  7  8  9 10
+> 
+> 
+> 
+> cleanEx()
+> nameEx("as_discretes")
+> ### * as_discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: as_discretes
+> ### Title: Convert to a discretes object
+> ### Aliases: as_discretes as_discretes.discretes as_discretes.numeric
+> 
+> ### ** Examples
+> 
+> as_discretes(0:10)
+Numeric vector series of length 11:
+0, 1, 2, ..., 8, 9, 10
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dsct_union")
+> ### * dsct_union
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dsct_union
+> ### Title: Combine numeric series
+> ### Aliases: dsct_union
+> 
+> ### ** Examples
+> 
+> x1 <- natural1()
+> x2 <- -natural1()
+> dsct_union(x1, x2)
+Union series of length Inf:
+..., -3, -2, -1, 1, 2, 3, ...
+> 
+> 
+> 
+> cleanEx()
+> nameEx("empty_series")
+> ### * empty_series
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: empty_series
+> ### Title: Create an empty numeric series
+> ### Aliases: empty_series
+> 
+> ### ** Examples
+> 
+> empty_series()
+Empty series.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("get_discretes")
+> ### * get_discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: get_discretes_at
+> ### Title: Extract discrete values from a numeric series
+> ### Aliases: get_discretes_at get_discretes_in
+> 
+> ### ** Examples
+> 
+> get_discretes_in(integers(), from = 6.6, to = 10.1)
+[1]  7  8  9 10
+> get_discretes_in(1 / arithmetic(1, 4, n_left = 3, n_right = 5))
+[1] -0.33333333 -0.14285714 -0.09090909  0.04761905  0.05882353  0.07692308
+[7]  0.11111111  0.20000000  1.00000000
+> get_discretes_at(integers(), values = c(-10, 4, 3.5, 10, NA))
+[1] -10   4  10  NA
+> get_discretes_at(integers(), values = 5.5)
+integer(0)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("has_discretes")
+> ### * has_discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: has_discretes
+> ### Title: Check which values are in a numeric series
+> ### Aliases: has_discretes
+> 
+> ### ** Examples
+> 
+> has_discretes(natural0(), c(-1, 0, 1, 12.5, NA))
+[1] FALSE  TRUE  TRUE FALSE    NA
+> has_discretes(1 / natural1(), 0)
+[1] FALSE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("has_sink")
+> ### * has_sink
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: has_sink_in
+> ### Title: Test for sinks in a numeric series
+> ### Aliases: has_sink_in has_sink_at
+> 
+> ### ** Examples
+> 
+> # The set of integers have sinks at +Inf and -Inf
+> has_sink_in(integers())
+[1] TRUE
+> has_sink_at(integers(), Inf)
+[1] TRUE
+> has_sink_at(integers(), -Inf, dir = "right")
+[1] TRUE
+> 
+> # The set 1, 1/2, 1/4, 1/8, ... has a sink at 0 approached from the right.
+> halves <- 0.5^natural0()
+> has_sink_in(halves, to = 0)
+[1] FALSE
+> has_sink_at(halves, 0, dir = "right")
+[1] TRUE
+> 
+> # Reciprocal of integers: sink at 0 from both sides
+> reciprocals <- 1 / integers()
+> has_sink_at(reciprocals, 0, dir = "both")
+[1] TRUE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("integers")
+> ### * integers
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: integers
+> ### Title: Integer numeric series
+> ### Aliases: integers natural1 natural0
+> 
+> ### ** Examples
+> 
+> integers()                  # All integers
+Integer series of length Inf:
+..., -2, -1, 0, 1, 2, 3, ...
+> integers(from = 0)          # Non-negative integers
+Integer series of length Inf:
+0, 1, 2, 3, 4, 5, ...
+> integers(to = 1.5)          # Ends at 1.
+Integer series of length Inf:
+..., -4, -3, -2, -1, 0, 1
+> integers(-5, 5) # Integers from -5 to 5.
+Integer series of length 11:
+-5, -4, -3, ..., 3, 4, 5
+> natural1()
+Integer series of length Inf:
+1, 2, 3, 4, 5, 6, ...
+> natural0()
+Integer series of length Inf:
+0, 1, 2, 3, 4, 5, ...
+> 
+> # Infinity is never contained in the series.
+> has_discretes(integers(), Inf)
+[1] FALSE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("is_series")
+> ### * is_series
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: is_series
+> ### Title: Check if an object is treated as a numeric series
+> ### Aliases: is_series
+> 
+> ### ** Examples
+> 
+> is_series(natural0())
+[1] TRUE
+> is_series(c(1, 2, 3))
+[1] TRUE
+> is_series("not a numeric series")
+[1] FALSE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("negative_zero")
+> ### * negative_zero
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: has_negative_zero
+> ### Title: Check if a numeric series has a signed zero
+> ### Aliases: has_negative_zero has_positive_zero
+> 
+> ### ** Examples
+> 
+> has_negative_zero(integers())
+[1] FALSE
+> has_positive_zero(integers())
+[1] TRUE
+> 
+> # Integer 0 can never be negative, but double can:
+> has_negative_zero(-integers())
+[1] FALSE
+> has_negative_zero(-1.5 * integers())
+[1] TRUE
+> 
+> # -0 and +0 can co-exist, but are never double counted. However, they
+> # get expressed differently when the series is inverted.
+> a <- c(0, -0)
+> num_discretes(a)
+[1] 1
+> num_discretes(1 / a)
+[1] 2
+> 
+> b <- dsct_union(integers(from = -1, to = 1), -0)
+> num_discretes(b)
+[1] 3
+> num_discretes(1 / b)
+[1] 4
+> 
+> 
+> 
+> cleanEx()
+> nameEx("next_discrete")
+> ### * next_discrete
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: next_discrete
+> ### Title: Traversing a numeric series
+> ### Aliases: next_discrete prev_discrete
+> 
+> ### ** Examples
+> 
+> x <- integers(from = 2)
+> next_discrete(x, from = 1.3)
+[1] 2
+> prev_discrete(x, from = 4, n = 10)
+[1] 3 2
+> next_discrete(x - 0.7, from = 1.3, n = 4)
+[1] 2.3 3.3 4.3 5.3
+> 
+> 
+> 
+> cleanEx()
+> nameEx("num_discretes")
+> ### * num_discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: num_discretes
+> ### Title: Number of discrete values in a series
+> ### Aliases: num_discretes
+> 
+> ### ** Examples
+> 
+> num_discretes(-3:3)
+[1] 7
+> num_discretes(c(0.4, 0.4, 0.4, 0))
+[1] 2
+> 
+> x <- arithmetic(-3.2, spacing = 0.5)
+> num_discretes(x)
+[1] Inf
+> num_discretes(x, from = -2, to = 2)
+[1] 8
+> num_discretes(1 / x, from = -2, to = 2)
+[1] Inf
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot.discretes")
+> ### * plot.discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.discretes
+> ### Title: Plot a numeric series
+> ### Aliases: plot.discretes
+> 
+> ### ** Examples
+> 
+> plot(integers())
+> plot(integers(), from = -50, to = 50)
+> plot(0.5^natural1(), closeness = 1e-3)
+> plot(dsct_union(0.5^natural1(), 0), closeness = 1e-3)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("print.discretes")
+> ### * print.discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: print.discretes
+> ### Title: Print a numeric series
+> ### Aliases: print.discretes
+> 
+> ### ** Examples
+> 
+> print(integers())
+Integer series of length Inf:
+..., -2, -1, 0, 1, 2, 3, ...
+> print(1 / natural1())
+Reciprocal series of length Inf:
+..., 0.1666667, 0.2, 0.25, 0.3333333, 0.5, 1
+> print(-1 / natural1())
+Negated series of length Inf:
+-1, -0.5, -0.3333333, -0.25, -0.2, -0.1666667, ...
+> print(1 / integers())
+Reciprocal series of length Inf:
+-1, -0.5, -0.3333333, ..., 0.5, 1, Inf
+> print(1 / integers(), len = 1)
+Reciprocal series of length Inf:
+..., Inf
+> print(1 / integers(), len = 0)
+Reciprocal series of length Inf.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("representative")
+> ### * representative
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: representative
+> ### Title: Get a representative discrete value in a numeric series
+> ### Aliases: representative
+> 
+> ### ** Examples
+> 
+> representative(integers())
+[1] 0
+> representative(natural1() + 7)
+[1] 8
+> 
+> 
+> 
+> cleanEx()
+> nameEx("sinks")
+> ### * sinks
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: sinks
+> ### Title: Sinks
+> ### Aliases: sinks
+> 
+> ### ** Examples
+> 
+> # The set of integers have sinks at +Inf and -Inf
+> sinks(integers())
+     location direction
+[1,]      Inf        -1
+[2,]     -Inf         1
+> 
+> # The set 1, 1/2, 1/4, 1/8, ... has a sink at 0 approached from the right.
+> halves <- 0.5^natural0()
+> sinks(halves)
+     location direction
+[1,]        0         1
+> 
+> # The reciprocal of the integers has a sink at 0 approached from both the
+> # left and right; while the integer 0 gets mapped to Inf, infinity is not a
+> # sink because discrete values don't get arbitrarily close to it.
+> reciprocals <- 1 / integers()
+> sinks(reciprocals)
+     location direction
+[1,]        0         1
+[2,]        0        -1
+> has_discretes(reciprocals, Inf) # Yet Inf is a discrete value.
+[1] TRUE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("subset_discretes")
+> ### * subset_discretes
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: [.discretes
+> ### Title: Subset a numeric series by position
+> ### Aliases: [.discretes [<-.discretes
+> 
+> ### ** Examples
+> 
+> natural1()[2]
+[1] 2
+> natural1()[c(1, 3, 5)]
+[1] 1 3 5
+> integers(1, 5)[-1]   # full series with first value dropped
+[1] 2 3 4 5
+> 
+> # Subsetting from the other side of a sink
+> x <- 1 / natural1()
+> x[1:3]   # No such thing as a "first" value; returns NA.
+[1] NA NA NA
+> y <- dsct_union(x, -1)
+> y[1:3]   # "-1" is the 1st value, but no such thing as 2nd or 3rd value.
+[1] -1 NA NA
+> 
+> 
+> 
+> cleanEx()
+> nameEx("subsetting")
+> ### * subsetting
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dsct_drop
+> ### Title: Subset a numeric series
+> ### Aliases: dsct_drop dsct_keep
+> 
+> ### ** Examples
+> 
+> x <- integers(from = -3)
+> dsct_keep(x, from = -1.5, to = 2.5)
+Subset series of length 4:
+-1, 0, 1, 2
+> dsct_keep(x, to = 2)
+Subset series of length 6:
+-3, -2, -1, 0, 1, 2
+> 
+> 
+> 
+> cleanEx()
+> nameEx("transform")
+> ### * transform
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dsct_transform
+> ### Title: Monotonically transform a numeric series
+> ### Aliases: dsct_transform dsct_transform.discretes
+> 
+> ### ** Examples
+> 
+> dsct_transform(integers(), fun = pnorm, inv = qnorm, range = c(0, 1))
+Transformed series of length Inf:
+..., 0.02275013, 0.1586553, 0.5, 0.8413447, 0.9772499, 0.9986501, ...
+> dsct_transform(
++   as_discretes(0:3),
++   fun = cos,
++   inv = acos,
++   domain = c(0, pi),
++   range = c(-1, 1),
++   dir = "decreasing"
++ )
+Transformed series of length 4:
+-0.9899925, -0.4161468, 0.5403023, 1
+> 
+> # For numeric inputs, function is applied directly.
+> # Other arguments beyond `fun` get absorbed in `...` and are not used.
+> dsct_transform(0:5, exp)
+[1]   1.000000   2.718282   7.389056  20.085537  54.598150 148.413159
+> dsct_transform(0:5, exp, log)
+[1]   1.000000   2.718282   7.389056  20.085537  54.598150 148.413159
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  2.271 0.01 2.306 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

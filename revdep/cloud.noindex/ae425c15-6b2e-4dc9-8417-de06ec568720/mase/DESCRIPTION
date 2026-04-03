@@ -1,0 +1,58 @@
+Package: mase
+Type: Package
+Title: Model-Assisted Survey Estimators
+Version: 0.1.5.2
+Date: 2024-02-17
+Encoding: UTF-8
+Authors@R: c(person("Kelly", "McConville", role = c("cre", "aut", "cph"),
+                    email = "kmcconville@fas.harvard.edu"),
+            person("Josh", "Yamamoto", role = c("aut"),
+                    email = "joshuayamamoto5@gmail.com"),
+            person("Becky", "Tang", role = "aut"),
+            person("George", "Zhu", role = "aut"),
+            person("Sida", "Li", role = "ctb"),
+            person("Shirley", "Chueng", role = "ctb"),
+            person("Daniell", "Toth", role = "ctb")
+            )
+Maintainer: Kelly McConville <kmcconville@fas.harvard.edu>
+Description: A set of model-assisted survey estimators and corresponding
+    variance estimators for single stage, unequal probability, without replacement
+    sampling designs.  All of the estimators can be written as a generalized 
+    regression estimator with the Horvitz-Thompson, ratio, post-stratified, and 
+    regression estimators summarized by Sarndal et al. (1992, ISBN:978-0-387-40620-6).
+    Two of the estimators employ a statistical learning model as the assisting model:
+    the elastic net regression estimator, which is an extension of the lasso regression
+    estimator given by McConville et al. (2017) <doi:10.1093/jssam/smw041>, and the 
+    regression tree estimator described in McConville and Toth (2017) <arXiv:1712.05708>. 
+    The variance estimators which approximate the joint inclusion probabilities can
+    be found in Berger and Tille (2009) <doi:10.1016/S0169-7161(08)00002-3> and the
+    bootstrap variance estimator is presented in Mashreghi et al. (2016) 
+    <doi:10.1214/16-SS113>.
+License: GPL-2
+Imports: glmnet, survey, dplyr, tidyr, rpms, boot, stats, Rdpack,
+        ellipsis, Rcpp
+Suggests: roxygen2, testthat (>= 3.0.0), knitr, rmarkdown
+Depends: R (>= 4.1.0)
+Collate: 'gregt.R' 'varMase.R' 'GREG.R' 'IdahoPop.R' 'IdahoSamp.R'
+        'RcppExports.R' 'gregElasticNett.R' 'gregElasticNet.R'
+        'gregTree.R' 'gregtreet.R' 'htt.R' 'horvitzThompson.R'
+        'logisticGregElasticNett.R' 'logisticGregt.R' 'mase-package.R'
+        'modifiedGreg.R' 'modifiedGregt.R' 'modifiedLogisticGregt.R'
+        'postStratt.R' 'postStrat.R' 'ratio.R' 'ratioEstimatort.R'
+        'ratioEstimator.R'
+RoxygenNote: 7.2.3
+RdMacros: Rdpack
+Config/testthat/edition: 3
+LazyData: true
+LinkingTo: Rcpp, RcppEigen
+NeedsCompilation: yes
+Packaged: 2024-01-17 16:07:29 UTC; joshuayamamoto
+Author: Kelly McConville [cre, aut, cph],
+  Josh Yamamoto [aut],
+  Becky Tang [aut],
+  George Zhu [aut],
+  Sida Li [ctb],
+  Shirley Chueng [ctb],
+  Daniell Toth [ctb]
+Repository: CRAN
+Date/Publication: 2024-01-17 16:50:02 UTC

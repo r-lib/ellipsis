@@ -1,0 +1,161 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "beaver"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('beaver')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("beaver_mcmc")
+> ### * beaver_mcmc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: beaver_mcmc
+> ### Title: Bayesian Model Averaging of Covariate Adjusted Neg-Binomial
+> ###   Dose-Response
+> ### Aliases: beaver_mcmc
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("data_negbin_emax")
+> ### * data_negbin_emax
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: data_negbin_emax
+> ### Title: Generate data from a negative binomial EMAX model
+> ### Aliases: data_negbin_emax
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("draws")
+> ### * draws
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: draws
+> ### Title: Posterior Draws
+> ### Aliases: draws draws.beaver_mcmc draws.beaver_mcmc_bma
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("posterior.beaver_mcmc")
+> ### * posterior.beaver_mcmc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: posterior.beaver_mcmc
+> ### Title: Posterior Samples from Bayesian Model Averaging
+> ### Aliases: posterior.beaver_mcmc
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("posterior.beaver_mcmc_bma")
+> ### * posterior.beaver_mcmc_bma
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: posterior.beaver_mcmc_bma
+> ### Title: Posterior Samples from Bayesian Model Averaging
+> ### Aliases: posterior.beaver_mcmc_bma
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("posterior_g_comp")
+> ### * posterior_g_comp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: posterior_g_comp
+> ### Title: Compute Posterior G-Computation Estimate
+> ### Aliases: posterior_g_comp
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pr_eoi")
+> ### * pr_eoi
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pr_eoi
+> ### Title: Calculate Probability of Meeting Effect of Interest
+> ### Aliases: pr_eoi
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pr_eoi_g_comp")
+> ### * pr_eoi_g_comp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pr_eoi_g_comp
+> ### Title: Calculate Probability of Meeting Effect of Interest using
+> ###   G-Computation
+> ### Aliases: pr_eoi_g_comp
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.742 0.021 0.762 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

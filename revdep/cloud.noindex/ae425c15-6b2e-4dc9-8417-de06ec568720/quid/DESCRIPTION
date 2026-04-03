@@ -1,0 +1,30 @@
+Package: quid
+Type: Package
+Title: Bayesian Mixed Models for Qualitative Individual Differences
+Version: 0.0.1
+Authors@R: c(
+    person("Lukas", "Klima", email = "lukas.klima@live.at", role = c("aut", "cre")),
+    person("Julia", "Haaf", email = "j.m.haaf@uva.nl", role = c("aut", "dgs", "ths")))
+Depends: R (>= 3.2.0)
+Maintainer: Lukas Klima <lukas.klima@live.at>
+Description: Test whether equality and order constraints hold for all 
+    individuals simultaneously by comparing Bayesian mixed models through Bayes 
+    factors. A tutorial style vignette and a quickstart guide are available, via
+    vignette("manual", "quid"), and vignette("quickstart", "quid") respectively.
+    See Haaf and Rouder (2017) <doi:10.1037/met0000156>; Haaf, Klaassen and Rouder
+    (2019) <doi:10.31234/osf.io/a4xu9>; and Rouder & Haaf (2021) <doi:10.5334/joc.131>.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Imports: BayesFactor, MCMCpack, checkmate, ellipsis, janitor, purrr,
+        rlang, stringr, methods, magrittr, dplyr, ggplot2, tibble,
+        tidyr, tidyselect, Matrix
+Suggests: rmarkdown, knitr, testthat
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2021-12-07 14:43:49 UTC; lukasklima
+Author: Lukas Klima [aut, cre],
+  Julia Haaf [aut, dgs, ths]
+Repository: CRAN
+Date/Publication: 2021-12-09 09:00:02 UTC

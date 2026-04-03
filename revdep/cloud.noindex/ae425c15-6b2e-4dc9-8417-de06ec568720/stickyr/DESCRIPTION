@@ -1,0 +1,28 @@
+Package: stickyr
+Type: Package
+Title: Data Frames with Persistent Columns and Attributes
+Version: 0.1.2
+Authors@R: 
+    person(
+        given = "Mizuki", 
+        family = "Uchida", 
+        email = "uchidamizuki@vivaldi.net", 
+        role = c("aut", "cre")
+    )
+Description: Provides data frames that hold certain columns and attributes 
+    persistently for data processing in 'dplyr'.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Imports: dplyr, ellipsis, generics, pillar, purrr, rlang, tibble,
+        tidyselect, vctrs
+Suggests: covr, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://github.com/UchidaMizuki/stickyr
+BugReports: https://github.com/UchidaMizuki/stickyr/issues
+NeedsCompilation: no
+Packaged: 2023-03-26 12:45:19 UTC; Mizuki
+Author: Mizuki Uchida [aut, cre]
+Maintainer: Mizuki Uchida <uchidamizuki@vivaldi.net>
+Repository: CRAN
+Date/Publication: 2023-03-26 17:20:06 UTC

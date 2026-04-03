@@ -1,0 +1,49 @@
+Package: dreamer
+Title: Dose Response Models for Bayesian Model Averaging
+Version: 3.2.0
+Authors@R: c(
+    person(given = c("Richard", "Daniel"),
+           family = "Payne",
+           role = c("aut", "cre"),
+           email = "paynestatistics@gmail.com"),
+    person(given = "William Michael",
+           family = "Landau",
+           role = c("rev"),
+           email = "will.landau@gmail.com"),
+    person("Mitch", "Thomann",
+           role = c("rev"),
+           email = "mitchell.thomann@lilly.com"),
+    person(family = "Eli Lilly and Company",
+           role = "cph"))
+Description: Fits dose-response models utilizing a Bayesian model
+  averaging approach as outlined in Gould (2019) <doi:10.1002/bimj.201700211>
+  for both continuous and binary responses. Longitudinal dose-response modeling
+  is also supported in a Bayesian model averaging framework as outlined in 
+  Payne, Ray, and Thomann (2024)
+  <doi:10.1080/10543406.2023.2292214>. Functions
+  for plotting and calculating various posterior quantities
+  (e.g. posterior mean, quantiles, probability of minimum efficacious dose,
+  etc.) are also implemented.  Copyright Eli Lilly and Company (2019).
+URL: https://rich-payne.github.io/dreamer/,
+        https://github.com/rich-payne/dreamer
+BugReports: https://github.com/rich-payne/dreamer/issues
+License: MIT + file LICENSE
+Imports: coda, dplyr (>= 1.0.0), ellipsis (>= 0.3), ggplot2 (>= 3.0),
+        graphics, purrr, rootSolve, rjags (>= 4-8), rlang (>= 0.4.5),
+        stats, tidyr (>= 1.0.2), tidyselect (>= 1.2)
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Suggests: testthat (>= 3.0), fs (>= 1.5), knitr, rmarkdown, tibble,
+        spelling
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Language: en-US
+NeedsCompilation: no
+Packaged: 2024-12-18 20:51:04 UTC; c263386
+Author: Richard Daniel Payne [aut, cre],
+  William Michael Landau [rev],
+  Mitch Thomann [rev],
+  Eli Lilly and Company [cph]
+Maintainer: Richard Daniel Payne <paynestatistics@gmail.com>
+Repository: CRAN
+Date/Publication: 2024-12-19 08:30:07 UTC

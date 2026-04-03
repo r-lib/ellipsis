@@ -1,0 +1,311 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "pguIMP"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('pguIMP')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("centralValue")
+> ### * centralValue
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: centralValue
+> ### Title: centralValue
+> ### Aliases: centralValue
+> 
+> ### ** Examples
+> 
+> centralValue(x = seq(1,10,1))
+[1] 5.5
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dLogLikelihood")
+> ### * dLogLikelihood
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dLogLikelihood
+> ### Title: dLogLikelihood
+> ### Aliases: dLogLikelihood
+> 
+> ### ** Examples
+> 
+> y <- pguIMP::dLogLikelihood(x=5, pars = c(mu=0.0, sigma=1.0))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("knnImputation")
+> ### * knnImputation
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: knnImputation
+> ### Title: knnImputation
+> ### Aliases: knnImputation
+> 
+> ### ** Examples
+> 
+> centralValue(x = seq(1,10,1))
+[1] 5.5
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("nnk")
+> ### * nnk
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: nnk
+> ### Title: nnk
+> ### Aliases: nnk
+> 
+> ### ** Examples
+> 
+> #Create dataset
+> X=iris[,1:4]
+> #Outlier detection
+> nnk(X,k=4)
+$`Outlier Observations`
+    Sepal.Length Sepal.Width Petal.Length Petal.Width
+107          4.9         2.5          4.5         1.7
+118          7.7         3.8          6.7         2.2
+119          7.7         2.6          6.9         2.3
+132          7.9         3.8          6.4         2.0
+
+$`Location of Outlier`
+[1] 107 118 119 132
+
+$`Outlier Probability`
+[1] 0.99 1.00 1.00 1.00
+
+$`3Dplot`
+Warning: `line.width` does not currently support multiple values.
+Warning: `line.width` does not currently support multiple values.
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("normalDistribution")
+> ### * normalDistribution
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: normalDistribution
+> ### Title: normalDistribution
+> ### Aliases: normalDistribution
+> 
+> ### ** Examples
+> 
+> y <- pguIMP::normalDistribution(x=5, mu=0.0, sigma=1.0)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pgu.corrValidator")
+> ### * pgu.corrValidator
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pgu.corrValidator
+> ### Title: pgu.corrValidator
+> ### Aliases: pgu.corrValidator
+> 
+> ### ** Examples
+> 
+> require(dplyr)
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> require(tibble)
+Loading required package: tibble
+> data(iris)
+> data_df <- iris %>%
++   tibble::as_tibble()
+> comp_df <- data_df %>%
++   dplyr::mutate(Sepal.Length = sample(Sepal.Length))
+> corr_obj = pguIMP::pgu.corrValidator$new()
+> corr_obj$fit(data_df, comp_df)
+> print(corr_obj)
+
+pgu.correlator
+# A tibble: 6 × 7
+  row          column       cor_org        p_org  cor_imp        p_imp cor_delta
+  <chr>        <chr>          <dbl>        <dbl>    <dbl>        <dbl>     <dbl>
+1 Sepal.Length Sepal.Width   -0.118 0.152        -0.0768  0.350           0.0407
+2 Sepal.Length Petal.Length   0.872 0            -0.00761 0.926          -0.879 
+3 Sepal.Width  Petal.Length  -0.428 0.0000000451 -0.428   0.0000000451    0     
+4 Sepal.Length Petal.Width    0.818 0            -0.0182  0.825          -0.836 
+5 Sepal.Width  Petal.Width   -0.366 0.00000407   -0.366   0.00000407      0     
+6 Petal.Length Petal.Width    0.963 0             0.963   0               0     
+
+
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tibble’, ‘package:dplyr’
+
+> nameEx("pgu.correlator")
+> ### * pgu.correlator
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pgu.correlator
+> ### Title: pgu.correlator
+> ### Aliases: pgu.correlator
+> 
+> ### ** Examples
+> 
+> require(dplyr)
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> require(tibble)
+Loading required package: tibble
+> data(iris)
+> data_df <- iris %>%
++   tibble::as_tibble() %>%
++   dplyr::select(-c("Species"))
+> correlator = pguIMP::pgu.correlator$new(data_df)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tibble’, ‘package:dplyr’
+
+> nameEx("pgu.data")
+> ### * pgu.data
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pgu.data
+> ### Title: pgu.data
+> ### Aliases: pgu.data
+> 
+> ### ** Examples
+> 
+> require(dplyr)
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> require(tibble)
+Loading required package: tibble
+> data(iris)
+> data_df <- iris %>%
++   tibble::as_tibble()
+> data_obj = pguIMP::pgu.data$new(data_df)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:tibble’, ‘package:dplyr’
+
+> nameEx("pguIMP-package")
+> ### * pguIMP-package
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pguIMP-package
+> ### Title: Visually Guided Preprocessing of Bioanalytical Laboratory Data
+> ### Aliases: pguIMP-package
+> ### Keywords: package
+> 
+> ### ** Examples
+> 
+> # simple examples of the most important functions
+> 
+> 
+> 
+> cleanEx()
+> nameEx("sLogLikelihood")
+> ### * sLogLikelihood
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: sLogLikelihood
+> ### Title: dLogLikelihood
+> ### Aliases: sLogLikelihood
+> 
+> ### ** Examples
+> 
+> y <- sLogLikelihood (mu=0.0, sigma=1.0)
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  4.471 0.388 4.504 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
+[1] "Instance of pgu.data removed from heap"
+[1] "Instance of pgu.correlator removed from heap"
+[1] "Instance of pgu.corrValidator removed from heap"

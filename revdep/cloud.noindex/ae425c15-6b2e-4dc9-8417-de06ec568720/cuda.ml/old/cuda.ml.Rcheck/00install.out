@@ -1,0 +1,44 @@
+* installing *source* package ‘cuda.ml’ ...
+** package ‘cuda.ml’ successfully unpacked and MD5 sums checked
+** using staged installation
+** preparing to configure package 'cuda.ml' ...
+*** configured file: 'src/CMakeLists.txt.in' => 'src/CMakeLists.txt'
+*** configured file: 'src/Makevars.in' => 'src/Makevars'
+** finished configure for package 'cuda.ml'
+** libs
+using C++ compiler: ‘g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0’
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c RcppExports.cpp -o RcppExports.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c agglomerative_clustering.cpp -o agglomerative_clustering.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c cd.cpp -o cd.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c cuml_utils.cpp -o cuml_utils.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c dbscan.cpp -o dbscan.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c example_linear_model.cpp -o example_linear_model.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c fil.cpp -o fil.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c kmeans.cpp -o kmeans.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c knn.cpp -o knn.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c lm_predict.cpp -o lm_predict.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c ols.cpp -o ols.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c pca.cpp -o pca.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c qn.cpp -o qn.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c random_forest_classifier.cpp -o random_forest_classifier.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c random_forest_regressor.cpp -o random_forest_regressor.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c random_projection.cpp -o random_projection.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c ridge.cpp -o ridge.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c sgd.cpp -o sgd.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c svm_classifier.cpp -o svm_classifier.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c svm_regressor.cpp -o svm_regressor.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c tsne.cpp -o tsne.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c tsvd.cpp -o tsvd.o
+g++ -std=gnu++17 -I"/opt/R/4.4.0/lib/R/include" -DNDEBUG -I'/tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00_pkg_src/cuda.ml/src/stubs' -I'/tmp/r-deps/Rcpp/include' -I/usr/local/include    -fpic  -g -O2   -c umap.cpp -o umap.o
+g++ -std=gnu++17 -shared -L/opt/R/4.4.0/lib/R/lib -L/usr/local/lib -o cuda.ml.so RcppExports.o agglomerative_clustering.o cd.o cuml_utils.o dbscan.o example_linear_model.o fil.o kmeans.o knn.o lm_predict.o ols.o pca.o qn.o random_forest_classifier.o random_forest_regressor.o random_projection.o ridge.o sgd.o svm_classifier.o svm_regressor.o tsne.o tsvd.o umap.o -L/opt/R/4.4.0/lib/R/lib -lR
+installing to /tmp/workdir/cuda.ml/old/cuda.ml.Rcheck/00LOCK-cuda.ml/00new/cuda.ml/libs
+** R
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (cuda.ml)

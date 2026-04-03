@@ -1,0 +1,27 @@
+Package: EDOIF
+Title: Empirical Distribution Ordering Inference Framework (EDOIF)
+Version: 0.1.4
+Authors@R: 
+    person(given = "Chainarong",
+           family = "Amornbunchornvej",
+           role = c("aut", "cre"),
+           email = "grandca@gmail.com",
+           comment = c(ORCID = "0000-0003-3131-0370"))
+Maintainer: Chainarong Amornbunchornvej <grandca@gmail.com>
+Description: A non-parametric framework based on  estimation statistics principle. Its main purpose is to  infer orders of empirical distributions from different categories based on a probability of finding a value in one distribution that is greater than an expectation of another distribution. Given a set of ordered-pair of real-category values the framework is capable of 1) inferring orders of  domination  of  categories  and  representing  orders  in  the form of a graph; 2) estimating  magnitude  of  difference  between  a  pair  of categories in forms of mean-difference confidence intervals; and 3) visualizing  domination  orders  and  magnitudes  of  difference of categories. The publication of this package is at Chainarong Amornbunchornvej, Navaporn Surasvadi, Anon Plangprasopchok, and Suttipong Thajchayapong (2020) <doi:10.1016/j.heliyon.2020.e05435>.
+License: BSD_3_clause + file LICENSE
+URL: https://github.com/DarkEyes/EDOIF
+BugReports: https://github.com/DarkEyes/EDOIF/issues
+Language: en-US
+Encoding: UTF-8
+Depends: R (>= 3.5.0), boot
+Imports: distr, igraph, ellipsis, simpleboot, ggplot2 (>= 3.0)
+Suggests: knitr, rmarkdown, markdown
+VignetteBuilder: knitr
+RoxygenNote: 7.3.2
+NeedsCompilation: no
+Packaged: 2025-04-28 04:35:05 UTC; zero
+Author: Chainarong Amornbunchornvej [aut, cre]
+    (<https://orcid.org/0000-0003-3131-0370>)
+Repository: CRAN
+Date/Publication: 2025-04-28 07:20:02 UTC

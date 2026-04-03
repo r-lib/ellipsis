@@ -1,0 +1,259 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "devtools"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('devtools')
+Loading required package: usethis
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("check_doc_fields")
+> ### * check_doc_fields
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: check_doc_fields
+> ### Title: Check for missing documentation fields
+> ### Aliases: check_doc_fields
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D check_doc_fields(".")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("check_man")
+> ### * check_man
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: check_man
+> ### Title: Check documentation, as R CMD check does
+> ### Aliases: check_man
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D check_man("mypkg")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dev_mode")
+> ### * dev_mode
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dev_mode
+> ### Title: Activate and deactivate development mode
+> ### Aliases: dev_mode
+> ### Keywords: internal
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D dev_mode()
+> ##D dev_mode()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dev_sitrep")
+> ### * dev_sitrep
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dev_sitrep
+> ### Title: Report package development situation
+> ### Aliases: dev_sitrep
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D dev_sitrep()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("install_deps")
+> ### * install_deps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: install_deps
+> ### Title: Install package dependencies if needed
+> ### Aliases: install_deps install_dev_deps
+> 
+> ### ** Examples
+> 
+> ## Not run: install_deps(".")
+> 
+> 
+> 
+> cleanEx()
+> nameEx("load_all")
+> ### * load_all
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: load_all
+> ### Title: Load complete package
+> ### Aliases: load_all
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Load the package in the current directory
+> ##D load_all("./")
+> ##D 
+> ##D # Running again loads changed files
+> ##D load_all("./")
+> ##D 
+> ##D # With export_all=FALSE, only objects listed as exports in NAMESPACE
+> ##D # are exported
+> ##D load_all("./", export_all = FALSE)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("package_file")
+> ### * package_file
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: package_file
+> ### Title: Find file in a package
+> ### Aliases: package_file
+> ### Keywords: internal
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D package_file("figures", "figure_1")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("revdep")
+> ### * revdep
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: revdep
+> ### Title: Reverse dependency tools
+> ### Aliases: revdep revdep_maintainers
+> ### Keywords: internal
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D revdep("ggplot2")
+> ##D 
+> ##D revdep("ggplot2", ignore = c("xkcd", "zoo"))
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("source_gist")
+> ### * source_gist
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: source_gist
+> ### Title: Run a script on gist
+> ### Aliases: source_gist
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # You can run gists given their id
+> ##D source_gist(6872663)
+> ##D source_gist("6872663")
+> ##D 
+> ##D # Or their html url
+> ##D source_gist("https://gist.github.com/hadley/6872663")
+> ##D source_gist("gist.github.com/hadley/6872663")
+> ##D 
+> ##D # It's highly recommend that you run source_gist with the optional
+> ##D # sha1 argument - this will throw an error if the file has changed since
+> ##D # you first ran it
+> ##D source_gist(6872663, sha1 = "54f1db27e60")
+> ##D # Wrong hash will result in error
+> ##D source_gist(6872663, sha1 = "54f1db27e61")
+> ##D 
+> ##D #' # You can speficy a particular R file in the gist
+> ##D source_gist(6872663, filename = "hi.r")
+> ##D source_gist(6872663, filename = "hi.r", sha1 = "54f1db27e60")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("source_url")
+> ### * source_url
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: source_url
+> ### Title: Run a script through some protocols such as http, https, ftp,
+> ###   etc
+> ### Aliases: source_url
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D 
+> ##D source_url("https://gist.github.com/hadley/6872663/raw/hi.r")
+> ##D 
+> ##D # With a hash, to make sure the remote file hasn't changed
+> ##D source_url("https://gist.github.com/hadley/6872663/raw/hi.r",
+> ##D   sha1 = "54f1db27e60bb7e0486d785604909b49e8fef9f9")
+> ##D 
+> ##D # With a truncated hash
+> ##D source_url("https://gist.github.com/hadley/6872663/raw/hi.r",
+> ##D   sha1 = "54f1db27e60")
+> ## End(Not run)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.246 0.027 0.23 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

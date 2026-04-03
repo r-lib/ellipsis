@@ -1,0 +1,83 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # This file is part of the standard setup for testthat.
+> # It is recommended that you do not modify it.
+> #
+> # Where should you do additional test configuration?
+> # Learn more about the roles of various files in:
+> # * https://r-pkgs.org/testing-design.html#sec-tests-files-overview
+> # * https://testthat.r-lib.org/articles/special-files.html
+> 
+> library(testthat)
+> library(devtools)
+Loading required package: usethis
+
+Attaching package: 'devtools'
+
+The following object is masked from 'package:testthat':
+
+    test_file
+
+> 
+> test_check("devtools")
+Starting 2 test processes.
+> test-build-readme.R: error: could not lock config file /root/.gitconfig: Read-only file system
+> test-build-readme.R: Failed to call 'git config --global credential.helper cache'
+> test-vignettes.R: error: could not lock config file /root/.gitconfig: Read-only file system
+Saving _problems/test-vignettes-9.R
+[ FAIL 1 | WARN 0 | SKIP 46 | PASS 60 ]
+
+══ Skipped tests (46) ══════════════════════════════════════════════════════════
+• On CRAN (45): 'test-build-manual.R:1:1', 'test-active.R:1:1',
+  'test-active.R:5:1', 'test-check-doc.R:1:1', 'test-check-doc.R:17:1',
+  'test-build-readme.R:2:3', 'test-build-readme.R:18:3',
+  'test-build-readme.R:41:3', 'test-build-readme.R:66:3',
+  'test-build-readme.R:93:1', 'test-build-readme.R:108:1',
+  'test-build-readme.R:116:3', 'test-build-readme.R:132:3',
+  'test-check-win.R:2:3', 'test-check-win.R:20:1', 'test-check-win.R:37:1',
+  'test-check.R:1:1', 'test-install.R:8:3', 'test-install.R:25:3',
+  'test-pkgload.R:1:1', 'test-release.R:1:1', 'test-package.R:1:1',
+  'test-package.R:9:1', 'test-remotes.R:1:1', 'test-run-source.R:2:3',
+  'test-run-source.R:17:3', 'test-run-source.R:32:1', 'test-run-source.R:37:3',
+  'test-run-source.R:53:3', 'test-run-source.R:64:1', 'test-show-news.R:20:3',
+  'test-sitrep.R:1:1', 'test-sitrep.R:11:1', 'test-sitrep.R:22:1',
+  'test-sitrep.R:38:1', 'test-sitrep.R:54:1', 'test-sitrep.R:70:1',
+  'test-sitrep.R:87:1', 'test-sitrep.R:104:1', 'test-sitrep.R:144:3',
+  'test-test.R:63:1', 'test-test.R:93:1', 'test-test.R:116:1',
+  'test-vignettes.R:19:3', 'test-vignettes.R:66:1'
+• interactive() is not TRUE (1): 'test-check-doc.R:34:3'
+
+══ Failed tests ════════════════════════════════════════════════════════════════
+── Error ('test-vignettes.R:9:3'): Sweave vignettes copied into doc ────────────
+<callr_status_error/callr_error/rlib_error_3_0/rlib_error/error/condition>
+Error: ! in callr subprocess.
+Caused by error: 
+! Vignette re-building failed.
+Backtrace:
+    ▆
+ 1. ├─base::suppressMessages(build_vignettes(pkg, quiet = TRUE)) at test-vignettes.R:9:3
+ 2. │ └─base::withCallingHandlers(...)
+ 3. └─devtools::build_vignettes(pkg, quiet = TRUE)
+ 4.   └─callr::r(...)
+ 5.     └─callr:::get_result(output = out, options)
+ 6.       └─throw(callr_remote_error(remerr, output), parent = fix_msg(remerr[[3]]))
+
+[ FAIL 1 | WARN 0 | SKIP 46 | PASS 60 ]
+Error:
+! Test failures.
+Execution halted

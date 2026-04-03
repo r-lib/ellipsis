@@ -1,0 +1,35 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(GaussSuppression)
+> 
+> test_check("GaussSuppression")
+[extend0 24*3->24*3]
+[extend0 24*3->24*3]
+[ FAIL 0 | WARN 0 | SKIP 3 | PASS 171 ]
+
+══ Skipped tests (3) ═══════════════════════════════════════════════════════════
+• On CRAN (2): 'test-GaussSuppressionFromData.R:25:3',
+  'test-GaussSuppressionFromData.R:237:5'
+• since more advanced tests below (1): 'test-LinkedSuppression.R:16:3'
+
+[ FAIL 0 | WARN 0 | SKIP 3 | PASS 171 ]
+> 
+> proc.time()
+   user  system elapsed 
+ 93.433   0.359  93.695 

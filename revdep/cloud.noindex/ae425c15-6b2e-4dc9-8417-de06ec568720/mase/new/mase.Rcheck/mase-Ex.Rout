@@ -1,0 +1,1208 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "mase"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('mase')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("greg")
+> ### * greg
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: greg
+> ### Title: Compute a generalized regression estimator
+> ### Aliases: greg
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> data(IdahoPop)
+> data(IdahoSamp)
+> 
+> xsample <- filter(IdahoSamp, COUNTYFIPS == "16055")
+> xpop <- filter(IdahoPop, COUNTYFIPS == "16055")
+> 
+> greg(y = xsample$BA_TPA_ADJ,
++      N = xpop$npixels,
++      xsample = xsample[c("tcc", "elev")],
++      xpop = xpop[c("tcc", "elev")],
++      var_est = TRUE,
++      var_method = "LinHB",
++      datatype = "means")
+Assuming simple random sampling
+$pop_total
+[1] 39521557
+
+$pop_mean
+[1] 94.40847
+
+$pop_total_var
+[1] 6.478447e+12
+
+$pop_mean_var
+[1] 36.9679
+
+$weights
+  [1] 8060.960 6489.037 6929.206 3145.983 8041.396 3737.945 5687.480 3577.979
+  [9] 3020.678 1690.956 2427.990 6469.919 3123.403 4879.079 2639.280 2624.305
+ [17] 1954.575 1186.989 3207.814 8886.670 3196.904 1876.082 4186.524 3406.140
+ [25] 5158.757 2823.357 2449.285 4110.968 1848.589 8638.148 3758.716 4917.963
+ [33] 2738.744 2695.673 1852.252 2086.525 2920.164 2799.124 7854.180 4707.118
+ [41] 5730.753 1262.825 4115.680 4101.833 7274.657 2607.800 2055.045 2659.727
+ [49] 1947.451 4639.413 3681.351 4315.134 3403.483 4823.892 1674.373 7991.121
+ [57] 2524.517 6087.918 1799.399 5632.293 2457.738 3312.270 6021.943 5538.423
+ [65] 3995.847 6102.368 3174.927 4497.681 4476.307 2101.377 6093.312 5503.605
+ [73] 1478.582 2305.018 2687.543 2518.520 3852.988 5259.550 2145.174 5314.536
+ [81] 5218.411 3132.459 7656.256 3177.261 8595.077 3461.808 2174.599 2428.715
+ [89] 3508.262 3680.625 5900.982 5897.923 3362.667 2789.342 9305.020 5559.150
+ [97] 5000.197 8538.360 7337.170 2925.479
+
+$coefficients
+ (Intercept)          tcc         elev 
+-30.26159045   0.79210774   0.09679431 
+
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’
+
+> nameEx("gregElasticNet")
+> ### * gregElasticNet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gregElasticNet
+> ### Title: Compute an elastic net regression estimator
+> ### Aliases: gregElasticNet
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> data(IdahoPop)
+> data(IdahoSamp)
+> xsample <- filter(IdahoSamp, COUNTYFIPS == "16055")
+> xpop <- filter(IdahoPop, COUNTYFIPS == "16055")
+> gregElasticNet(y = xsample$BA_TPA_ADJ,
++                N = xpop$npixels,
++                xsample = xsample[c("tcc", "elev", "ppt", "tmean")],
++                xpop = xpop[c("tcc", "elev", "ppt", "tmean")],
++                var_est = TRUE,
++                var_method = "LinHB",
++                datatype = "means",
++                alpha = 0.5)
+Assuming simple random sampling
+$pop_total
+[1] 41392705
+
+$pop_mean
+[1] 98.87824
+
+$pop_total_var
+[1] 6.640213e+12
+
+$pop_mean_var
+[1] 37.89098
+
+$weights
+  [1] 8110.6960 8127.9596 7941.2650 3921.2833 7408.5365 4513.9805 5072.4348
+  [8] 3113.4666 2668.6354 1624.0108 3050.8954 5767.8385 3309.6884 4758.3397
+ [15] 3515.1740 1072.4100 1341.8433 2575.2740 4324.6775 7854.7047 1764.1328
+ [22] 2033.4285 5607.9361 4334.7522 6112.1528 1717.4420 2122.6873 3394.7072
+ [29] 1673.3116 7415.5079 4197.2586 6329.4901 2163.0174 3216.2893  738.0288
+ [36] 1196.9901  665.2475 2882.4305 7690.6379 5571.6106 6321.0567  883.0486
+ [43] 3980.2542 4728.0694 6818.1577 2608.9368 3721.9647 2126.2434 1576.9905
+ [50] 4366.7803 4596.6650 4106.1462 3914.2026 5396.3184 1239.4076 7226.7119
+ [57] 1828.1824 6284.2792 1678.8441 6388.1890 2120.5595 4024.6626 6659.0979
+ [64] 6361.2053 4558.0869 7180.3791 1872.7467 3622.3401 3478.5790 4049.6880
+ [71] 5161.6505 5505.3941 1062.8079 1378.3264 2591.6583  636.4388 3864.2962
+ [78] 5134.7709 1522.9424 5719.7012 5138.4440 4183.3825 7971.2082 3122.3591
+ [85] 7943.2118 4054.2819 2670.7986 2655.2078 3870.2713 2620.7725 6439.1774
+ [92] 6255.7970 3504.0819 3620.3362 9988.3242 4310.8087 5048.3192 8485.6856
+ [99] 6652.4722 2892.1072
+
+$coefficients
+(Intercept)         tcc        elev         ppt       tmean 
+-6.36555808  0.00000000  0.02743364  0.09287246  0.00000000 
+
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’
+
+> nameEx("gregTree")
+> ### * gregTree
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: gregTree
+> ### Title: Compute a regression tree estimator
+> ### Aliases: gregTree
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> data(IdahoPop)
+> data(IdahoSamp)
+> 
+> xsample <- filter(IdahoSamp, COUNTYFIPS == "16055") 
+> xpop <- filter(IdahoSamp, COUNTYFIPS == "16055")
+> 
+> gregTree(y = xsample$BA_TPA_ADJ,
++          xsample = xsample[c("tcc", "elev")],
++          xpop = xpop[c("tcc", "elev")],
++          var_est = TRUE)
+Assuming simple random sampling
+$pop_total
+[1] 10722.31
+
+$pop_mean
+[1] 107.2231
+
+$pop_total_var
+[1] NaN
+
+$pop_mean_var
+[1] NaN
+
+$weights
+  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [75] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+
+$tree
+
+RPMS Recursive Partitioning Equation 
+y ~ tcc + elev
+
+Estimating Equation 
+y ~ 1
+
+
+[1] "unequal probability of selection, sample design"
+[1] "R-squared of model: 0.189980380370146"
+
+===================== Tree Model =================== 
+ 
+   Splits         
+sp   elev <= 934.5
+
+    coefficients
+node         1
+   2  83.03977
+   3 143.49798
+
+ 
+
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’
+
+> nameEx("horvitzThompson")
+> ### * horvitzThompson
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: horvitzThompson
+> ### Title: Compute the Horvitz-Thompson Estimator
+> ### Aliases: horvitzThompson
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> data(IdahoSamp)
+> data(IdahoPop)
+> xsample <- filter(IdahoSamp, COUNTYFIPS == "16055")
+> xpop <- filter(IdahoPop, COUNTYFIPS == "16055") 
+> 
+> horvitzThompson(y = xsample$BA_TPA_ADJ,
++                 N = xpop$npixels,
++                 var_est = TRUE,
++                 var_method = "LinHTSRS")
+Assuming simple random sampling
+$pop_total
+[1] 44886038
+
+$pop_mean
+[1] 107.2231
+
+$pop_total_var
+[1] 8.171847e+12
+
+$pop_mean_var
+[1] 46.63093
+
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’
+
+> nameEx("modifiedGreg")
+> ### * modifiedGreg
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: modifiedGreg
+> ### Title: Compute a modified generalized regression estimator
+> ### Aliases: modifiedGreg
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> data(IdahoPop)
+> data(IdahoSamp)
+> 
+> modifiedGreg(y = IdahoSamp$BA_TPA_ADJ,
++              xsample = IdahoSamp[c("tcc", "elev")],
++              xpop = IdahoPop[c("COUNTYFIPS","tcc", "elev", "npixels")] |> rename(N = npixels),
++              domains = IdahoSamp$COUNTYFIPS,
++              datatype = "means",
++              N = sum(IdahoPop$npixels),
++              var_est = TRUE)
+domain_col_name is not directly specified. COUNTYFIPS is being used.
+Assuming simple random sampling
+Domain 16001 does not contain enough points for variance estimation
+Domain 16051 does not contain enough points for variance estimation
+$population_res
+   pop_total pop_totalvar 
+1.494800e+09 6.481801e+14 
+
+$raw_res
+$raw_res[[1]]
+$raw_res[[1]]$domain
+[1] "16001"
+
+$raw_res[[1]]$domain_total
+[1] 11148697
+
+$raw_res[[1]]$domain_mean
+[1] 32.87072
+
+$raw_res[[1]]$domain_total_var
+[1] NA
+
+$raw_res[[1]]$domain_mean_var
+[1] NA
+
+
+$raw_res[[2]]
+$raw_res[[2]]$domain
+[1] "16003"
+
+$raw_res[[2]]$domain_total
+[1] 36136191
+
+$raw_res[[2]]$domain_mean
+[1] 82.47278
+
+$raw_res[[2]]$domain_total_var
+[1] 2.502825e+13
+
+$raw_res[[2]]$domain_mean_var
+[1] 130.3668
+
+
+$raw_res[[3]]
+$raw_res[[3]]$domain
+[1] "16005"
+
+$raw_res[[3]]$domain_total
+[1] 18865322
+
+$raw_res[[3]]$domain_mean
+[1] 51.35783
+
+$raw_res[[3]]$domain_total_var
+[1] 3.294784e+12
+
+$raw_res[[3]]$domain_mean_var
+[1] 24.4181
+
+
+$raw_res[[4]]
+$raw_res[[4]]$domain
+[1] "16007"
+
+$raw_res[[4]]$domain_total
+[1] 17153139
+
+$raw_res[[4]]$domain_mean
+[1] 51.12648
+
+$raw_res[[4]]$domain_total_var
+[1] 7.170751e+12
+
+$raw_res[[4]]$domain_mean_var
+[1] 63.70438
+
+
+$raw_res[[5]]
+$raw_res[[5]]$domain
+[1] "16009"
+
+$raw_res[[5]]$domain_total
+[1] 28880619
+
+$raw_res[[5]]$domain_mean
+[1] 114.7641
+
+$raw_res[[5]]$domain_total_var
+[1] 2.826804e+13
+
+$raw_res[[5]]$domain_mean_var
+[1] 446.3699
+
+
+$raw_res[[6]]
+$raw_res[[6]]$domain
+[1] "16011"
+
+$raw_res[[6]]$domain_total
+[1] 23868654
+
+$raw_res[[6]]$domain_mean
+[1] 35.17343
+
+$raw_res[[6]]$domain_total_var
+[1] 1.666521e+12
+
+$raw_res[[6]]$domain_mean_var
+[1] 3.618965
+
+
+$raw_res[[7]]
+$raw_res[[7]]$domain
+[1] "16013"
+
+$raw_res[[7]]$domain_total
+[1] 38464093
+
+$raw_res[[7]]$domain_mean
+[1] 45.22001
+
+$raw_res[[7]]$domain_total_var
+[1] 1.028533e+13
+
+$raw_res[[7]]$domain_mean_var
+[1] 14.2157
+
+
+$raw_res[[8]]
+$raw_res[[8]]$domain
+[1] "16015"
+
+$raw_res[[8]]$domain_total
+[1] 34545570
+
+$raw_res[[8]]$domain_mean
+[1] 56.46888
+
+$raw_res[[8]]$domain_total_var
+[1] 2.300525e+13
+
+$raw_res[[8]]$domain_mean_var
+[1] 61.46962
+
+
+$raw_res[[9]]
+$raw_res[[9]]$domain
+[1] "16017"
+
+$raw_res[[9]]$domain_total
+[1] 62332114
+
+$raw_res[[9]]$domain_mean
+[1] 101.6486
+
+$raw_res[[9]]$domain_total_var
+[1] 3.91777e+13
+
+$raw_res[[9]]$domain_mean_var
+[1] 104.188
+
+
+$raw_res[[10]]
+$raw_res[[10]]$domain
+[1] "16019"
+
+$raw_res[[10]]$domain_total
+[1] 29660427
+
+$raw_res[[10]]$domain_mean
+[1] 48.79002
+
+$raw_res[[10]]$domain_total_var
+[1] 1.025721e+13
+
+$raw_res[[10]]$domain_mean_var
+[1] 27.75469
+
+
+$raw_res[[11]]
+$raw_res[[11]]$domain
+[1] "16021"
+
+$raw_res[[11]]$domain_total
+[1] 50850795
+
+$raw_res[[11]]$domain_mean
+[1] 124.4345
+
+$raw_res[[11]]$domain_total_var
+[1] 1.898234e+13
+
+$raw_res[[11]]$domain_mean_var
+[1] 113.6674
+
+
+$raw_res[[12]]
+$raw_res[[12]]$domain
+[1] "16023"
+
+$raw_res[[12]]$domain_total
+[1] 33390413
+
+$raw_res[[12]]$domain_mean
+[1] 46.67638
+
+$raw_res[[12]]$domain_total_var
+[1] 5.146715e+12
+
+$raw_res[[12]]$domain_mean_var
+[1] 10.05729
+
+
+$raw_res[[13]]
+$raw_res[[13]]$domain
+[1] "16025"
+
+$raw_res[[13]]$domain_total
+[1] 20381358
+
+$raw_res[[13]]$domain_mean
+[1] 59.08154
+
+$raw_res[[13]]$domain_total_var
+[1] 5.070713e+12
+
+$raw_res[[13]]$domain_mean_var
+[1] 42.60949
+
+
+$raw_res[[14]]
+$raw_res[[14]]$domain
+[1] "16029"
+
+$raw_res[[14]]$domain_total
+[1] 34052766
+
+$raw_res[[14]]$domain_mean
+[1] 59.19718
+
+$raw_res[[14]]$domain_total_var
+[1] 9.856026e+12
+
+$raw_res[[14]]$domain_mean_var
+[1] 29.78511
+
+
+$raw_res[[15]]
+$raw_res[[15]]$domain
+[1] "16031"
+
+$raw_res[[15]]$domain_total
+[1] 36203932
+
+$raw_res[[15]]$domain_mean
+[1] 43.79824
+
+$raw_res[[15]]$domain_total_var
+[1] 6.741815e+12
+
+$raw_res[[15]]$domain_mean_var
+[1] 9.866853
+
+
+$raw_res[[16]]
+$raw_res[[16]]$domain
+[1] "16033"
+
+$raw_res[[16]]$domain_total
+[1] 24572332
+
+$raw_res[[16]]$domain_mean
+[1] 43.54681
+
+$raw_res[[16]]$domain_total_var
+[1] 7.685923e+12
+
+$raw_res[[16]]$domain_mean_var
+[1] 24.13882
+
+
+$raw_res[[17]]
+$raw_res[[17]]$domain
+[1] "16035"
+
+$raw_res[[17]]$domain_total
+[1] 98481213
+
+$raw_res[[17]]$domain_mean
+[1] 123.7993
+
+$raw_res[[17]]$domain_total_var
+[1] 5.828789e+13
+
+$raw_res[[17]]$domain_mean_var
+[1] 92.11022
+
+
+$raw_res[[18]]
+$raw_res[[18]]$domain
+[1] "16037"
+
+$raw_res[[18]]$domain_total
+[1] 81507568
+
+$raw_res[[18]]$domain_mean
+[1] 51.62275
+
+$raw_res[[18]]$domain_total_var
+[1] 3.00394e+13
+
+$raw_res[[18]]$domain_mean_var
+[1] 12.04974
+
+
+$raw_res[[19]]
+$raw_res[[19]]$domain
+[1] "16039"
+
+$raw_res[[19]]$domain_total
+[1] 32799941
+
+$raw_res[[19]]$domain_mean
+[1] 33.09816
+
+$raw_res[[19]]$domain_total_var
+[1] 9.814802e+12
+
+$raw_res[[19]]$domain_mean_var
+[1] 9.994084
+
+
+$raw_res[[20]]
+$raw_res[[20]]$domain
+[1] "16041"
+
+$raw_res[[20]]$domain_total
+[1] 10259815
+
+$raw_res[[20]]$domain_mean
+[1] 48.04139
+
+$raw_res[[20]]$domain_total_var
+[1] 1.96309e+12
+
+$raw_res[[20]]$domain_mean_var
+[1] 43.04198
+
+
+$raw_res[[21]]
+$raw_res[[21]]$domain
+[1] "16043"
+
+$raw_res[[21]]$domain_total
+[1] 37157299
+
+$raw_res[[21]]$domain_mean
+[1] 61.26856
+
+$raw_res[[21]]$domain_total_var
+[1] 7.535957e+12
+
+$raw_res[[21]]$domain_mean_var
+[1] 20.48922
+
+
+$raw_res[[22]]
+$raw_res[[22]]$domain
+[1] "16045"
+
+$raw_res[[22]]$domain_total
+[1] 8965137
+
+$raw_res[[22]]$domain_mean
+[1] 50.18465
+
+$raw_res[[22]]$domain_total_var
+[1] 2.198882e+12
+
+$raw_res[[22]]$domain_mean_var
+[1] 68.90169
+
+
+$raw_res[[23]]
+$raw_res[[23]]$domain
+[1] "16049"
+
+$raw_res[[23]]$domain_total
+[1] 223291985
+
+$raw_res[[23]]$domain_mean
+[1] 82.12561
+
+$raw_res[[23]]$domain_total_var
+[1] 1.472581e+14
+
+$raw_res[[23]]$domain_mean_var
+[1] 19.92004
+
+
+$raw_res[[24]]
+$raw_res[[24]]$domain
+[1] "16051"
+
+$raw_res[[24]]$domain_total
+[1] 11666225
+
+$raw_res[[24]]$domain_mean
+[1] 32.98647
+
+$raw_res[[24]]$domain_total_var
+[1] NA
+
+$raw_res[[24]]$domain_mean_var
+[1] NA
+
+
+$raw_res[[25]]
+$raw_res[[25]]$domain
+[1] "16055"
+
+$raw_res[[25]]$domain_total
+[1] 37528677
+
+$raw_res[[25]]$domain_mean
+[1] 89.64791
+
+$raw_res[[25]]$domain_total_var
+[1] 1.899839e+13
+
+$raw_res[[25]]$domain_mean_var
+[1] 108.4103
+
+
+$raw_res[[26]]
+$raw_res[[26]]$domain
+[1] "16057"
+
+$raw_res[[26]]$domain_total
+[1] 19931463
+
+$raw_res[[26]]$domain_mean
+[1] 58.03731
+
+$raw_res[[26]]$domain_total_var
+[1] 1.837492e+13
+
+$raw_res[[26]]$domain_mean_var
+[1] 155.7979
+
+
+$raw_res[[27]]
+$raw_res[[27]]$domain
+[1] "16059"
+
+$raw_res[[27]]$domain_total
+[1] 75358021
+
+$raw_res[[27]]$domain_mean
+[1] 51.61837
+
+$raw_res[[27]]$domain_total_var
+[1] 3.4372e+13
+
+$raw_res[[27]]$domain_mean_var
+[1] 16.12703
+
+
+$raw_res[[28]]
+$raw_res[[28]]$domain
+[1] "16061"
+
+$raw_res[[28]]$domain_total
+[1] 5230292
+
+$raw_res[[28]]$domain_mean
+[1] 34.13093
+
+$raw_res[[28]]$domain_total_var
+[1] 1.494249e+12
+
+$raw_res[[28]]$domain_mean_var
+[1] 63.63082
+
+
+$raw_res[[29]]
+$raw_res[[29]]$domain
+[1] "16065"
+
+$raw_res[[29]]$domain_total
+[1] 5760668
+
+$raw_res[[29]]$domain_mean
+[1] 38.11831
+
+$raw_res[[29]]$domain_total_var
+[1] 635571310951
+
+$raw_res[[29]]$domain_mean_var
+[1] 27.82825
+
+
+$raw_res[[30]]
+$raw_res[[30]]$domain
+[1] "16069"
+
+$raw_res[[30]]$domain_total
+[1] 9876316
+
+$raw_res[[30]]$domain_mean
+[1] 36.02483
+
+$raw_res[[30]]$domain_total_var
+[1] 797245583586
+
+$raw_res[[30]]$domain_mean_var
+[1] 10.60733
+
+
+$raw_res[[31]]
+$raw_res[[31]]$domain
+[1] "16071"
+
+$raw_res[[31]]$domain_total
+[1] 14729506
+
+$raw_res[[31]]$domain_mean
+[1] 38.35439
+
+$raw_res[[31]]$domain_total_var
+[1] 975141453494
+
+$raw_res[[31]]$domain_mean_var
+[1] 6.611827
+
+
+$raw_res[[32]]
+$raw_res[[32]]$domain
+[1] "16073"
+
+$raw_res[[32]]$domain_total
+[1] 82351228
+
+$raw_res[[32]]$domain_mean
+[1] 33.46803
+
+$raw_res[[32]]$domain_total_var
+[1] 5.880778e+12
+
+$raw_res[[32]]$domain_mean_var
+[1] 0.9713034
+
+
+$raw_res[[33]]
+$raw_res[[33]]$domain
+[1] "16077"
+
+$raw_res[[33]]$domain_total
+[1] 18995353
+
+$raw_res[[33]]$domain_mean
+[1] 41.31095
+
+$raw_res[[33]]$domain_total_var
+[1] 3.809997e+12
+
+$raw_res[[33]]$domain_mean_var
+[1] 18.02023
+
+
+$raw_res[[34]]
+$raw_res[[34]]$domain
+[1] "16079"
+
+$raw_res[[34]]$domain_total
+[1] 127353126
+
+$raw_res[[34]]$domain_mean
+[1] 150.7328
+
+$raw_res[[34]]$domain_total_var
+[1] 7.022966e+13
+
+$raw_res[[34]]$domain_mean_var
+[1] 98.38233
+
+
+$raw_res[[35]]
+$raw_res[[35]]$domain
+[1] "16081"
+
+$raw_res[[35]]$domain_total
+[1] 8492730
+
+$raw_res[[35]]$domain_mean
+[1] 59.01828
+
+$raw_res[[35]]$domain_total_var
+[1] 1.943679e+12
+
+$raw_res[[35]]$domain_mean_var
+[1] 93.86486
+
+
+$raw_res[[36]]
+$raw_res[[36]]$domain
+[1] "16083"
+
+$raw_res[[36]]$domain_total
+[1] 20815687
+
+$raw_res[[36]]$domain_mean
+[1] 33.8516
+
+$raw_res[[36]]$domain_total_var
+[1] 511073650680
+
+$raw_res[[36]]$domain_mean_var
+[1] 1.351638
+
+
+$raw_res[[37]]
+$raw_res[[37]]$domain
+[1] "16085"
+
+$raw_res[[37]]$domain_total
+[1] 43930238
+
+$raw_res[[37]]$domain_mean
+[1] 36.77054
+
+$raw_res[[37]]$domain_total_var
+[1] 2.847346e+13
+
+$raw_res[[37]]$domain_mean_var
+[1] 19.94863
+
+
+$raw_res[[38]]
+$raw_res[[38]]$domain
+[1] "16087"
+
+$raw_res[[38]]$domain_total
+[1] 19810651
+
+$raw_res[[38]]$domain_mean
+[1] 42.06583
+
+$raw_res[[38]]$domain_total_var
+[1] 2.948423e+12
+
+$raw_res[[38]]$domain_mean_var
+[1] 13.29387
+
+
+
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’
+
+> nameEx("postStrat")
+> ### * postStrat
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: postStrat
+> ### Title: Compute a post-stratified estimator
+> ### Aliases: postStrat
+> 
+> ### ** Examples
+> 
+> library(tidyr)
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> 
+> data(IdahoPop)
+> data(IdahoSamp)
+> 
+> xsample <- filter(IdahoSamp, COUNTYFIPS == "16055")
+> xpop <- filter(IdahoPop, COUNTYFIPS == "16055")
+> 
+> pop <- xpop[c("tnt.1", "tnt.2")] |> 
++     pivot_longer(everything(), names_to = "tnt", values_to = "prop") |>
++     mutate(tnt = as.numeric(gsub("\\D", "", tnt)))
+>     
+> postStrat(y = xsample$BA_TPA_ADJ,
++           N = xpop$npixels,
++           xsample = xsample$tnt,
++           xpop = pop,
++           datatype = "means",
++           var_est = TRUE,
++           var_method = "SRSunconditional")
+Assuming simple random sampling
+$pop_total
+[1] 40148687
+
+$pop_mean
+[1] 95.90655
+
+$pop_total_var
+             [,1]
+[1,] 6.724438e+12
+
+$pop_mean_var
+         [,1]
+[1,] 38.37159
+
+$strat_ests
+# A tibble: 2 × 3
+  x     strat_pop_total strat_pop_mean
+  <fct>           <dbl>          <dbl>
+1 1           35004878.          114. 
+2 2            5143809.           46.1
+
+$weights
+  [1] 0.0006368499 0.0001946594 0.0006368499 0.0001946594 0.0001946594
+  [6] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [11] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [16] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0006368499
+ [21] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [26] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0006368499
+ [31] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [36] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [41] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [46] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [51] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [56] 0.0006368499 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [61] 0.0001946594 0.0001946594 0.0006368499 0.0001946594 0.0006368499
+ [66] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [71] 0.0006368499 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [76] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0006368499
+ [81] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [86] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+ [91] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0006368499
+ [96] 0.0001946594 0.0001946594 0.0001946594 0.0001946594 0.0001946594
+
+>           
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:dplyr’, ‘package:tidyr’
+
+> nameEx("ratio")
+> ### * ratio
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ratio
+> ### Title: Compute a ratio of two estimators
+> ### Aliases: ratio
+> 
+> ### ** Examples
+> 
+> library(survey)
+Loading required package: grid
+Loading required package: Matrix
+Loading required package: survival
+
+Attaching package: ‘survey’
+
+The following object is masked from ‘package:graphics’:
+
+    dotchart
+
+> data(api) 
+> ratio(y_num = apisrs$api.stu, y_den = apisrs$enroll, xsample = apisrs$stype,
++ xpop = apipop$stype, pi = apisrs$pw^(-1), estimator = "postStrat",
++ var_est = TRUE, var_method = "LinHB", datatype = "raw")
+$ratio_est
+[1] 0.8258652
+
+$ratio_var_est
+[1] 8.851525e-05
+
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:survey’, ‘package:survival’, ‘package:Matrix’,
+  ‘package:grid’
+
+> nameEx("ratioEstimator")
+> ### * ratioEstimator
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ratioEstimator
+> ### Title: Compute a ratio estimator
+> ### Aliases: ratioEstimator
+> 
+> ### ** Examples
+> 
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> data(IdahoPop)
+> data(IdahoSamp)
+> 
+> xsample <- filter(IdahoSamp, COUNTYFIPS == "16055")
+> xpop <- filter(IdahoPop, COUNTYFIPS == "16055")
+> 
+> ratioEstimator(y = xsample$BA_TPA_ADJ,
++                xsample = xsample$tcc,
++                xpop = xpop$tcc,
++                datatype = "means",
++                N = xpop$npixels)
+Assuming simple random sampling
+$pop_total
+[1] 36891107
+
+$pop_mean
+[1] 88.12489
+
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+
+detaching ‘package:dplyr’
+
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  2.232 0.231 2.295 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

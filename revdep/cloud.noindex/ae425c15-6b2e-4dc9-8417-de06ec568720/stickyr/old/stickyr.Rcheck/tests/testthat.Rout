@@ -1,0 +1,46 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # This file is part of the standard setup for testthat.
+> # It is recommended that you do not modify it.
+> #
+> # Where should you do additional test configuration?
+> # Learn more about the roles of various files in:
+> # * https://r-pkgs.org/tests.html
+> # * https://testthat.r-lib.org/reference/test_package.html#special-files
+> 
+> library(testthat)
+> library(stickyr)
+
+Attaching package: 'stickyr'
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, union
+
+> 
+> test_check("stickyr")
+Adding missing grouping variables: `name`
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 23 ]
+> 
+> proc.time()
+   user  system elapsed 
+  0.903   0.191   0.998 

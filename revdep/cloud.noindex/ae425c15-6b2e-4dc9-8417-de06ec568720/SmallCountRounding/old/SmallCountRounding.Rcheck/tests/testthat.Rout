@@ -1,0 +1,36 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(SmallCountRounding)
+> 
+> test_check("SmallCountRounding")
+-z(60*59->27*47):.  1 iterations: deviation 2.842171e-14
+-zx-z(36*53->20*43):.  1 iterations: deviation 7.105427e-15
+-z(60*59->27*47):.  1 iterations: deviation 1.421085e-14
+-z(60*59->27*47):.  1 iterations: deviation 2.842171e-14
+[ FAIL 0 | WARN 0 | SKIP 2 | PASS 65 ]
+
+══ Skipped tests (2) ═══════════════════════════════════════════════════════════
+• On CRAN (1): 'test-PLSrounding.R:215:3'
+• Too many tests (1): 'test-PLSrounding.R:230:3'
+
+[ FAIL 0 | WARN 0 | SKIP 2 | PASS 65 ]
+> 
+> proc.time()
+   user  system elapsed 
+  3.917   0.248   4.078 

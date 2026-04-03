@@ -1,0 +1,39 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(dreamer)
+> 
+> test_check("dreamer")
+[ FAIL 0 | WARN 0 | SKIP 27 | PASS 5352 ]
+
+══ Skipped tests (27) ══════════════════════════════════════════════════════════
+• On CRAN (27): 'test-plots.R:85:3', 'test-plots.R:93:3', 'test-plots.R:107:3',
+  'test-plots.R:116:3', 'test-plots.R:124:3', 'test-plots.R:140:3',
+  'test-plots.R:149:3', 'test-plots.R:157:3', 'test-plots.R:165:3',
+  'test-plots.R:173:3', 'test-plots.R:181:3', 'test-plots.R:189:3',
+  'test-plots.R:203:3', 'test-plots.R:214:3', 'test-plots.R:231:3',
+  'test-plots.R:239:3', 'test-plots.R:251:3', 'test-plots.R:272:3',
+  'test-plots.R:293:3', 'test-plots.R:306:3', 'test-plots.R:328:3',
+  'test-plots.R:350:3', 'test-plots.R:391:3', 'test-posterior.R:111:1',
+  'test-posterior.R:127:1', 'test-print.R:42:3', 'test-print.R:85:3'
+
+[ FAIL 0 | WARN 0 | SKIP 27 | PASS 5352 ]
+> 
+> proc.time()
+   user  system elapsed 
+ 69.139   0.840  70.001 

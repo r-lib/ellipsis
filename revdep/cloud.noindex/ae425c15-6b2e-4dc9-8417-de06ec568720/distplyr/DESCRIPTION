@@ -1,0 +1,37 @@
+Type: Package
+Package: distplyr
+Title: Manipulate and Combine Probability Distributions
+Version: 0.2.0
+Authors@R: c(
+    person("Vincenzo", "Coia", email = "vincenzo.coia@gmail.com", 
+           role = c("aut", "cre", "cph")),
+    person("Amogh", "Joshi", role = "ctb"),
+    person("Shuyi", "Tan", role = "ctb"),
+    person("Zhipeng", "Zhu", role = "ctb")
+  )
+Description: Go beyond standard probability distributions such as the Normal
+    or Exponential by combining, shifting, maximizing, and otherwise
+    transforming distributions with simple, verb-based functions. Provides
+    easy access to a broader space of distributions more representative of 
+    real-world systems such as river flows or insurance claims. 
+    Part of the probaverse framework of packages to support advanced
+    statistical modeling and simulations with an intuitive workflow.
+License: MIT + file LICENSE
+Depends: R (>= 3.5.0)
+Imports: ellipsis, rlang, vctrs, stats, checkmate, distionary
+Suggests: covr, knitr, rmarkdown, testthat (>= 3.0.0), tibble
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+URL: https://distplyr.probaverse.com/,
+        https://github.com/probaverse/distplyr
+NeedsCompilation: no
+Packaged: 2025-12-01 18:44:10 UTC; vcoia
+Author: Vincenzo Coia [aut, cre, cph],
+  Amogh Joshi [ctb],
+  Shuyi Tan [ctb],
+  Zhipeng Zhu [ctb]
+Maintainer: Vincenzo Coia <vincenzo.coia@gmail.com>
+Repository: CRAN
+Date/Publication: 2025-12-08 08:20:17 UTC

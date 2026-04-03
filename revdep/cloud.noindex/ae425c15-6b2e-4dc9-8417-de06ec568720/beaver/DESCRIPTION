@@ -1,0 +1,38 @@
+Package: beaver
+Title: Bayesian Model Averaging of Covariate Adjusted Negative-Binomial
+        Dose-Response
+Version: 1.0.0
+Authors@R: c(
+    person(given = "Richard",
+           family = "Payne",
+           role = c("aut"),
+           email = "paynestatistics@gmail.com"),
+    person(given = "Hollins",
+           family = "Showalter",
+           role = c("aut", "cre"),
+           email = "hollins.showalter@gmail.com"),
+    person(family = "Eli Lilly and Company",
+           role = "cph"))
+Description: Dose-response modeling for negative-binomial distributed data with
+  a variety of dose-response models. Covariate adjustment and Bayesian
+  model averaging is supported. Functions are provided to easily obtain
+  inference on the dose-response relationship and plot the dose-response curve.
+License: MIT + file LICENSE
+URL: https://github.com/rich-payne/beaver
+Depends: R (>= 3.5.0)
+Imports: checkmate (>= 2.1), dplyr (>= 1.0), ellipsis (>= 0.3), fs (>=
+        1.5), ggplot2 (>= 3.3), purrr (>= 0.3), rjags (>= 4.12), rlang
+        (>= 1.0), stringr (>= 1.5), tibble (>= 3.1), tidyr (>= 1.1),
+        yodel (>= 1.0)
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+NeedsCompilation: no
+Packaged: 2024-05-21 21:43:59 UTC; c050983
+Author: Richard Payne [aut],
+  Hollins Showalter [aut, cre],
+  Eli Lilly and Company [cph]
+Maintainer: Hollins Showalter <hollins.showalter@gmail.com>
+Repository: CRAN
+Date/Publication: 2024-05-22 13:00:06 UTC

@@ -1,0 +1,1698 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "dreamer"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('dreamer')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("diagnostics")
+> ### * diagnostics
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: diagnostics
+> ### Title: Calculate MCMC Diagnostics for Parameters
+> ### Aliases: diagnostics
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e4,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:18.253
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:18.358
+total : 0.11 secs
+
+mod_quad
+start : 2026-04-02 13:31:18.359
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:18.464
+total : 0.10 secs
+
+> 
+> # for all models
+> diagnostics(output)
+# A tibble: 7 × 5
+  model      param gelman_point gelman_upper effective_size
+  <chr>      <chr>        <dbl>        <dbl>          <dbl>
+1 mod_linear b1           1.00          1.00         20695.
+2 mod_linear b2           1.00          1.00         20000.
+3 mod_linear sigma        1.00          1.00         19553.
+4 mod_quad   b1           1.00          1.00         20211.
+5 mod_quad   b2           1.000         1.00         17217.
+6 mod_quad   b3           1.000         1.00         17119.
+7 mod_quad   sigma        1.00          1.00         16379.
+> 
+> # for a single model
+> diagnostics(output$mod_quad)
+# A tibble: 4 × 4
+  param gelman_point gelman_upper effective_size
+  <chr>        <dbl>        <dbl>          <dbl>
+1 b1           1.00          1.00         20211.
+2 b2           1.000         1.00         17217.
+3 b3           1.000         1.00         17119.
+4 sigma        1.00          1.00         16379.
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dreamer_data")
+> ### * dreamer_data
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dreamer_data
+> ### Title: Generate Data from Dose Response Models
+> ### Aliases: dreamer_data dreamer_data_linear dreamer_data_linear_binary
+> ###   dreamer_data_quad dreamer_data_quad_binary dreamer_data_loglinear
+> ###   dreamer_data_loglinear_binary dreamer_data_logquad
+> ###   dreamer_data_logquad_binary dreamer_data_emax
+> ###   dreamer_data_emax_binary dreamer_data_exp dreamer_data_exp_binary
+> ###   dreamer_data_beta dreamer_data_beta_binary dreamer_data_independent
+> ###   dreamer_data_independent_binary
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> head(data)
+  cohort dose subject   response
+1      1    0       1 -8.7567167
+2      1    0       2 -6.7218308
+3      1    0       3  4.6491635
+4      1    0       4 -0.3879090
+5      1    0       5 -7.2814217
+6      1    0       6 -0.2551169
+> 
+> plot(data$dose, data$response)
+> abline(a = 1, b = 3)
+> 
+> # longitudinal data
+> set.seed(889)
+> data_long <- dreamer_data_linear(
++   n_cohorts = c(10, 10, 10, 10), # number of subjects in each cohort
++   doses = c(.25, .5, .75, 1.5), # dose administered to each cohort
++   b1 = 0, # intercept
++   b2 = 2, # slope
++   sigma = .5, # standard deviation,
++   longitudinal = "itp",
++   times = c(0, 12, 24, 52),
++   t_max = 52, # maximum time
++   a = .5,
++   c1 = .1
++ )
+> 
+> ## Not run: 
+> ##D   ggplot(data_long, aes(time, response, group = dose, color = factor(dose))) +
+> ##D     geom_point()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dreamer_mcmc")
+> ### * dreamer_mcmc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dreamer_mcmc
+> ### Title: Bayesian Model Averaging of Dose Response Models
+> ### Aliases: dreamer_mcmc
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++   data = data,
++   n_adapt = 1e3,
++   n_burn = 1e2,
++   n_iter = 1e3,
++   n_chains = 2,
++   silent = TRUE,
++   mod_linear = model_linear(
++     mu_b1 = 0,
++     sigma_b1 = 1,
++     mu_b2 = 0,
++     sigma_b2 = 1,
++     shape = 1,
++     rate = .001,
++     w_prior = 1 / 2
++   ),
++   mod_quad = model_quad(
++     mu_b1 = 0,
++     sigma_b1 = 1,
++     mu_b2 = 0,
++     sigma_b2 = 1,
++     mu_b3 = 0,
++     sigma_b3 = 1,
++     shape = 1,
++     rate = .001,
++     w_prior = 1 / 2
++   )
++ )
+> # posterior weights
+> output$w_post
+mod_linear   mod_quad 
+ 0.7036919  0.2963081 
+> # plot posterior dose response
+> plot(output)
+> 
+> # LONGITUDINAL
+> library(ggplot2)
+> set.seed(889)
+> data_long <- dreamer_data_linear(
++   n_cohorts = c(10, 10, 10, 10), # number of subjects in each cohort
++   doses = c(.25, .5, .75, 1.5), # dose administered to each cohort
++   b1 = 0, # intercept
++   b2 = 2, # slope
++   sigma = .5, # standard deviation,
++   longitudinal = "itp",
++   times = c(0, 12, 24, 52),
++   t_max = 52, # maximum time
++   a = .5,
++   c1 = .1
++ )
+> 
+> ## Not run: 
+> ##D ggplot(data_long, aes(time, response, group = dose, color = factor(dose))) +
+> ##D    geom_point()
+> ## End(Not run)
+> 
+> output_long <- dreamer_mcmc(
++    data = data_long,
++    n_adapt = 1e3,
++    n_burn = 1e2,
++    n_iter = 1e3,
++    n_chains = 2,
++    silent = TRUE, # make rjags be quiet,
++    mod_linear = model_linear(
++       mu_b1 = 0,
++       sigma_b1 = 1,
++       mu_b2 = 0,
++       sigma_b2 = 1,
++       shape = 1,
++       rate = .001,
++       w_prior = 1 / 2, # prior probability of the model
++       longitudinal = model_longitudinal_itp(
++          mu_a = 0,
++          sigma_a = 1,
++          a_c1 = 0,
++          b_c1 = 1,
++          t_max = 52
++       )
++    ),
++    mod_quad = model_quad(
++       mu_b1 = 0,
++       sigma_b1 = 1,
++       mu_b2 = 0,
++       sigma_b2 = 1,
++       mu_b3 = 0,
++       sigma_b3 = 1,
++       shape = 1,
++       rate = .001,
++       w_prior = 1 / 2,
++       longitudinal = model_longitudinal_linear(
++          mu_a = 0,
++          sigma_a = 1,
++          t_max = 52
++       )
++    )
++ )
+> 
+> ## Not run: 
+> ##D # plot longitudinal dose-response profile
+> ##D plot(output_long, data = data_long)
+> ##D plot(output_long$mod_quad, data = data_long) # single model
+> ##D 
+> ##D # plot dose response at final timepoint
+> ##D plot(output_long, data = data_long, times = 52)
+> ##D plot(output_long$mod_quad, data = data_long, times = 52) # single model
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("dreamer_plot_prior")
+> ### * dreamer_plot_prior
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dreamer_plot_prior
+> ### Title: Plot Prior
+> ### Aliases: dreamer_plot_prior
+> 
+> ### ** Examples
+> 
+> # Plot prior for one model
+> set.seed(8111)
+> dreamer_plot_prior(
++  doses = c(0, 2.5, 5),
++  mod_quad_binary = model_quad_binary(
++    mu_b1 = -.5,
++    sigma_b1 = .2,
++    mu_b2 = -.5,
++    sigma_b2 = .2,
++    mu_b3 = .5,
++    sigma_b3 = .1,
++    link = "logit",
++    w_prior = 1
++  )
++ )
+> 
+> # plot individual draws
+> dreamer_plot_prior(
++  doses = seq(from = 0, to = 5, length.out = 50),
++  n_samples = 100,
++  plot_draws = TRUE,
++  mod_quad_binary = model_quad_binary(
++    mu_b1 = -.5,
++    sigma_b1 = .2,
++    mu_b2 = -.5,
++    sigma_b2 = .2,
++    mu_b3 = .5,
++    sigma_b3 = .1,
++    link = "logit",
++    w_prior = 1
++  )
++ )
+> 
+> # plot prior from mixture of models
+> dreamer_plot_prior(
++  doses = c(0, 2.5, 5),
++  mod_linear_binary = model_linear_binary(
++    mu_b1 = -1,
++    sigma_b1 = .1,
++    mu_b2 = 1,
++    sigma_b2 = .1,
++    link = "logit",
++    w_prior = .75
++  ),
++  mod_quad_binary = model_quad_binary(
++    mu_b1 = -.5,
++    sigma_b1 = .2,
++    mu_b2 = -.5,
++    sigma_b2 = .2,
++    mu_b3 = .5,
++    sigma_b3 = .1,
++    link = "logit",
++    w_prior = .25
++  )
++ )
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dreamerplot")
+> ### * dreamerplot
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dreamerplot
+> ### Title: Posterior Plot of Bayesian Model Averaging
+> ### Aliases: dreamerplot plot.dreamer_mcmc
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e4,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:21.333
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:21.425
+total : 0.09 secs
+
+mod_quad
+start : 2026-04-02 13:31:21.425
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:21.526
+total : 0.10 secs
+
+> 
+> plot(output)
+> 
+> ## Not run: 
+> ##D # with data
+> ##D plot(output, data = data)
+> ##D 
+> ##D # predictive distribution
+> ##D plot(output, data = data, predictive = 1)
+> ##D 
+> ##D # single model
+> ##D plot(output$mod_linear)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("model")
+> ### * model
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: model
+> ### Title: Model Creation
+> ### Aliases: model model_linear model_quad model_loglinear model_logquad
+> ###   model_emax model_exp model_beta model_independent model_linear_binary
+> ###   model_quad_binary model_loglinear_binary model_logquad_binary
+> ###   model_emax_binary model_exp_binary model_beta_binary
+> ###   model_independent_binary
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++   data = data,
++   n_adapt = 1e3,
++   n_burn = 1e2,
++   n_iter = 1e3,
++   n_chains = 2,
++   silent = TRUE,
++   mod_linear = model_linear(
++     mu_b1 = 0,
++     sigma_b1 = 1,
++     mu_b2 = 0,
++     sigma_b2 = 1,
++     shape = 1,
++     rate = .001,
++     w_prior = 1 / 2
++   ),
++   mod_quad = model_quad(
++     mu_b1 = 0,
++     sigma_b1 = 1,
++     mu_b2 = 0,
++     sigma_b2 = 1,
++     mu_b3 = 0,
++     sigma_b3 = 1,
++     shape = 1,
++     rate = .001,
++     w_prior = 1 / 2
++   )
++ )
+> # posterior weights
+> output$w_post
+mod_linear   mod_quad 
+ 0.7036919  0.2963081 
+> # plot posterior dose response
+> plot(output)
+> 
+> # LONGITUDINAL
+> library(ggplot2)
+> set.seed(889)
+> data_long <- dreamer_data_linear(
++   n_cohorts = c(10, 10, 10, 10), # number of subjects in each cohort
++   doses = c(.25, .5, .75, 1.5), # dose administered to each cohort
++   b1 = 0, # intercept
++   b2 = 2, # slope
++   sigma = .5, # standard deviation,
++   longitudinal = "itp",
++   times = c(0, 12, 24, 52),
++   t_max = 52, # maximum time
++   a = .5,
++   c1 = .1
++ )
+> 
+> ## Not run: 
+> ##D ggplot(data_long, aes(time, response, group = dose, color = factor(dose))) +
+> ##D    geom_point()
+> ## End(Not run)
+> 
+> output_long <- dreamer_mcmc(
++    data = data_long,
++    n_adapt = 1e3,
++    n_burn = 1e2,
++    n_iter = 1e3,
++    n_chains = 2,
++    silent = TRUE, # make rjags be quiet,
++    mod_linear = model_linear(
++       mu_b1 = 0,
++       sigma_b1 = 1,
++       mu_b2 = 0,
++       sigma_b2 = 1,
++       shape = 1,
++       rate = .001,
++       w_prior = 1 / 2, # prior probability of the model
++       longitudinal = model_longitudinal_itp(
++          mu_a = 0,
++          sigma_a = 1,
++          a_c1 = 0,
++          b_c1 = 1,
++          t_max = 52
++       )
++    ),
++    mod_quad = model_quad(
++       mu_b1 = 0,
++       sigma_b1 = 1,
++       mu_b2 = 0,
++       sigma_b2 = 1,
++       mu_b3 = 0,
++       sigma_b3 = 1,
++       shape = 1,
++       rate = .001,
++       w_prior = 1 / 2,
++       longitudinal = model_longitudinal_linear(
++          mu_a = 0,
++          sigma_a = 1,
++          t_max = 52
++       )
++    )
++ )
+> 
+> ## Not run: 
+> ##D # plot longitudinal dose-response profile
+> ##D plot(output_long, data = data_long)
+> ##D plot(output_long$mod_quad, data = data_long) # single model
+> ##D 
+> ##D # plot dose response at final timepoint
+> ##D plot(output_long, data = data_long, times = 52)
+> ##D plot(output_long$mod_quad, data = data_long, times = 52) # single model
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:ggplot2’
+
+> nameEx("plot_comparison")
+> ### * plot_comparison
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_comparison
+> ### Title: Compare Posterior Fits
+> ### Aliases: plot_comparison plot_comparison.default
+> ###   plot_comparison.dreamer_bma
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e3,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:23.359
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:23.382
+total : 0.02 secs
+
+mod_quad
+start : 2026-04-02 13:31:23.383
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:23.411
+total : 0.03 secs
+
+> 
+> plot_comparison(output)
+> 
+> # compare individual models
+> plot_comparison(linear = output$mod_linear, quad = output$mod_quad)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot_trace")
+> ### * plot_trace
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot_trace
+> ### Title: Traceplots
+> ### Aliases: plot_trace
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e4,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:24.421
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:24.515
+total : 0.09 secs
+
+mod_quad
+start : 2026-04-02 13:31:24.515
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:24.615
+total : 0.10 secs
+
+> 
+> # all parameters from all models
+> plot_trace(output)
+> 
+> # from a single model
+> plot_trace(output$mod_linear)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("post_medx")
+> ### * post_medx
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: post_medx
+> ### Title: Posterior Distribution of Minimum X% Effective Dose
+> ### Aliases: post_medx post_medx.dreamer_bma post_medx.dreamer_mcmc
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e3,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:25.528
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:25.552
+total : 0.02 secs
+
+mod_quad
+start : 2026-04-02 13:31:25.552
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:25.578
+total : 0.03 secs
+
+> 
+> post_medx(output, ed = c(50, 90))
+$stats
+  ed pr_edx_exists     mean     2.5%    97.5%
+1 50             1 4.934277 4.449656 5.568752
+2 90             1 8.986711 8.785120 9.183197
+
+> 
+> # from a single model
+> post_medx(output$mod_linear, ed = c(50, 90))
+$stats
+  ed pr_edx_exists     mean     2.5%    97.5%
+1 50             1 4.900778 4.660334 5.120568
+2 90             1 8.980156 8.932067 9.024114
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("post_perc_effect")
+> ### * post_perc_effect
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: post_perc_effect
+> ### Title: Calculate Posterior of a Dose's Percentage Effect
+> ### Aliases: post_perc_effect post_perc_effect.dreamer_bma
+> ###   post_perc_effect.dreamer_mcmc
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e3,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:26.107
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:26.131
+total : 0.02 secs
+
+mod_quad
+start : 2026-04-02 13:31:26.131
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:26.156
+total : 0.03 secs
+
+> 
+> post_perc_effect(output, dose = c(3, 5))
+$stats
+# A tibble: 2 × 5
+   dose pr_perc_exists  mean `2.50%` `97.50%`
+  <dbl>          <dbl> <dbl>   <dbl>    <dbl>
+1     3              1 0.311   0.256    0.353
+2     5              1 0.506   0.443    0.555
+
+> 
+> # from a single model
+> post_perc_effect(output$mod_linear, dose = c(3, 5))
+$stats
+# A tibble: 2 × 5
+   dose pr_perc_exists  mean `2.50%` `97.50%`
+  <dbl>          <dbl> <dbl>   <dbl>    <dbl>
+1     3              1 0.313   0.283    0.345
+2     5              1 0.509   0.488    0.532
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("posterior")
+> ### * posterior
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: posterior
+> ### Title: Posterior Quantities from Bayesian Model Averaging
+> ### Aliases: posterior posterior.dreamer_mcmc
+> ###   posterior.dreamer_mcmc_independent posterior.dreamer_bma
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e4,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:26.696
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:26.787
+total : 0.09 secs
+
+mod_quad
+start : 2026-04-02 13:31:26.788
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:26.887
+total : 0.10 secs
+
+> 
+> posterior(output)
+$stats
+# A tibble: 3 × 4
+   dose   mean `2.50%` `97.50%`
+  <dbl>  <dbl>   <dbl>    <dbl>
+1     0  0.572  -0.803     1.95
+2     3  9.56    7.92     11.0 
+3    10 30.8    28.6      33.1 
+
+> 
+> # return posterior samples of the mean
+> post <- posterior(output, return_samples = TRUE)
+> head(post$samps)
+  iter dose mean_response    model
+1    1    0     0.6844290 mod_quad
+2    6    0    -0.4293629 mod_quad
+3    8    0     1.5144070 mod_quad
+4   12    0     0.6374851 mod_quad
+5   13    0     1.5117433 mod_quad
+6   19    0     0.8239574 mod_quad
+> 
+> # from a single model
+> posterior(output$mod_quad)
+$stats
+# A tibble: 3 × 4
+   dose   mean `2.50%` `97.50%`
+  <dbl>  <dbl>   <dbl>    <dbl>
+1     0  0.612  -0.808     2.06
+2     3  9.37    7.22     11.5 
+3    10 30.9    28.6      33.3 
+
+> 
+> # posterior of difference of doses
+> posterior(output, reference_dose = 0)
+$stats
+# A tibble: 3 × 5
+   dose reference_dose  mean `2.50%` `97.50%`
+  <dbl>          <dbl> <dbl>   <dbl>    <dbl>
+1     0              0  0       0         0  
+2     3              0  8.98    7.16     10.4
+3    10              0 30.3    27.5      33.0
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pr_eoi")
+> ### * pr_eoi
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pr_eoi
+> ### Title: Calculate Probability of Meeting Effect of Interest (EOI)
+> ### Aliases: pr_eoi
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e4,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:27.568
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:27.660
+total : 0.09 secs
+
+mod_quad
+start : 2026-04-02 13:31:27.660
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:27.761
+total : 0.10 secs
+
+> 
+> pr_eoi(output, dose = 3, eoi = 10)
+# A tibble: 1 × 3
+    eoi  dose  prob
+  <dbl> <dbl> <dbl>
+1    10     3 0.262
+> 
+> # difference of two doses
+> pr_eoi(output, dose = 3, eoi = 10, reference_dose = 0)
+# A tibble: 1 × 4
+    eoi  dose reference_dose   prob
+  <dbl> <dbl>          <dbl>  <dbl>
+1    10     3              0 0.0492
+> 
+> # single model
+> pr_eoi(output$mod_linear, dose = 3, eoi = 10)
+# A tibble: 1 × 3
+    eoi  dose  prob
+  <dbl> <dbl> <dbl>
+1    10     3 0.257
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pr_med")
+> ### * pr_med
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pr_med
+> ### Title: Pr(minimum efficacious dose)
+> ### Aliases: pr_med
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e3,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:28.360
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:28.384
+total : 0.02 secs
+
+mod_quad
+start : 2026-04-02 13:31:28.384
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:28.409
+total : 0.03 secs
+
+> 
+> pr_med(output, csd = 10)
+# A tibble: 3 × 2
+   dose  prob
+  <dbl> <dbl>
+1     0 0    
+2     3 0.258
+3    10 0.742
+> 
+> # difference of two doses
+> pr_med(output, csd = 3, reference_dose = 0)
+# A tibble: 3 × 3
+   dose reference_dose  prob
+  <dbl>          <dbl> <dbl>
+1     0              0     0
+2     3              0     1
+3    10              0     0
+> 
+> # single model
+> pr_med(output$mod_quad, csd = 10)
+# A tibble: 3 × 2
+   dose  prob
+  <dbl> <dbl>
+1     0 0    
+2     3 0.285
+3    10 0.715
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pr_medx")
+> ### * pr_medx
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pr_medx
+> ### Title: Probability of minimum X% effective dose
+> ### Aliases: pr_medx
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = .1,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e3,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:28.864
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:28.892
+total : 0.03 secs
+
+mod_quad
+start : 2026-04-02 13:31:28.892
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:28.917
+total : 0.02 secs
+
+> 
+> pr_medx(output, ed = 80)
+# A tibble: 3 × 3
+     ed dose    prob
+  <dbl> <chr>  <dbl>
+1    80 0     0.0605
+2    80 3     0.415 
+3    80 10    0.522 
+> 
+> # single model
+> pr_medx(output$mod_linear, ed = 80)
+# A tibble: 3 × 3
+     ed dose   prob
+  <dbl> <chr> <dbl>
+1    80 0     0.13 
+2    80 3     0.018
+3    80 10    0.846
+> 
+> 
+> 
+> cleanEx()
+> nameEx("summary.dreamer_bma")
+> ### * summary.dreamer_bma
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: summary.dreamer_bma
+> ### Title: Summarize Bayesian Model Averaging MCMC Output
+> ### Aliases: summary.dreamer_bma
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e4,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:29.541
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:29.632
+total : 0.09 secs
+
+mod_quad
+start : 2026-04-02 13:31:29.632
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:29.732
+total : 0.10 secs
+
+> 
+> # all models (also show model weights)
+> summary(output)
+$model_weights
+# A tibble: 2 × 3
+  model      posterior_weight prior_weight
+  <chr>      <chr>            <chr>       
+1 mod_linear 72.1%            50.0%       
+2 mod_quad   27.9%            50.0%       
+
+$summary
+# A tibble: 7 × 14
+  model      param   mean     sd       se    se_ts  `2.5%`   `25%`  `50%`  `75%`
+  <chr>      <chr>  <dbl>  <dbl>    <dbl>    <dbl>   <dbl>   <dbl>  <dbl>  <dbl>
+1 mod_linear b1    0.562  0.694  0.00490  0.00482  -0.813   0.0950 0.568  1.03  
+2 mod_linear b2    3.02   0.139  0.000979 0.000979  2.75    2.93   3.02   3.12  
+3 mod_linear sigma 5.23   0.489  0.00346  0.00350   4.37    4.88   5.18   5.53  
+4 mod_quad   b1    0.612  0.730  0.00516  0.00514  -0.808   0.121  0.602  1.10  
+5 mod_quad   b2    2.87   0.564  0.00398  0.00430   1.74    2.50   2.88   3.26  
+6 mod_quad   b3    0.0156 0.0556 0.000393 0.000425 -0.0905 -0.0223 0.0147 0.0529
+7 mod_quad   sigma 5.29   0.509  0.00360  0.00398   4.41    4.93   5.25   5.61  
+# ℹ 4 more variables: `97.5%` <dbl>, gelman_point <dbl>, gelman_upper <dbl>,
+#   effective_size <dbl>
+
+> 
+> # single model
+> summary(output$mod_linear)
+# A tibble: 3 × 13
+  param  mean    sd       se    se_ts `2.5%`  `25%` `50%` `75%` `97.5%`
+  <chr> <dbl> <dbl>    <dbl>    <dbl>  <dbl>  <dbl> <dbl> <dbl>   <dbl>
+1 b1    0.562 0.694 0.00490  0.00482  -0.813 0.0950 0.568  1.03    1.92
+2 b2    3.02  0.139 0.000979 0.000979  2.75  2.93   3.02   3.12    3.29
+3 sigma 5.23  0.489 0.00346  0.00350   4.37  4.88   5.18   5.53    6.30
+# ℹ 3 more variables: gelman_point <dbl>, gelman_upper <dbl>,
+#   effective_size <dbl>
+> 
+> 
+> 
+> cleanEx()
+> nameEx("summary.dreamer_mcmc")
+> ### * summary.dreamer_mcmc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: summary.dreamer_mcmc
+> ### Title: Summarize Model Output
+> ### Aliases: summary.dreamer_mcmc
+> 
+> ### ** Examples
+> 
+> set.seed(888)
+> data <- dreamer_data_linear(
++   n_cohorts = c(20, 20, 20),
++   dose = c(0, 3, 10),
++   b1 = 1,
++   b2 = 3,
++   sigma = 5
++ )
+> 
+> # Bayesian model averaging
+> output <- dreamer_mcmc(
++  data = data,
++  n_adapt = 1e3,
++  n_burn = 1e3,
++  n_iter = 1e4,
++  n_chains = 2,
++  silent = FALSE,
++  mod_linear = model_linear(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  ),
++  mod_quad = model_quad(
++    mu_b1 = 0,
++    sigma_b1 = 1,
++    mu_b2 = 0,
++    sigma_b2 = 1,
++    mu_b3 = 0,
++    sigma_b3 = 1,
++    shape = 1,
++    rate = .001,
++    w_prior = 1 / 2
++  )
++ )
+mod_linear
+start : 2026-04-02 13:31:30.892
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 3
+   Total graph size: 50
+
+Initializing model
+
+finish: 2026-04-02 13:31:31.000
+total : 0.11 secs
+
+mod_quad
+start : 2026-04-02 13:31:31.001
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 6
+   Unobserved stochastic nodes: 4
+   Total graph size: 59
+
+Initializing model
+
+finish: 2026-04-02 13:31:31.101
+total : 0.10 secs
+
+> 
+> # all models (also show model weights)
+> summary(output)
+$model_weights
+# A tibble: 2 × 3
+  model      posterior_weight prior_weight
+  <chr>      <chr>            <chr>       
+1 mod_linear 72.1%            50.0%       
+2 mod_quad   27.9%            50.0%       
+
+$summary
+# A tibble: 7 × 14
+  model      param   mean     sd       se    se_ts  `2.5%`   `25%`  `50%`  `75%`
+  <chr>      <chr>  <dbl>  <dbl>    <dbl>    <dbl>   <dbl>   <dbl>  <dbl>  <dbl>
+1 mod_linear b1    0.562  0.694  0.00490  0.00482  -0.813   0.0950 0.568  1.03  
+2 mod_linear b2    3.02   0.139  0.000979 0.000979  2.75    2.93   3.02   3.12  
+3 mod_linear sigma 5.23   0.489  0.00346  0.00350   4.37    4.88   5.18   5.53  
+4 mod_quad   b1    0.612  0.730  0.00516  0.00514  -0.808   0.121  0.602  1.10  
+5 mod_quad   b2    2.87   0.564  0.00398  0.00430   1.74    2.50   2.88   3.26  
+6 mod_quad   b3    0.0156 0.0556 0.000393 0.000425 -0.0905 -0.0223 0.0147 0.0529
+7 mod_quad   sigma 5.29   0.509  0.00360  0.00398   4.41    4.93   5.25   5.61  
+# ℹ 4 more variables: `97.5%` <dbl>, gelman_point <dbl>, gelman_upper <dbl>,
+#   effective_size <dbl>
+
+> 
+> # single model
+> summary(output$mod_linear)
+# A tibble: 3 × 13
+  param  mean    sd       se    se_ts `2.5%`  `25%` `50%` `75%` `97.5%`
+  <chr> <dbl> <dbl>    <dbl>    <dbl>  <dbl>  <dbl> <dbl> <dbl>   <dbl>
+1 b1    0.562 0.694 0.00490  0.00482  -0.813 0.0950 0.568  1.03    1.92
+2 b2    3.02  0.139 0.000979 0.000979  2.75  2.93   3.02   3.12    3.29
+3 sigma 5.23  0.489 0.00346  0.00350   4.37  4.88   5.18   5.53    6.30
+# ℹ 3 more variables: gelman_point <dbl>, gelman_upper <dbl>,
+#   effective_size <dbl>
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  16.304 2.212 14.568 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

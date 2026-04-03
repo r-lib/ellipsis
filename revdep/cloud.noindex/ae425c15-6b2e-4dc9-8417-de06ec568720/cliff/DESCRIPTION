@@ -1,0 +1,22 @@
+Package: cliff
+Title: Execute Command Line Programs Interactively
+Version: 0.1.2
+Authors@R: 
+    person(given = "Randy",
+           family = "Lai",
+           role = c("aut", "cre", "cph"),
+           email = "randy.cs.lai@gmail.com")
+Description: Execute command line programs and format results for interactive use. It is based on the package 'processx' so it does not use shell to start up the process like system() and system2(). It also provides a simpler and cleaner interface than processx::run().
+License: MIT + file LICENSE
+URL: https://github.com/RTagBot/cliff
+BugReports: https://github.com/RTagBot/cliff/issues
+Suggests: withr, crayon, testthat
+Encoding: UTF-8
+RoxygenNote: 7.1.2
+Imports: ellipsis, processx, rlang
+NeedsCompilation: no
+Packaged: 2021-10-29 08:32:37 UTC; randylai
+Author: Randy Lai [aut, cre, cph]
+Maintainer: Randy Lai <randy.cs.lai@gmail.com>
+Repository: CRAN
+Date/Publication: 2021-11-02 08:20:09 UTC

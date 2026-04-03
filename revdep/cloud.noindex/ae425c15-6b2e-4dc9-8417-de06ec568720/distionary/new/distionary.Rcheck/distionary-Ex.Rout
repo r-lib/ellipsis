@@ -1,0 +1,1328 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "distionary"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('distionary')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("cdf")
+> ### * cdf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_cdf
+> ### Title: Cumulative Distribution Function
+> ### Aliases: eval_cdf enframe_cdf
+> 
+> ### ** Examples
+> 
+> d1 <- dst_unif(0, 4)
+> d2 <- dst_pois(1.1)
+> eval_cdf(d1, at = 0:4)
+[1] 0.00 0.25 0.50 0.75 1.00
+> enframe_cdf(d1, at = 0:4)
+# A tibble: 5 × 2
+   .arg   cdf
+  <int> <dbl>
+1     0  0   
+2     1  0.25
+3     2  0.5 
+4     3  0.75
+5     4  1   
+> enframe_cdf(d1, d2, at = 0:4)
+# A tibble: 5 × 3
+   .arg cdf_d1 cdf_d2
+  <int>  <dbl>  <dbl>
+1     0   0     0.333
+2     1   0.25  0.699
+3     2   0.5   0.900
+4     3   0.75  0.974
+5     4   1     0.995
+> enframe_cdf(model1 = d1, model2 = d2, at = 0:4)
+# A tibble: 5 × 3
+   .arg cdf_model1 cdf_model2
+  <int>      <dbl>      <dbl>
+1     0       0         0.333
+2     1       0.25      0.699
+3     2       0.5       0.900
+4     3       0.75      0.974
+5     4       1         0.995
+> enframe_cdf(
++   model1 = d1, model2 = d2, at = 0:4, arg_name = "value"
++ )
+# A tibble: 5 × 3
+  value cdf_model1 cdf_model2
+  <int>      <dbl>      <dbl>
+1     0       0         0.333
+2     1       0.25      0.699
+3     2       0.5       0.900
+4     3       0.75      0.974
+5     4       1         0.995
+> 
+> 
+> 
+> cleanEx()
+> nameEx("chf")
+> ### * chf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_chf
+> ### Title: Cumulative Hazard Function
+> ### Aliases: eval_chf enframe_chf
+> 
+> ### ** Examples
+> 
+> d <- dst_unif(0, 4)
+> eval_chf(d, at = 0:4)
+[1] 0.0000000 0.2876821 0.6931472 1.3862944       Inf
+> enframe_chf(d, at = 0:4)
+# A tibble: 5 × 2
+   .arg     chf
+  <int>   <dbl>
+1     0   0    
+2     1   0.288
+3     2   0.693
+4     3   1.39 
+5     4 Inf    
+> 
+> 
+> 
+> cleanEx()
+> nameEx("density")
+> ### * density
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_density
+> ### Title: Probability Density Function
+> ### Aliases: eval_density enframe_density
+> 
+> ### ** Examples
+> 
+> d <- dst_unif(0, 4)
+> eval_density(d, at = 0:4)
+[1] 0.25 0.25 0.25 0.25 0.25
+> enframe_density(d, at = 0:4)
+# A tibble: 5 × 2
+   .arg density
+  <int>   <dbl>
+1     0    0.25
+2     1    0.25
+3     2    0.25
+4     3    0.25
+5     4    0.25
+> 
+> 
+> 
+> cleanEx()
+> nameEx("distionary-package")
+> ### * distionary-package
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: distionary-package
+> ### Title: distionary: Create and Evaluate Probability Distributions
+> ### Aliases: distionary distionary-package
+> 
+> ### ** Examples
+> 
+> # Create a Poisson distribution.
+> poisson <- dst_pois(lambda = 1.5)
+> poisson
+Poisson distribution (discrete) 
+--Parameters--
+lambda 
+   1.5 
+> 
+> # Evaluate the probability mass function.
+> eval_pmf(poisson, at = 0:4)
+[1] 0.22313016 0.33469524 0.25102143 0.12551072 0.04706652
+> plot(poisson)
+> 
+> # Get distribution properties.
+> mean(poisson)
+[1] 1.5
+> variance(poisson)
+[1] 1.5
+> 
+> # Create a continuous distribution (Normal).
+> normal <- dst_norm(mean = 0, sd = 1)
+> 
+> # Evaluate quantiles.
+> eval_quantile(normal, at = c(0.025, 0.5, 0.975))
+[1] -1.959964  0.000000  1.959964
+> 
+> # Create a custom distribution.
+> my_dist <- distribution(
++   density = function(x) ifelse(x >= 0 & x <= 1, 2 * (1 - x), 0),
++   cdf = function(x) ifelse(x >= 0 & x <= 1, 1 - (1 - x)^2, 0),
++   .vtype = "continuous",
++   .name = "Linear"
++ )
+> plot(my_dist)
+> plot(my_dist, "cdf")
+> 
+> # Even without specifying all properties, they can still be computed.
+> mean(my_dist)
+[1] 0.3333333
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("distribution")
+> ### * distribution
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: distribution
+> ### Title: Distribution Objects
+> ### Aliases: distribution is_distribution is.distribution
+> 
+> ### ** Examples
+> 
+> linear <- distribution(
++   density = function(x) {
++     d <- 2 * (1 - x)
++     d[x < 0 | x > 1] <- 0
++     d
++   },
++   cdf = function(x) {
++     p <- 2 * x * (1 - x / 2)
++     p[x < 0] <- 0
++     p[x > 1] <- 1
++     p
++   },
++   .vtype = "continuous",
++   .name = "My Linear",
++   .parameters = list(could = "include", anything = data.frame(x = 1:10))
++ )
+> 
+> # Inspect
+> linear
+My Linear distribution (continuous) 
+--Parameters--
+$could
+[1] "include"
+
+$anything
+    x
+1   1
+2   2
+3   3
+4   4
+5   5
+6   6
+7   7
+8   8
+9   9
+10 10
+
+> 
+> # Plot
+> plot(linear)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_bern")
+> ### * dst_bern
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_bern
+> ### Title: Bernoulli Distribution
+> ### Aliases: dst_bern
+> 
+> ### ** Examples
+> 
+> dst_bern(0.3)
+Bernoulli distribution (discrete) 
+--Parameters--
+prob 
+ 0.3 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_beta")
+> ### * dst_beta
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_beta
+> ### Title: Beta Distribution
+> ### Aliases: dst_beta
+> 
+> ### ** Examples
+> 
+> dst_beta(2, 3)
+Beta distribution (continuous) 
+--Parameters--
+shape1 shape2 
+     2      3 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_binom")
+> ### * dst_binom
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_binom
+> ### Title: Binomial Distribution
+> ### Aliases: dst_binom
+> 
+> ### ** Examples
+> 
+> dst_binom(10, 0.6)
+Binomial distribution (discrete) 
+--Parameters--
+size prob 
+10.0  0.6 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_cauchy")
+> ### * dst_cauchy
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_cauchy
+> ### Title: Cauchy Distribution
+> ### Aliases: dst_cauchy
+> 
+> ### ** Examples
+> 
+> d <- dst_cauchy(0, 1)
+> 
+> # Moments do not exist for the Cauchy distribution.
+> mean(d)
+[1] NaN
+> variance(d)
+[1] NaN
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_chisq")
+> ### * dst_chisq
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_chisq
+> ### Title: Chi-Squared Distribution
+> ### Aliases: dst_chisq
+> 
+> ### ** Examples
+> 
+> dst_chisq(3)
+Chi-Squared distribution (continuous) 
+--Parameters--
+df 
+ 3 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_degenerate")
+> ### * dst_degenerate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_degenerate
+> ### Title: Degenerate Distribution
+> ### Aliases: dst_degenerate
+> 
+> ### ** Examples
+> 
+> d <- dst_degenerate(5)
+> realise(d)
+[1] 5
+> variance(d)
+[1] 0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_empirical")
+> ### * dst_empirical
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_empirical
+> ### Title: Empirical Distribution
+> ### Aliases: dst_empirical
+> 
+> ### ** Examples
+> 
+> t <- -2:7
+> dst_empirical(t)
+Finite distribution (discrete) 
+--Parameters--
+# A tibble: 10 × 2
+   outcomes probs
+      <int> <dbl>
+ 1       -2   0.1
+ 2       -1   0.1
+ 3        0   0.1
+ 4        1   0.1
+ 5        2   0.1
+ 6        3   0.1
+ 7        4   0.1
+ 8        5   0.1
+ 9        6   0.1
+10        7   0.1
+> 
+> # Using a data frame
+> df <- data.frame(time = c(NA, NA, t))
+> dst_empirical(time * 60, data = df)  # Null, since `NA` in `time`.
+Null distribution (NA) 
+> 
+> # Drop NA `time` values.
+> dst_empirical(time * 60, data = df, na_action_y = "drop")
+Finite distribution (discrete) 
+--Parameters--
+# A tibble: 10 × 2
+   outcomes probs
+      <dbl> <dbl>
+ 1     -120   0.1
+ 2      -60   0.1
+ 3        0   0.1
+ 4       60   0.1
+ 5      120   0.1
+ 6      180   0.1
+ 7      240   0.1
+ 8      300   0.1
+ 9      360   0.1
+10      420   0.1
+> 
+> # Weights explicit. Zero-weight outcomes ("-120") are gone.
+> df$w <- c(1, 1, 0:9)
+> dst_empirical(time * 60, w, data = df, na_action_y = "drop")
+Finite distribution (discrete) 
+--Parameters--
+# A tibble: 9 × 2
+  outcomes  probs
+     <dbl>  <dbl>
+1      -60 0.0222
+2        0 0.0444
+3       60 0.0667
+4      120 0.0889
+5      180 0.111 
+6      240 0.133 
+7      300 0.156 
+8      360 0.178 
+9      420 0.2   
+> 
+> # "Null" takes precedence over "drop".
+> df$w <- c(NA, NA, 0:9)
+> df$time[1] <- -3
+> df$time[12] <- NA
+> dst_empirical(time, w, data = df, na_action_w = "null", na_action_y = "drop")
+Null distribution (NA) 
+> dst_empirical(time, w, data = df, na_action_w = "drop", na_action_y = "null")
+Null distribution (NA) 
+> dst_empirical(time, w, data = df, na_action_w = "drop", na_action_y = "drop")
+Finite distribution (discrete) 
+--Parameters--
+# A tibble: 8 × 2
+  outcomes  probs
+     <dbl>  <dbl>
+1       -1 0.0278
+2        0 0.0556
+3        1 0.0833
+4        2 0.111 
+5        3 0.139 
+6        4 0.167 
+7        5 0.194 
+8        6 0.222 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_exp")
+> ### * dst_exp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_exp
+> ### Title: Exponential Distribution
+> ### Aliases: dst_exp
+> 
+> ### ** Examples
+> 
+> dst_exp(1)
+Exponential distribution (continuous) 
+--Parameters--
+rate 
+   1 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_f")
+> ### * dst_f
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_f
+> ### Title: F Distribution
+> ### Aliases: dst_f
+> 
+> ### ** Examples
+> 
+> dst_f(2, 3)
+F distribution (continuous) 
+--Parameters--
+df1 df2 
+  2   3 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_finite")
+> ### * dst_finite
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_finite
+> ### Title: Finite Distribution
+> ### Aliases: dst_finite
+> 
+> ### ** Examples
+> 
+> dst_finite(2:5, probs = 1:4 / 10)
+Finite distribution (discrete) 
+--Parameters--
+# A tibble: 4 × 2
+  outcomes probs
+     <int> <dbl>
+1        2   0.1
+2        3   0.2
+3        4   0.3
+4        5   0.4
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_gamma")
+> ### * dst_gamma
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_gamma
+> ### Title: Gamma Distribution
+> ### Aliases: dst_gamma
+> 
+> ### ** Examples
+> 
+> dst_gamma(2, 1)
+Gamma distribution (continuous) 
+--Parameters--
+shape  rate 
+    2     1 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_geom")
+> ### * dst_geom
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_geom
+> ### Title: Geometric Distribution
+> ### Aliases: dst_geom
+> 
+> ### ** Examples
+> 
+> d <- dst_geom(0.4)
+> 
+> # This version of the Geometric distribution does not count the success.
+> range(d)
+[1]   0 Inf
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_gev")
+> ### * dst_gev
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_gev
+> ### Title: Generalised Extreme Value Distribution
+> ### Aliases: dst_gev
+> 
+> ### ** Examples
+> 
+> # Short-tailed example
+> short <- dst_gev(0, 1, -1)
+> range(short)
+[1] -Inf    1
+> mean(short)
+[1] 0
+> 
+> # Heavy-tailed example
+> heavy <- dst_gev(0, 1, 1)
+> range(heavy)
+[1]  -1 Inf
+> mean(heavy)
+[1] Inf
+> 
+> # Light-tailed example (a Gumbel distribution)
+> light <- dst_gev(0, 1, 0)
+> range(light)
+[1] -Inf  Inf
+> mean(light)
+[1] 0.5772157
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_gp")
+> ### * dst_gp
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_gp
+> ### Title: Generalised Pareto Distribution
+> ### Aliases: dst_gp
+> 
+> ### ** Examples
+> 
+> # Short-tailed example
+> short <- dst_gp(1, -1)
+> range(short)
+[1] 0 1
+> mean(short)
+[1] 0.5
+> 
+> # Heavy-tailed example
+> heavy <- dst_gp(1, 1)
+> range(heavy)
+[1]   0 Inf
+> mean(heavy)
+[1] Inf
+> 
+> # Light-tailed example (a Gumbel distribution)
+> light <- dst_gp(1, 0)
+> range(light)
+[1]   0 Inf
+> mean(light)
+[1] 1
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_hyper")
+> ### * dst_hyper
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_hyper
+> ### Title: Hypergeometric Distribution
+> ### Aliases: dst_hyper
+> 
+> ### ** Examples
+> 
+> dst_hyper(15, 50, 10)
+Hypergeometric distribution (discrete) 
+--Parameters--
+ m  n  k 
+15 50 10 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_lnorm")
+> ### * dst_lnorm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_lnorm
+> ### Title: Log Normal Distribution
+> ### Aliases: dst_lnorm
+> 
+> ### ** Examples
+> 
+> dst_lnorm(0, 1)
+Log Normal distribution (continuous) 
+--Parameters--
+meanlog   sdlog 
+      0       1 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_lp3")
+> ### * dst_lp3
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_lp3
+> ### Title: Log Pearson Type III distribution
+> ### Aliases: dst_lp3
+> 
+> ### ** Examples
+> 
+> dst_lp3(0, 1, 1)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_nbinom")
+> ### * dst_nbinom
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_nbinom
+> ### Title: Negative binomial Distribution
+> ### Aliases: dst_nbinom
+> 
+> ### ** Examples
+> 
+> d <- dst_nbinom(10, 0.5)
+> 
+> # This version of the Negative Binomial distribution does not count
+> # the successes.
+> range(d)
+[1]   0 Inf
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_norm")
+> ### * dst_norm
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_norm
+> ### Title: Normal (Gaussian) Distribution
+> ### Aliases: dst_norm
+> 
+> ### ** Examples
+> 
+> dst_norm(0, 1)
+Normal distribution (continuous) 
+--Parameters--
+mean   sd 
+   0    1 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_null")
+> ### * dst_null
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_null
+> ### Title: Null Distribution
+> ### Aliases: dst_null
+> 
+> ### ** Examples
+> 
+> x <- dst_null()
+> mean(x)
+[1] NA
+> eval_pmf(x, at = 1:10)
+ [1] NA NA NA NA NA NA NA NA NA NA
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_pearson3")
+> ### * dst_pearson3
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_pearson3
+> ### Title: Pearson Type III distribution
+> ### Aliases: dst_pearson3
+> 
+> ### ** Examples
+> 
+> dst_pearson3(1, 1, 1)
+Pearson Type III distribution (continuous) 
+--Parameters--
+location    scale    shape 
+       1        1        1 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_pois")
+> ### * dst_pois
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_pois
+> ### Title: Poisson Distribution
+> ### Aliases: dst_pois
+> 
+> ### ** Examples
+> 
+> dst_pois(1)
+Poisson distribution (discrete) 
+--Parameters--
+lambda 
+     1 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_t")
+> ### * dst_t
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_t
+> ### Title: Student t Distribution
+> ### Aliases: dst_t
+> 
+> ### ** Examples
+> 
+> dst_t(3)
+Student t distribution (continuous) 
+--Parameters--
+df 
+ 3 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_unif")
+> ### * dst_unif
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_unif
+> ### Title: Uniform Distribution
+> ### Aliases: dst_unif
+> 
+> ### ** Examples
+> 
+> dst_unif(0, 1)
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  0   1 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dst_weibull")
+> ### * dst_weibull
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dst_weibull
+> ### Title: Weibull Distribution
+> ### Aliases: dst_weibull
+> 
+> ### ** Examples
+> 
+> dst_weibull(1, 1)
+Weibull distribution (continuous) 
+--Parameters--
+shape scale 
+    1     1 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("eval_property")
+> ### * eval_property
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_property
+> ### Title: Evaluate a distribution
+> ### Aliases: eval_property
+> 
+> ### ** Examples
+> 
+> d <- distribution(
++   cdf = function(x) {
++     (x > 0) * pmin(x^2, 1)
++   },
++   g = 9.81,
++   .vtype = "continuous"
++ )
+Warning in distribution(cdf = function(x) { :
+  Full suite of distribution properties may not be accessible without specifying 'cdf', and either 'density' or 'pmf'.
+> eval_property(d, "g")
+[1] 9.81
+> eval_property(d, "quantile", 1:9 / 10)
+[1] 0.3162278 0.4472136 0.5477226 0.6324555 0.7071068 0.7745967 0.8366600
+[8] 0.8944272 0.9486833
+> eval_property(d, "mean")
+Integration routine for numerical computation failed. This could be because the property is not well-defined. Returning NaN.
+[1] NaN
+> eval_property(d, "realise", 10)
+ [1] 0.5152753 0.6100196 0.7568708 0.9529994 0.4490901 0.9478342 0.9719441
+ [8] 0.8128947 0.7931671 0.2485684
+> eval_property(d, "foofy")
+NULL
+> eval_property(d, "foofy", 1:10)
+NULL
+> 
+> 
+> 
+> cleanEx()
+> nameEx("flexible_cdf")
+> ### * flexible_cdf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: prob_left
+> ### Title: Find the probability left or right of a number
+> ### Aliases: prob_left prob_right
+> 
+> ### ** Examples
+> 
+> d <- dst_pois(5)
+> prob_left(d, of = 3, inclusive = TRUE)
+[1] 0.2650259
+> prob_left(d, of = 3, inclusive = FALSE)
+[1] 0.124652
+> prob_right(d, of = 0:3, inclusive = TRUE)
+[1] 1.0000000 0.9932621 0.9595723 0.8753480
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gev_raw")
+> ### * gev_raw
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pgev
+> ### Title: Representations of the Generalized Extreme Value Distribution
+> ### Aliases: pgev qgev dgev
+> 
+> ### ** Examples
+> 
+> pgev(1:10, 0, 1, 1)
+ [1] 0.6065307 0.7165313 0.7788008 0.8187308 0.8464817 0.8668779 0.8824969
+ [8] 0.8948393 0.9048374 0.9131007
+> dgev(1:10, 1:10, 2, 0)
+ [1] 0.1839397 0.1839397 0.1839397 0.1839397 0.1839397 0.1839397 0.1839397
+ [8] 0.1839397 0.1839397 0.1839397
+> qgev(1:9 / 10, 2, 10, -2)
+[1] -19.5094906  -5.9514520  -0.2477526   2.8020565   4.5977349   5.6952859
+[7]   6.3639149   6.7510348   6.9444958
+> 
+> 
+> 
+> cleanEx()
+> nameEx("gp_raw")
+> ### * gp_raw
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pgp
+> ### Title: Representations of the Generalized Pareto Distribution
+> ### Aliases: pgp qgp dgp
+> 
+> ### ** Examples
+> 
+> pgp(1:10, 1, 1)
+ [1] 0.5000000 0.6666667 0.7500000 0.8000000 0.8333333 0.8571429 0.8750000
+ [8] 0.8888889 0.9000000 0.9090909
+> dgp(1:10, 2, 0)
+ [1] 0.303265330 0.183939721 0.111565080 0.067667642 0.041042499 0.024893534
+ [7] 0.015098692 0.009157819 0.005554498 0.003368973
+> qgp(1:9 / 10, 10, -2)
+[1] 0.95 1.80 2.55 3.20 3.75 4.20 4.55 4.80 4.95
+> 
+> 
+> 
+> cleanEx()
+> nameEx("hazard")
+> ### * hazard
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_hazard
+> ### Title: Hazard Function
+> ### Aliases: eval_hazard enframe_hazard
+> 
+> ### ** Examples
+> 
+> d <- dst_unif(0, 4)
+> eval_hazard(d, at = 0:4)
+[1] 0.2500000 0.3333333 0.5000000 1.0000000       Inf
+> enframe_hazard(d, at = 0:4)
+# A tibble: 5 × 2
+   .arg  hazard
+  <int>   <dbl>
+1     0   0.25 
+2     1   0.333
+3     2   0.5  
+4     3   1    
+5     4 Inf    
+> 
+> 
+> 
+> cleanEx()
+> nameEx("median.dst")
+> ### * median.dst
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: median.dst
+> ### Title: Median of a Distribution
+> ### Aliases: median.dst
+> 
+> ### ** Examples
+> 
+> d <- dst_gamma(3, 3)
+> median(d)
+[1] 0.8913534
+> 
+> 
+> 
+> cleanEx()
+> nameEx("moments")
+> ### * moments
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: kurtosis
+> ### Title: Moments of a Distribution
+> ### Aliases: kurtosis kurtosis_exc mean.dst skewness stdev variance
+> 
+> ### ** Examples
+> 
+> a <- dst_gp(1, 0.5)
+> b <- dst_unif(0, 1)
+> c <- dst_norm(3, 4)
+> mean(a)
+[1] 2
+> variance(b)
+[1] 0.08333333
+> kurtosis(c)
+[1] 3
+> kurtosis_exc(c)
+[1] 0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("odds")
+> ### * odds
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_odds
+> ### Title: Odds Function
+> ### Aliases: eval_odds enframe_odds
+> 
+> ### ** Examples
+> 
+> d <- dst_pois(1)
+> eval_pmf(d, at = c(1, 2, 2.5))
+[1] 0.3678794 0.1839397 0.0000000
+> eval_odds(d, at = c(1, 2, 2.5))
+[1] 0.5819767 0.2253997 0.0000000
+> enframe_odds(d, at = 0:4)
+# A tibble: 5 × 2
+   .arg   odds
+  <int>  <dbl>
+1     0 0.582 
+2     1 0.582 
+3     2 0.225 
+4     3 0.0653
+5     4 0.0156
+> 
+> 
+> 
+> cleanEx()
+> nameEx("parameters")
+> ### * parameters
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: parameters
+> ### Title: Parameters of a Distribution
+> ### Aliases: parameters parameters<-
+> 
+> ### ** Examples
+> 
+> a <- dst_beta(1, 2)
+> parameters(a)
+$shape1
+[1] 1
+
+$shape2
+[1] 2
+
+> 
+> b <- distribution(mean = 5)
+Warning in distribution(mean = 5) :
+  Full suite of distribution properties may not be accessible without specifying 'cdf', and either 'density' or 'pmf'.
+> parameters(b)
+list()
+> parameters(b) <- list(t = 7)
+> parameters(b)
+$t
+[1] 7
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plot.dst")
+> ### * plot.dst
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plot.dst
+> ### Title: Plot a Distribution
+> ### Aliases: plot.dst
+> 
+> ### ** Examples
+> 
+> d <- dst_norm(0, 1)
+> plot(d, from = -4, to = 4)
+> plot(d, "cdf", n = 1000)
+> plot(d, "survival")
+> plot(d, "quantile")
+> plot(d, "hazard")
+> plot(d, "chf")
+> 
+> p <- dst_pois(4)
+> plot(p)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pmf")
+> ### * pmf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_pmf
+> ### Title: Probability Mass Function
+> ### Aliases: eval_pmf enframe_pmf
+> 
+> ### ** Examples
+> 
+> d <- dst_pois(5)
+> eval_pmf(d, at = c(1, 2, 2.5))
+[1] 0.03368973 0.08422434 0.00000000
+> enframe_pmf(d, at = 0:4)
+# A tibble: 5 × 2
+   .arg     pmf
+  <int>   <dbl>
+1     0 0.00674
+2     1 0.0337 
+3     2 0.0842 
+4     3 0.140  
+5     4 0.175  
+> eval_pmf(dst_norm(0, 1), at = -3:3)
+[1] 0 0 0 0 0 0 0
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pretty_name")
+> ### * pretty_name
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pretty_name
+> ### Title: Distribution name
+> ### Aliases: pretty_name
+> 
+> ### ** Examples
+> 
+> d <- dst_norm(0.3552, 1.1453)
+> pretty_name(d)
+[1] "Normal"
+> pretty_name(d, 2)
+[1] "Normal(0.36, 1.1)"
+> 
+> 
+> 
+> cleanEx()
+> nameEx("quantile")
+> ### * quantile
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_quantile
+> ### Title: Distribution Quantiles
+> ### Aliases: eval_quantile enframe_quantile
+> 
+> ### ** Examples
+> 
+> d <- dst_unif(0, 4)
+> eval_quantile(d, at = 1:9 / 10)
+[1] 0.4 0.8 1.2 1.6 2.0 2.4 2.8 3.2 3.6
+> enframe_quantile(d, at = 1:9 / 10)
+# A tibble: 9 × 2
+   .arg quantile
+  <dbl>    <dbl>
+1   0.1      0.4
+2   0.2      0.8
+3   0.3      1.2
+4   0.4      1.6
+5   0.5      2  
+6   0.6      2.4
+7   0.7      2.8
+8   0.8      3.2
+9   0.9      3.6
+> 
+> 
+> 
+> cleanEx()
+> nameEx("range")
+> ### * range
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: range.dst
+> ### Title: Range of Distribution
+> ### Aliases: range.dst
+> 
+> ### ** Examples
+> 
+> a <- dst_gp(1, 0.5)
+> b <- dst_unif(0, 1)
+> c <- dst_norm(3, 4)
+> range(a)
+[1]   0 Inf
+> range(b)
+[1] 0 1
+> range(c)
+[1] -Inf  Inf
+> 
+> 
+> 
+> cleanEx()
+> nameEx("realise")
+> ### * realise
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: realise
+> ### Title: Generate a Sample from a Distribution
+> ### Aliases: realise realize
+> 
+> ### ** Examples
+> 
+> d <- dst_pois(5)
+> set.seed(2)
+> realise(d, n = 10)
+ [1] 3 6 5 3 9 9 3 7 5 5
+> 
+> 
+> 
+> cleanEx()
+> nameEx("return")
+> ### * return
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_return
+> ### Title: Return Level Function
+> ### Aliases: eval_return enframe_return
+> 
+> ### ** Examples
+> 
+> d <- dst_gp(24, 0.3)
+> eval_return(d, at = c(2, 25, 100, 200))
+[1]  18.49155 130.12222 238.48574 312.10194
+> 
+> 
+> 
+> cleanEx()
+> nameEx("survival")
+> ### * survival
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: eval_survival
+> ### Title: Survival Function
+> ### Aliases: eval_survival enframe_survival
+> 
+> ### ** Examples
+> 
+> d <- dst_unif(0, 4)
+> eval_survival(d, at = 0:4)
+[1] 1.00 0.75 0.50 0.25 0.00
+> enframe_survival(d, at = 0:4)
+# A tibble: 5 × 2
+   .arg survival
+  <int>    <dbl>
+1     0     1   
+2     1     0.75
+3     2     0.5 
+4     3     0.25
+5     4     0   
+> 
+> 
+> 
+> cleanEx()
+> nameEx("vtype")
+> ### * vtype
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: vtype
+> ### Title: Variable Type of a Distribution
+> ### Aliases: vtype
+> 
+> ### ** Examples
+> 
+> vtype(dst_beta(1, 2))
+[1] "continuous"
+> vtype(dst_bern(0.4))
+[1] "discrete"
+> vtype(distribution())
+Warning in distribution() :
+  Full suite of distribution properties may not be accessible without specifying 'cdf', and either 'density' or 'pmf'.
+[1] "unknown"
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.836 0.011 0.847 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

@@ -1,0 +1,32 @@
+Package: discretes
+Type: Package
+Title: Discrete Numeric Series
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Vincenzo", "Coia",
+      email = "vincenzo.coia@gmail.com",
+      role = c("aut", "cre", "cph")
+    )
+  )
+Description: Provides a framework for representing discrete numeric series
+    (enumerable sets of numbers) that may be finite or infinite. Series can
+    be traversed, combined using arithmetic operations, tested for membership,
+    and queried for limit points ("sinks"), without explicit enumeration of
+    all elements.
+License: MIT + file LICENSE
+Imports: checkmate, ellipsis, graphics, rlang
+Encoding: UTF-8
+RoxygenNote: 7.3.3
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+URL: https://discretes.netlify.app,
+        https://github.com/vincenzocoia/discretes
+BugReports: https://github.com/vincenzocoia/discretes/issues
+NeedsCompilation: no
+Packaged: 2026-03-26 21:10:00 UTC; VCoia
+Author: Vincenzo Coia [aut, cre, cph]
+Maintainer: Vincenzo Coia <vincenzo.coia@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-03-31 10:00:08 UTC

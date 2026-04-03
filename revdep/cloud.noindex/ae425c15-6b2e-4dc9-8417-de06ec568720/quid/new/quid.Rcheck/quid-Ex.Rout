@@ -1,0 +1,101 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "quid"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('quid')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("calculateDifferences")
+> ### * calculateDifferences
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: calculateDifferences
+> ### Title: Calculate differences between conditions specified in
+> ###   constraints
+> ### Aliases: calculateDifferences
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D data(stroop)
+> ##D 
+> ##D resStroop <- constraintBF(rtS ~ ID*cond,
+> ##D                           data = stroop,
+> ##D                           whichRandom = "ID",
+> ##D                           ID = "ID",
+> ##D                           whichConstraint = c(cond = "2 > 1"),
+> ##D                           rscaleEffects = c("ID" = 1, "cond" = 1/6, "ID:cond" = 1/10))
+> ##D 
+> ##D calculateDifferences(resStroop, effect = "estimate")
+> ##D calculateDifferences(resStroop, effect = "observed")
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("constraintBF")
+> ### * constraintBF
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: constraintBF
+> ### Title: Function to compute Bayes factors for ordinal constraints
+> ### Aliases: constraintBF
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("plotEffects")
+> ### * plotEffects
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: plotEffects
+> ### Title: Plot a BFBayesFactorConstraint object
+> ### Aliases: plotEffects
+> 
+> ### ** Examples
+> 
+> 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  1.186 0.08 1.266 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

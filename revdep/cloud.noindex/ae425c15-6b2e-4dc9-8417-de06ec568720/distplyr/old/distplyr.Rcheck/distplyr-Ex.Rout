@@ -1,0 +1,531 @@
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "distplyr"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('distplyr')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("Math.dst")
+> ### * Math.dst
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Math.dst
+> ### Title: Mathematical Transformations for Distributions
+> ### Aliases: Math.dst
+> 
+> ### ** Examples
+> 
+> # Logarithmic transformations
+> d <- distionary::dst_unif(1, 10)
+> log(d)              # Natural log
+Logarithmic distribution (continuous) 
+--Parameters--
+$distribution
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  1  10 
+
+> log(d, base = 10)   # Log base 10
+Scaled distribution (continuous) 
+--Parameters--
+$distribution
+Logarithmic distribution (continuous) 
+--Parameters--
+$distribution
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  1  10 
+
+
+$constant
+[1] 0.4342945
+
+> log10(d)            # Also log base 10
+Scaled distribution (continuous) 
+--Parameters--
+$distribution
+Logarithmic distribution (continuous) 
+--Parameters--
+$distribution
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  1  10 
+
+
+$constant
+[1] 0.4342945
+
+> sqrt(d)             # Square root of uniform
+Exponentiated distribution (continuous) 
+--Parameters--
+$distribution
+Scaled distribution (continuous) 
+--Parameters--
+$distribution
+Logarithmic distribution (continuous) 
+--Parameters--
+$distribution
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  1  10 
+
+
+$constant
+[1] 0.5
+
+
+> 
+> # Exponential transformation
+> d2 <- distionary::dst_norm(0, 1)
+> d3 <- distionary::dst_beta(5, 4)
+> exp(d2)             # Log-normal distribution
+Log Normal distribution (continuous) 
+--Parameters--
+meanlog   sdlog 
+      0       1 
+> exp(d3)             # No simplification
+Exponentiated distribution (continuous) 
+--Parameters--
+$distribution
+Beta distribution (continuous) 
+--Parameters--
+shape1 shape2 
+     5      4 
+
+> 
+> # These can be combined
+> log(exp(d2))        # Returns back to normal distribution
+Normal distribution (continuous) 
+--Parameters--
+mean   sd 
+   0    1 
+> log(exp(d3))        # Still returns d3.
+Beta distribution (continuous) 
+--Parameters--
+shape1 shape2 
+     5      4 
+> 5^(log(d3, base = 5)) # Still returns d3.
+Beta distribution (continuous) 
+--Parameters--
+shape1 shape2 
+     5      4 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("Ops.dst")
+> ### * Ops.dst
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Ops.dst
+> ### Title: Arithmetic Operations for Distributions
+> ### Aliases: Ops.dst
+> 
+> ### ** Examples
+> 
+> d <- distionary::dst_beta(3, 2)
+> 
+> # Shifting and scaling
+> d + 10          # Shift right by 10
+Shifted distribution (continuous) 
+--Parameters--
+$distribution
+Beta distribution (continuous) 
+--Parameters--
+shape1 shape2 
+     3      2 
+
+$shift
+[1] 10
+
+> d * 2           # Scale by 2
+Scaled distribution (continuous) 
+--Parameters--
+$distribution
+Beta distribution (continuous) 
+--Parameters--
+shape1 shape2 
+     3      2 
+
+$constant
+[1] 2
+
+> 3 * d - 5       # Scale then shift
+Shifted distribution (continuous) 
+--Parameters--
+$distribution
+Scaled distribution (continuous) 
+--Parameters--
+$distribution
+Beta distribution (continuous) 
+--Parameters--
+shape1 shape2 
+     3      2 
+
+$constant
+[1] 3
+
+
+$shift
+[1] -5
+
+> 
+> # Power operations
+> exp(d)          # e^X: exponential of Beta
+Exponentiated distribution (continuous) 
+--Parameters--
+$distribution
+Beta distribution (continuous) 
+--Parameters--
+shape1 shape2 
+     3      2 
+
+> 2^d             # 2^X: base 2 raised to Beta
+Exponentiated distribution (continuous) 
+--Parameters--
+$distribution
+Scaled distribution (continuous) 
+--Parameters--
+$distribution
+Beta distribution (continuous) 
+--Parameters--
+shape1 shape2 
+     3      2 
+
+$constant
+[1] 0.6931472
+
+
+> 
+> # With positive distributions
+> d_pos <- distionary::dst_unif(1, 2)
+> d_pos^2         # X^2: uniform squared
+Exponentiated distribution (continuous) 
+--Parameters--
+$distribution
+Scaled distribution (continuous) 
+--Parameters--
+$distribution
+Logarithmic distribution (continuous) 
+--Parameters--
+$distribution
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  1   2 
+
+
+$constant
+[1] 2
+
+
+> d_pos^0.5       # sqrt(X): square root
+Exponentiated distribution (continuous) 
+--Parameters--
+$distribution
+Scaled distribution (continuous) 
+--Parameters--
+$distribution
+Logarithmic distribution (continuous) 
+--Parameters--
+$distribution
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  1   2 
+
+
+$constant
+[1] 0.5
+
+
+> sqrt(d_pos)     # Equivalent to d_pos^0.5
+Exponentiated distribution (continuous) 
+--Parameters--
+$distribution
+Scaled distribution (continuous) 
+--Parameters--
+$distribution
+Logarithmic distribution (continuous) 
+--Parameters--
+$distribution
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  1   2 
+
+
+$constant
+[1] 0.5
+
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("extremum")
+> ### * extremum
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: maximize
+> ### Title: Extremum of Several Distributions
+> ### Aliases: maximize maximise minimize minimise
+> 
+> ### ** Examples
+> 
+> library(distionary)
+> # One is always more extreme than the other in this case.
+> d1 <- dst_unif(-1, 2)
+> d2 <- dst_unif(5, 6)
+> maximize(d1, d2) # d2
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  5   6 
+> minimize(d1, d2) # d1
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+ -1   2 
+> 
+> # Visualizing the maximum and minimum
+> d3 <- dst_norm(4, 1)
+> d4 <- dst_exp(0.3)
+> 
+> dmax <- maximize(d3, d4, draws = 1:2)
+> dmin <- minimize(d3, d4, draws = 1:2)
+> 
+> # Maximum
+> plot(d3, col = "blue", lty = 2, from = 0, to = 14)
+> plot(d4, col = "red", lty = 2, add = TRUE)
+> plot(dmax, add = TRUE, n = 1000)
+> legend(
++  "topright",
++  legend = c("Maximum", "N(4,1)", "Exp(0.3)"),
++  col = c("black", "blue", "red"),
++  lty = c(1, 2, 2)
++ )
+> 
+> # Minimum
+> plot(d3, col = "blue", lty = 2, from = 0, to = 10)
+> plot(d4, col = "red", lty = 2, add = TRUE)
+> plot(dmin, add = TRUE, n = 1000)
+> legend(
++   "topright",
++   legend = c("Minimum", "N(4,1)", "Exp(0.3)"),
++   col = c("black", "blue", "red"),
++   lty = c(1, 2, 2)
++ )
+> 
+> 
+> 
+> 
+> cleanEx()
+
+detaching ‘package:distionary’
+
+> nameEx("linear_transform")
+> ### * linear_transform
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: flip
+> ### Title: Linear and Reciprocal Transformations
+> ### Aliases: flip invert multiply shift
+> 
+> ### ** Examples
+> 
+> d_pois <- distionary::dst_pois(1.1)
+> d_norm <- distionary::dst_norm(4, 1)
+> d_unif <- distionary::dst_unif(0, 1)
+> 
+> # Shifting
+> shift(d_pois, 1)
+Shifted distribution (discrete) 
+--Parameters--
+$distribution
+Poisson distribution (discrete) 
+--Parameters--
+lambda 
+   1.1 
+
+$shift
+[1] 1
+
+> d_pois + 1           # Equivalent using operator
+Shifted distribution (discrete) 
+--Parameters--
+$distribution
+Poisson distribution (discrete) 
+--Parameters--
+lambda 
+   1.1 
+
+$shift
+[1] 1
+
+> 
+> # Scaling
+> multiply(d_unif, 2)
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  0   2 
+> d_unif * 2           # Equivalent using operator
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  0   2 
+> 
+> # Negation
+> flip(d_norm)
+Normal distribution (continuous) 
+--Parameters--
+mean   sd 
+  -4    1 
+> -d_norm              # Equivalent using operator
+Normal distribution (continuous) 
+--Parameters--
+mean   sd 
+  -4    1 
+> 
+> # Inversion
+> d_positive <- distionary::dst_unif(1, 2)
+> invert(d_positive)
+Inverse distribution (continuous) 
+--Parameters--
+$distribution
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  1   2 
+
+> 1 / d_positive       # Equivalent using operator
+Inverse distribution (continuous) 
+--Parameters--
+$distribution
+Uniform distribution (continuous) 
+--Parameters--
+min max 
+  1   2 
+
+> 
+> # Combine multiple operations
+> 4 - 2 * d_pois
+Shifted distribution (discrete) 
+--Parameters--
+$distribution
+Negated distribution (discrete) 
+--Parameters--
+$distribution
+Scaled distribution (discrete) 
+--Parameters--
+$distribution
+Poisson distribution (discrete) 
+--Parameters--
+lambda 
+   1.1 
+
+$constant
+[1] 2
+
+
+
+$shift
+[1] 4
+
+> multiply(flip(multiply(d_pois, 2)), -1) + 4  # Equivalent
+Shifted distribution (discrete) 
+--Parameters--
+$distribution
+Scaled distribution (discrete) 
+--Parameters--
+$distribution
+Poisson distribution (discrete) 
+--Parameters--
+lambda 
+   1.1 
+
+$constant
+[1] 2
+
+
+$shift
+[1] 4
+
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("mix")
+> ### * mix
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mix
+> ### Title: Mixture Distributions
+> ### Aliases: mix
+> 
+> ### ** Examples
+> 
+> library(distionary)
+> a <- dst_norm(0, 1)
+> b <- dst_norm(5, 2)
+> m1 <- mix(a, b, weights = c(1, 4))
+> plot(a, col = "red", lty = 2, from = -3, to = 11)
+> plot(b, add = TRUE, col = "blue", lty = 2)
+> plot(m1, add = TRUE)
+> legend(
++   "topright",
++    legend = c("Mixture", "N(0,1)", "N(5,2)"),
++    col = c("black", "red", "blue"),
++    lty = c(1, 2, 2)
++ )
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+
+detaching ‘package:distionary’
+
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.442 0.009 0.452 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
